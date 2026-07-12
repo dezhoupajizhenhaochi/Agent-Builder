@@ -1,0 +1,11 @@
+{
+  "name": "vedesign-themes",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Static Vedesign color theme generator.",
+  "scripts": {
+    "check": "python3 scripts/check-project.py",
+    "dev": "python3 -m http.server 4173",
+    "sync:dist": "mkdir -p dist/agent-runtime dist/asset && cp index.html dist/index.html && cp -R agent-runtime/. dist/agent-runtime/ && cp -R asset/. dist/asset/"
+  }
+}

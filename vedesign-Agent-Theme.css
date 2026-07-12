@@ -1,0 +1,704 @@
+/* vedesign-Agent Theme · 温暖电商主题
+ * primary-600: oklch(0.500 0.170 40)  #d4671a (approximate)
+ * Generated: 2026-06-14
+ * ============================================
+ * 结构：
+ *   :root  — Primitive + Semantic + Recipe + Spacing + Typography + ...
+ *   .dark  — 暗色模式覆写（仅语义层）
+ *
+ * 模式 A（语义描述）→ 温暖 / 电商 / 友好
+ *   H_brand = 40（橙黄）  C_600 = 0.17  L_600 = 0.50
+ *   密度: 宽松(×1.2)  圆角: 大(×1.5)  阴影: 轻微
+ */
+
+:root {
+
+  /* ==================================================
+   * Primitive Tokens — Primary（橙黄，Mode B）
+   * L(step) = clamp(L_template[step] + (0.500 - 0.520), 0.05, 0.99)
+   * C(step) = 0.170 × C_ratio[step]
+   * H = 40
+   * ================================================== */
+  --color-primary-50:  oklch(0.955 0.029 40);   /* ~#fdf3ec */
+  --color-primary-100: oklch(0.925 0.046 40);   /* ~#fae4cf */
+  --color-primary-200: oklch(0.865 0.063 40);   /* ~#f5c9a4 */
+  --color-primary-300: oklch(0.780 0.080 40);   /* ~#e9a374 */
+  --color-primary-400: oklch(0.680 0.145 40);   /* ~#d97e3b */
+  --color-primary-500: oklch(0.580 0.162 40);   /* ~#c46420 */
+  --color-primary-600: oklch(0.500 0.170 40);   /* ~#ad5213 ← 锚点 */
+  --color-primary-700: oklch(0.420 0.162 40);   /* ~#8f3f0c */
+  --color-primary-800: oklch(0.330 0.145 40);   /* ~#6d2d07 */
+  --color-primary-900: oklch(0.240 0.119 40);   /* ~#4a1c03 */
+  --color-primary-950: oklch(0.160 0.094 40);   /* ~#2e0e00 */
+
+  /* ==================================================
+   * Primitive Tokens — Gray（带品牌色温 H=40）
+   * L_gray(step) = clamp(0.975 - 0.801 × u^1.45, 0.05, 0.99)
+   * C_gray(step) = 0.08 + 0.04 × sin(π×u)^0.44
+   * H = 40
+   * ================================================== */
+  --color-gray-50:  oklch(0.975 0.080 40);  /* ~#faf5f0 */
+  --color-gray-100: oklch(0.960 0.097 40);  /* ~#f5ede4 */
+  --color-gray-200: oklch(0.912 0.107 40);  /* ~#e8d8c8 */
+  --color-gray-300: oklch(0.850 0.114 40);  /* ~#d4bc9f */
+  --color-gray-400: oklch(0.777 0.118 40);  /* ~#b99878 */
+  --color-gray-500: oklch(0.692 0.120 40);  /* ~#9a7757 */
+  --color-gray-600: oklch(0.598 0.118 40);  /* ~#7c5c3e */
+  --color-gray-700: oklch(0.495 0.114 40);  /* ~#5e4228 */
+  --color-gray-800: oklch(0.384 0.107 40);  /* ~#432c16 */
+  --color-gray-900: oklch(0.265 0.097 40);  /* ~#281806 */
+  --color-gray-950: oklch(0.174 0.080 40);  /* ~#180c00 */
+
+  /* ==================================================
+   * Primitive Tokens — Blue（固定基准 oklch(0.562 0.2412 262.2)）
+   * ================================================== */
+  --color-blue-50:  oklch(0.975 0.041 262.2);
+  --color-blue-100: oklch(0.945 0.065 262.2);
+  --color-blue-200: oklch(0.885 0.089 262.2);
+  --color-blue-300: oklch(0.800 0.113 262.2);
+  --color-blue-400: oklch(0.700 0.205 262.2);
+  --color-blue-500: oklch(0.600 0.229 262.2);
+  --color-blue-600: oklch(0.562 0.2412 262.2);
+  --color-blue-700: oklch(0.440 0.229 262.2);
+  --color-blue-800: oklch(0.350 0.205 262.2);
+  --color-blue-900: oklch(0.260 0.169 262.2);
+  --color-blue-950: oklch(0.180 0.133 262.2);
+
+  /* ==================================================
+   * Primitive Tokens — Cyan（固定基准 oklch(0.710 0.1432 231.0)）
+   * ================================================== */
+  --color-cyan-50:  oklch(0.975 0.024 231.0);
+  --color-cyan-100: oklch(0.945 0.039 231.0);
+  --color-cyan-200: oklch(0.885 0.053 231.0);
+  --color-cyan-300: oklch(0.800 0.067 231.0);
+  --color-cyan-400: oklch(0.748 0.122 231.0);
+  --color-cyan-500: oklch(0.729 0.136 231.0);
+  --color-cyan-600: oklch(0.710 0.1432 231.0);
+  --color-cyan-700: oklch(0.630 0.136 231.0);
+  --color-cyan-800: oklch(0.540 0.122 231.0);
+  --color-cyan-900: oklch(0.450 0.100 231.0);
+  --color-cyan-950: oklch(0.370 0.079 231.0);
+
+  /* ==================================================
+   * Primitive Tokens — Purple（固定基准 oklch(0.546 0.2381 278.7)）
+   * ================================================== */
+  --color-purple-50:  oklch(0.975 0.040 278.7);
+  --color-purple-100: oklch(0.945 0.064 278.7);
+  --color-purple-200: oklch(0.885 0.088 278.7);
+  --color-purple-300: oklch(0.800 0.112 278.7);
+  --color-purple-400: oklch(0.700 0.202 278.7);
+  --color-purple-500: oklch(0.600 0.226 278.7);
+  --color-purple-600: oklch(0.546 0.2381 278.7);
+  --color-purple-700: oklch(0.440 0.226 278.7);
+  --color-purple-800: oklch(0.350 0.202 278.7);
+  --color-purple-900: oklch(0.260 0.167 278.7);
+  --color-purple-950: oklch(0.180 0.131 278.7);
+
+  /* ==================================================
+   * Primitive Tokens — Yellow（固定基准 oklch(0.679 0.1393 84.1)）
+   * ================================================== */
+  --color-yellow-50:  oklch(0.975 0.024 84.1);
+  --color-yellow-100: oklch(0.945 0.038 84.1);
+  --color-yellow-200: oklch(0.885 0.052 84.1);
+  --color-yellow-300: oklch(0.800 0.065 84.1);
+  --color-yellow-400: oklch(0.717 0.118 84.1);
+  --color-yellow-500: oklch(0.697 0.132 84.1);
+  --color-yellow-600: oklch(0.679 0.1393 84.1);
+  --color-yellow-700: oklch(0.599 0.132 84.1);
+  --color-yellow-800: oklch(0.509 0.118 84.1);
+  --color-yellow-900: oklch(0.419 0.097 84.1);
+  --color-yellow-950: oklch(0.339 0.077 84.1);
+
+  /* ==================================================
+   * Primitive Tokens — Red（固定基准 oklch(0.565 0.2162 29.0)）
+   * ================================================== */
+  --color-red-50:  oklch(0.975 0.037 29.0);
+  --color-red-100: oklch(0.945 0.058 29.0);
+  --color-red-200: oklch(0.885 0.080 29.0);
+  --color-red-300: oklch(0.800 0.102 29.0);
+  --color-red-400: oklch(0.703 0.184 29.0);
+  --color-red-500: oklch(0.603 0.205 29.0);
+  --color-red-600: oklch(0.565 0.2162 29.0);
+  --color-red-700: oklch(0.440 0.205 29.0);
+  --color-red-800: oklch(0.350 0.184 29.0);
+  --color-red-900: oklch(0.260 0.151 29.0);
+  --color-red-950: oklch(0.180 0.119 29.0);
+
+  /* ==================================================
+   * Primitive Tokens — Orange（固定基准 oklch(0.723 0.1897 50.5)）
+   * ================================================== */
+  --color-orange-50:  oklch(0.975 0.032 50.5);
+  --color-orange-100: oklch(0.945 0.051 50.5);
+  --color-orange-200: oklch(0.885 0.070 50.5);
+  --color-orange-300: oklch(0.800 0.089 50.5);
+  --color-orange-400: oklch(0.761 0.161 50.5);
+  --color-orange-500: oklch(0.741 0.180 50.5);
+  --color-orange-600: oklch(0.723 0.1897 50.5);
+  --color-orange-700: oklch(0.643 0.180 50.5);
+  --color-orange-800: oklch(0.553 0.161 50.5);
+  --color-orange-900: oklch(0.463 0.133 50.5);
+  --color-orange-950: oklch(0.383 0.104 50.5);
+
+  /* ==================================================
+   * Primitive Tokens — Green（固定基准 oklch(0.627 0.1699 149.2)）
+   * ================================================== */
+  --color-green-50:  oklch(0.975 0.029 149.2);
+  --color-green-100: oklch(0.945 0.046 149.2);
+  --color-green-200: oklch(0.885 0.063 149.2);
+  --color-green-300: oklch(0.800 0.080 149.2);
+  --color-green-400: oklch(0.700 0.144 149.2);
+  --color-green-500: oklch(0.645 0.161 149.2);
+  --color-green-600: oklch(0.627 0.1699 149.2);
+  --color-green-700: oklch(0.547 0.161 149.2);
+  --color-green-800: oklch(0.457 0.144 149.2);
+  --color-green-900: oklch(0.367 0.119 149.2);
+  --color-green-950: oklch(0.287 0.093 149.2);
+
+  /* ==================================================
+   * Primitive Tokens — Teal（固定基准 oklch(0.600 0.1038 184.7)）
+   * ================================================== */
+  --color-teal-50:  oklch(0.975 0.018 184.7);
+  --color-teal-100: oklch(0.945 0.028 184.7);
+  --color-teal-200: oklch(0.885 0.038 184.7);
+  --color-teal-300: oklch(0.800 0.049 184.7);
+  --color-teal-400: oklch(0.700 0.088 184.7);
+  --color-teal-500: oklch(0.638 0.099 184.7);
+  --color-teal-600: oklch(0.600 0.1038 184.7);
+  --color-teal-700: oklch(0.520 0.099 184.7);
+  --color-teal-800: oklch(0.430 0.088 184.7);
+  --color-teal-900: oklch(0.340 0.073 184.7);
+  --color-teal-950: oklch(0.260 0.057 184.7);
+
+  /* ==================================================
+   * Primitive Tokens — Moss（固定基准 oklch(0.589 0.1346 124.9)）
+   * ================================================== */
+  --color-moss-50:  oklch(0.975 0.023 124.9);
+  --color-moss-100: oklch(0.945 0.036 124.9);
+  --color-moss-200: oklch(0.885 0.050 124.9);
+  --color-moss-300: oklch(0.800 0.063 124.9);
+  --color-moss-400: oklch(0.700 0.114 124.9);
+  --color-moss-500: oklch(0.627 0.128 124.9);
+  --color-moss-600: oklch(0.589 0.1346 124.9);
+  --color-moss-700: oklch(0.509 0.128 124.9);
+  --color-moss-800: oklch(0.419 0.114 124.9);
+  --color-moss-900: oklch(0.329 0.094 124.9);
+  --color-moss-950: oklch(0.249 0.074 124.9);
+
+  /* ==================================================
+   * Primitive Tokens — Pink（固定基准 oklch(0.616 0.2167 358.2)）
+   * ================================================== */
+  --color-pink-50:  oklch(0.975 0.037 358.2);
+  --color-pink-100: oklch(0.945 0.058 358.2);
+  --color-pink-200: oklch(0.885 0.080 358.2);
+  --color-pink-300: oklch(0.800 0.102 358.2);
+  --color-pink-400: oklch(0.700 0.184 358.2);
+  --color-pink-500: oklch(0.654 0.206 358.2);
+  --color-pink-600: oklch(0.616 0.2167 358.2);
+  --color-pink-700: oklch(0.536 0.206 358.2);
+  --color-pink-800: oklch(0.446 0.184 358.2);
+  --color-pink-900: oklch(0.356 0.152 358.2);
+  --color-pink-950: oklch(0.276 0.119 358.2);
+
+  /* ==================================================
+   * Primitive Tokens — Rose（固定基准 oklch(0.583 0.2055 14.4)）
+   * ================================================== */
+  --color-rose-50:  oklch(0.975 0.035 14.4);
+  --color-rose-100: oklch(0.945 0.055 14.4);
+  --color-rose-200: oklch(0.885 0.076 14.4);
+  --color-rose-300: oklch(0.800 0.097 14.4);
+  --color-rose-400: oklch(0.700 0.175 14.4);
+  --color-rose-500: oklch(0.621 0.195 14.4);
+  --color-rose-600: oklch(0.583 0.2055 14.4);
+  --color-rose-700: oklch(0.503 0.195 14.4);
+  --color-rose-800: oklch(0.413 0.175 14.4);
+  --color-rose-900: oklch(0.323 0.144 14.4);
+  --color-rose-950: oklch(0.243 0.113 14.4);
+
+  /* ==================================================
+   * Primitive Tokens — Dark 版本（档位倒转，C 降低约 12%）
+   * {palette}-dark-50 = {palette}-950 (C × 0.88)
+   * ================================================== */
+
+  /* Primary Dark */
+  --color-primary-dark-50:  oklch(0.160 0.083 40);
+  --color-primary-dark-100: oklch(0.240 0.105 40);
+  --color-primary-dark-200: oklch(0.330 0.128 40);
+  --color-primary-dark-300: oklch(0.420 0.143 40);
+  --color-primary-dark-400: oklch(0.500 0.150 40);
+  --color-primary-dark-500: oklch(0.580 0.143 40);
+  --color-primary-dark-600: oklch(0.680 0.128 40);
+  --color-primary-dark-700: oklch(0.780 0.070 40);
+  --color-primary-dark-800: oklch(0.865 0.055 40);
+  --color-primary-dark-900: oklch(0.925 0.040 40);
+  --color-primary-dark-950: oklch(0.955 0.025 40);
+
+  /* Gray Dark */
+  --color-gray-dark-50:  oklch(0.174 0.070 40);
+  --color-gray-dark-100: oklch(0.265 0.085 40);
+  --color-gray-dark-200: oklch(0.384 0.094 40);
+  --color-gray-dark-300: oklch(0.495 0.100 40);
+  --color-gray-dark-400: oklch(0.598 0.104 40);
+  --color-gray-dark-500: oklch(0.692 0.106 40);
+  --color-gray-dark-600: oklch(0.777 0.104 40);
+  --color-gray-dark-700: oklch(0.850 0.100 40);
+  --color-gray-dark-800: oklch(0.912 0.094 40);
+  --color-gray-dark-900: oklch(0.960 0.085 40);
+  --color-gray-dark-950: oklch(0.975 0.070 40);
+
+  /* Blue Dark */
+  --color-blue-dark-50:  oklch(0.180 0.117 262.2);
+  --color-blue-dark-100: oklch(0.260 0.149 262.2);
+  --color-blue-dark-200: oklch(0.350 0.181 262.2);
+  --color-blue-dark-300: oklch(0.440 0.202 262.2);
+  --color-blue-dark-400: oklch(0.562 0.212 262.2);
+  --color-blue-dark-500: oklch(0.600 0.202 262.2);
+  --color-blue-dark-600: oklch(0.700 0.181 262.2);
+  --color-blue-dark-700: oklch(0.800 0.099 262.2);
+  --color-blue-dark-800: oklch(0.885 0.078 262.2);
+  --color-blue-dark-900: oklch(0.945 0.057 262.2);
+  --color-blue-dark-950: oklch(0.975 0.036 262.2);
+
+  /* Cyan Dark */
+  --color-cyan-dark-50:  oklch(0.370 0.070 231.0);
+  --color-cyan-dark-100: oklch(0.450 0.088 231.0);
+  --color-cyan-dark-200: oklch(0.540 0.107 231.0);
+  --color-cyan-dark-300: oklch(0.630 0.120 231.0);
+  --color-cyan-dark-400: oklch(0.710 0.126 231.0);
+  --color-cyan-dark-500: oklch(0.729 0.120 231.0);
+  --color-cyan-dark-600: oklch(0.748 0.107 231.0);
+  --color-cyan-dark-700: oklch(0.800 0.059 231.0);
+  --color-cyan-dark-800: oklch(0.885 0.047 231.0);
+  --color-cyan-dark-900: oklch(0.945 0.034 231.0);
+  --color-cyan-dark-950: oklch(0.975 0.021 231.0);
+
+  /* Purple Dark */
+  --color-purple-dark-50:  oklch(0.180 0.115 278.7);
+  --color-purple-dark-100: oklch(0.260 0.147 278.7);
+  --color-purple-dark-200: oklch(0.350 0.178 278.7);
+  --color-purple-dark-300: oklch(0.440 0.199 278.7);
+  --color-purple-dark-400: oklch(0.546 0.210 278.7);
+  --color-purple-dark-500: oklch(0.600 0.199 278.7);
+  --color-purple-dark-600: oklch(0.700 0.178 278.7);
+  --color-purple-dark-700: oklch(0.800 0.099 278.7);
+  --color-purple-dark-800: oklch(0.885 0.078 278.7);
+  --color-purple-dark-900: oklch(0.945 0.056 278.7);
+  --color-purple-dark-950: oklch(0.975 0.035 278.7);
+
+  /* Yellow Dark */
+  --color-yellow-dark-50:  oklch(0.339 0.068 84.1);
+  --color-yellow-dark-100: oklch(0.419 0.085 84.1);
+  --color-yellow-dark-200: oklch(0.509 0.104 84.1);
+  --color-yellow-dark-300: oklch(0.599 0.116 84.1);
+  --color-yellow-dark-400: oklch(0.679 0.122 84.1);
+  --color-yellow-dark-500: oklch(0.697 0.116 84.1);
+  --color-yellow-dark-600: oklch(0.717 0.104 84.1);
+  --color-yellow-dark-700: oklch(0.800 0.057 84.1);
+  --color-yellow-dark-800: oklch(0.885 0.046 84.1);
+  --color-yellow-dark-900: oklch(0.945 0.033 84.1);
+  --color-yellow-dark-950: oklch(0.975 0.021 84.1);
+
+  /* Red Dark */
+  --color-red-dark-50:  oklch(0.180 0.105 29.0);
+  --color-red-dark-100: oklch(0.260 0.133 29.0);
+  --color-red-dark-200: oklch(0.350 0.162 29.0);
+  --color-red-dark-300: oklch(0.440 0.181 29.0);
+  --color-red-dark-400: oklch(0.565 0.190 29.0);
+  --color-red-dark-500: oklch(0.603 0.181 29.0);
+  --color-red-dark-600: oklch(0.703 0.162 29.0);
+  --color-red-dark-700: oklch(0.800 0.090 29.0);
+  --color-red-dark-800: oklch(0.885 0.070 29.0);
+  --color-red-dark-900: oklch(0.945 0.051 29.0);
+  --color-red-dark-950: oklch(0.975 0.033 29.0);
+
+  /* Orange Dark */
+  --color-orange-dark-50:  oklch(0.383 0.092 50.5);
+  --color-orange-dark-100: oklch(0.463 0.117 50.5);
+  --color-orange-dark-200: oklch(0.553 0.142 50.5);
+  --color-orange-dark-300: oklch(0.643 0.158 50.5);
+  --color-orange-dark-400: oklch(0.723 0.167 50.5);
+  --color-orange-dark-500: oklch(0.741 0.158 50.5);
+  --color-orange-dark-600: oklch(0.761 0.142 50.5);
+  --color-orange-dark-700: oklch(0.800 0.078 50.5);
+  --color-orange-dark-800: oklch(0.885 0.062 50.5);
+  --color-orange-dark-900: oklch(0.945 0.045 50.5);
+  --color-orange-dark-950: oklch(0.975 0.028 50.5);
+
+  /* Green Dark */
+  --color-green-dark-50:  oklch(0.287 0.082 149.2);
+  --color-green-dark-100: oklch(0.367 0.105 149.2);
+  --color-green-dark-200: oklch(0.457 0.127 149.2);
+  --color-green-dark-300: oklch(0.547 0.142 149.2);
+  --color-green-dark-400: oklch(0.627 0.149 149.2);
+  --color-green-dark-500: oklch(0.645 0.142 149.2);
+  --color-green-dark-600: oklch(0.700 0.127 149.2);
+  --color-green-dark-700: oklch(0.800 0.070 149.2);
+  --color-green-dark-800: oklch(0.885 0.055 149.2);
+  --color-green-dark-900: oklch(0.945 0.040 149.2);
+  --color-green-dark-950: oklch(0.975 0.026 149.2);
+
+  /* Teal Dark */
+  --color-teal-dark-50:  oklch(0.260 0.050 184.7);
+  --color-teal-dark-100: oklch(0.340 0.064 184.7);
+  --color-teal-dark-200: oklch(0.430 0.077 184.7);
+  --color-teal-dark-300: oklch(0.520 0.087 184.7);
+  --color-teal-dark-400: oklch(0.600 0.091 184.7);
+  --color-teal-dark-500: oklch(0.638 0.087 184.7);
+  --color-teal-dark-600: oklch(0.700 0.077 184.7);
+  --color-teal-dark-700: oklch(0.800 0.043 184.7);
+  --color-teal-dark-800: oklch(0.885 0.034 184.7);
+  --color-teal-dark-900: oklch(0.945 0.025 184.7);
+  --color-teal-dark-950: oklch(0.975 0.016 184.7);
+
+  /* Moss Dark */
+  --color-moss-dark-50:  oklch(0.249 0.065 124.9);
+  --color-moss-dark-100: oklch(0.329 0.083 124.9);
+  --color-moss-dark-200: oklch(0.419 0.100 124.9);
+  --color-moss-dark-300: oklch(0.509 0.113 124.9);
+  --color-moss-dark-400: oklch(0.589 0.118 124.9);
+  --color-moss-dark-500: oklch(0.627 0.113 124.9);
+  --color-moss-dark-600: oklch(0.700 0.100 124.9);
+  --color-moss-dark-700: oklch(0.800 0.056 124.9);
+  --color-moss-dark-800: oklch(0.885 0.044 124.9);
+  --color-moss-dark-900: oklch(0.945 0.032 124.9);
+  --color-moss-dark-950: oklch(0.975 0.020 124.9);
+
+  /* Pink Dark */
+  --color-pink-dark-50:  oklch(0.276 0.105 358.2);
+  --color-pink-dark-100: oklch(0.356 0.134 358.2);
+  --color-pink-dark-200: oklch(0.446 0.162 358.2);
+  --color-pink-dark-300: oklch(0.536 0.181 358.2);
+  --color-pink-dark-400: oklch(0.616 0.191 358.2);
+  --color-pink-dark-500: oklch(0.654 0.181 358.2);
+  --color-pink-dark-600: oklch(0.700 0.162 358.2);
+  --color-pink-dark-700: oklch(0.800 0.090 358.2);
+  --color-pink-dark-800: oklch(0.885 0.070 358.2);
+  --color-pink-dark-900: oklch(0.945 0.051 358.2);
+  --color-pink-dark-950: oklch(0.975 0.032 358.2);
+
+  /* Rose Dark */
+  --color-rose-dark-50:  oklch(0.243 0.099 14.4);
+  --color-rose-dark-100: oklch(0.323 0.127 14.4);
+  --color-rose-dark-200: oklch(0.413 0.154 14.4);
+  --color-rose-dark-300: oklch(0.503 0.172 14.4);
+  --color-rose-dark-400: oklch(0.583 0.181 14.4);
+  --color-rose-dark-500: oklch(0.621 0.172 14.4);
+  --color-rose-dark-600: oklch(0.700 0.154 14.4);
+  --color-rose-dark-700: oklch(0.800 0.085 14.4);
+  --color-rose-dark-800: oklch(0.885 0.067 14.4);
+  --color-rose-dark-900: oklch(0.945 0.048 14.4);
+  --color-rose-dark-950: oklch(0.975 0.031 14.4);
+
+  /* ==================================================
+   * White
+   * ================================================== */
+  --color-white: oklch(1 0 0);  /* #ffffff */
+
+  /* ==================================================
+   * Semantic Alias — Status（浅色模式）
+   * success → green, warning → orange, danger → rose, info → blue
+   * ================================================== */
+  --color-success-50:  var(--color-green-50);
+  --color-success-100: var(--color-green-100);
+  --color-success-200: var(--color-green-200);
+  --color-success-300: var(--color-green-300);
+  --color-success-400: var(--color-green-400);
+  --color-success-500: var(--color-green-500);
+  --color-success-600: var(--color-green-600);
+  --color-success-700: var(--color-green-700);
+  --color-success-800: var(--color-green-800);
+  --color-success-900: var(--color-green-900);
+  --color-success-950: var(--color-green-950);
+
+  --color-warning-50:  var(--color-orange-50);
+  --color-warning-100: var(--color-orange-100);
+  --color-warning-200: var(--color-orange-200);
+  --color-warning-300: var(--color-orange-300);
+  --color-warning-400: var(--color-orange-400);
+  --color-warning-500: var(--color-orange-500);
+  --color-warning-600: var(--color-orange-600);
+  --color-warning-700: var(--color-orange-700);
+  --color-warning-800: var(--color-orange-800);
+  --color-warning-900: var(--color-orange-900);
+  --color-warning-950: var(--color-orange-950);
+
+  --color-danger-50:  var(--color-rose-50);
+  --color-danger-100: var(--color-rose-100);
+  --color-danger-200: var(--color-rose-200);
+  --color-danger-300: var(--color-rose-300);
+  --color-danger-400: var(--color-rose-400);
+  --color-danger-500: var(--color-rose-500);
+  --color-danger-600: var(--color-rose-600);
+  --color-danger-700: var(--color-rose-700);
+  --color-danger-800: var(--color-rose-800);
+  --color-danger-900: var(--color-rose-900);
+  --color-danger-950: var(--color-rose-950);
+
+  --color-info-50:  var(--color-blue-50);
+  --color-info-100: var(--color-blue-100);
+  --color-info-200: var(--color-blue-200);
+  --color-info-300: var(--color-blue-300);
+  --color-info-400: var(--color-blue-400);
+  --color-info-500: var(--color-blue-500);
+  --color-info-600: var(--color-blue-600);
+  --color-info-700: var(--color-blue-700);
+  --color-info-800: var(--color-blue-800);
+  --color-info-900: var(--color-blue-900);
+  --color-info-950: var(--color-blue-950);
+
+  /* ==================================================
+   * Semantic Tokens — Background（浅色模式）
+   * ================================================== */
+  --color-bg-base:      var(--color-white);         /* 页面根背景 */
+  --color-bg-surface:   var(--color-gray-50);        /* 侧边栏、卡片 */
+  --color-bg-overlay:   var(--color-white);          /* 浮层、Modal */
+  --color-bg-muted:     var(--color-gray-100);       /* 选中态、Avatar */
+  --color-bg-control:   var(--color-gray-50);        /* 输入框、选择器 */
+  --color-bg-inverse:   var(--color-gray-950);       /* Tooltip */
+  --color-bg-primary:   var(--color-primary-600);    /* 主按钮 */
+  --color-bg-secondary: var(--color-primary-100);    /* 次按钮 */
+
+  /* ==================================================
+   * Semantic Tokens — Text & Icon（浅色模式）
+   * ================================================== */
+  --color-text-primary:    var(--color-gray-950);
+  --color-text-secondary:  var(--color-gray-700);
+  --color-text-tertiary:   var(--color-gray-500);
+  --color-text-disable:    var(--color-gray-400);
+  --color-text-foreground: var(--color-white);
+  --color-text-accent:     var(--color-primary-600);
+
+  --color-icon-primary:    var(--color-gray-900);
+  --color-icon-secondary:  var(--color-gray-600);
+  --color-icon-disable:    var(--color-gray-400);
+  --color-icon-foreground: var(--color-white);
+  --color-icon-accent:     var(--color-primary-600);
+
+  /* ==================================================
+   * Semantic Tokens — Border（浅色模式）
+   * ================================================== */
+  --color-border-default:            var(--color-gray-200);
+  --color-border-strong:             var(--color-gray-300);
+  --color-border-interactive:        var(--color-gray-400);
+  --color-border-interactive-active: var(--color-primary-500);
+
+  /* ==================================================
+   * Status Feedback Tokens
+   * ================================================== */
+  --color-text-success: var(--color-success-900);
+  --color-bg-success:   var(--color-success-50);
+  --color-text-warning: var(--color-warning-900);
+  --color-bg-warning:   var(--color-warning-50);
+  --color-text-danger:  var(--color-danger-900);
+  --color-bg-danger:    var(--color-danger-50);
+  --color-text-info:    var(--color-info-900);
+  --color-bg-info:      var(--color-info-50);
+
+  /* ==================================================
+   * Recipe Tokens — 交互态混色参数
+   * ================================================== */
+  --state-hover-solid-ratio:    90%;
+  --state-hover-solid-mix:      var(--color-white);
+  --state-pressed-solid-ratio:  80%;
+  --state-pressed-solid-mix:    var(--color-white);
+  --state-hover-subtle-ratio:   90%;
+  --state-hover-subtle-mix:     var(--color-primary-600);
+  --state-pressed-subtle-ratio: 80%;
+  --state-pressed-subtle-mix:   var(--color-primary-600);
+  --state-disabled-ratio:       40%;
+
+  /* ==================================================
+   * Spacing（宽松，density_scale ≈ 1.2）
+   * base 值 × 1.2，取整到 px
+   * ================================================== */
+  --space-xxxs:  5px;   /* 4 × 1.2 ≈ 5 */
+  --space-xxs:  10px;   /* 8 × 1.2 ≈ 10 */
+  --space-xs:   14px;   /* 12 × 1.2 ≈ 14 */
+  --space-s:    19px;   /* 16 × 1.2 ≈ 19 */
+  --space-m:    24px;   /* 20 × 1.2 ≈ 24 */
+  --space-l:    29px;   /* 24 × 1.2 ≈ 29 */
+  --space-xl:   38px;   /* 32 × 1.2 ≈ 38 */
+  --space-xxl:  48px;   /* 40 × 1.2 ≈ 48 */
+
+  /* ==================================================
+   * Radius（大，radius_scale = 1.5）
+   * ================================================== */
+  --radius-xs:    6px;    /* 4 × 1.5 */
+  --radius-sm:    9px;    /* 6 × 1.5 */
+  --radius-md:   12px;    /* 8 × 1.5 */
+  --radius-lg:   18px;    /* 12 × 1.5 */
+  --radius-xl:   24px;    /* 16 × 1.5 */
+  --radius-2xl:  30px;    /* 20 × 1.5 */
+  --radius-full: 99px;
+
+  /* ==================================================
+   * Shadow（浅色模式，轻微阴影）
+   * ================================================== */
+  --shadow-sm: 0 1px 3px -1px rgba(16,16,19,.08), 0 1px 8px 0 rgba(16,16,19,.05);
+  --shadow-md: 0 2px 4px -2px rgba(16,16,19,.05), 0 4px 26px -1px rgba(16,16,19,.05);
+  --shadow-lg: 0 8px 10px -2px rgba(16,16,19,.05), 0 20px 25px -3px rgba(16,16,19,.05);
+
+  /* ==================================================
+   * Typography — 字体族
+   * ================================================== */
+  --font-cn:   'PingFang SC', -apple-system, 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+  --font-en:   'SF Pro Display', 'Geist', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Geist Mono', 'SF Mono', 'Fira Code', ui-monospace, monospace;
+  --font-sans: var(--font-cn);
+
+  /* 字重 */
+  --font-weight-normal:   400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+
+  /* 字号 */
+  --text-page-title:           36px;
+  --text-page-title-secondary: 32px;
+  --text-panel-title-lg:       30px;
+  --text-dialog-title:         24px;
+  --text-section-title:        20px;
+  --text-subsection-title:     18px;
+  --text-ui-strong:            16px;
+  --text-body:                 14px;
+  --text-body-sm:              13px;
+  --text-caption:              12px;
+
+  /* 行高 */
+  --line-height-display:   1.2;
+  --line-height-display-1: 1.3;
+  --line-height-title:     1.4;
+  --line-height-body:      1.5;
+  --line-height-mono:      1.6;
+
+  /* 字间距 */
+  --letter-spacing-display-3: -0.03em;
+  --letter-spacing-display-2: -0.02em;
+  --letter-spacing-display-1: -0.01em;
+  --letter-spacing-normal:     0;
+
+  /* ==================================================
+   * Stroke
+   * ================================================== */
+  --stroke-0_5: 0.5px;
+  --stroke-1:   1px;
+  --stroke-2:   2px;
+  --stroke-weight-base:   var(--stroke-0_5);
+  --stroke-weight-strong: var(--stroke-1);
+  --stroke-weight-bold:   var(--stroke-2);
+
+  /* ==================================================
+   * Motion
+   * ================================================== */
+  --motion-fast:   150ms;
+  --motion-base:   250ms;
+  --motion-slow:   400ms;
+  --ease-enter:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit:     cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-standard: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ==================================================
+ * .dark — 仅覆写语义层（Primitive Token 不变）
+ * ================================================== */
+.dark {
+
+  /* Semantic Alias — Status（Dark，指向 dark 色板）*/
+  --color-success-50:  var(--color-green-dark-50);
+  --color-success-100: var(--color-green-dark-100);
+  --color-success-200: var(--color-green-dark-200);
+  --color-success-300: var(--color-green-dark-300);
+  --color-success-400: var(--color-green-dark-400);
+  --color-success-500: var(--color-green-dark-500);
+  --color-success-600: var(--color-green-dark-600);
+  --color-success-700: var(--color-green-dark-700);
+  --color-success-800: var(--color-green-dark-800);
+  --color-success-900: var(--color-green-dark-900);
+  --color-success-950: var(--color-green-dark-950);
+
+  --color-warning-50:  var(--color-orange-dark-50);
+  --color-warning-100: var(--color-orange-dark-100);
+  --color-warning-200: var(--color-orange-dark-200);
+  --color-warning-300: var(--color-orange-dark-300);
+  --color-warning-400: var(--color-orange-dark-400);
+  --color-warning-500: var(--color-orange-dark-500);
+  --color-warning-600: var(--color-orange-dark-600);
+  --color-warning-700: var(--color-orange-dark-700);
+  --color-warning-800: var(--color-orange-dark-800);
+  --color-warning-900: var(--color-orange-dark-900);
+  --color-warning-950: var(--color-orange-dark-950);
+
+  --color-danger-50:  var(--color-rose-dark-50);
+  --color-danger-100: var(--color-rose-dark-100);
+  --color-danger-200: var(--color-rose-dark-200);
+  --color-danger-300: var(--color-rose-dark-300);
+  --color-danger-400: var(--color-rose-dark-400);
+  --color-danger-500: var(--color-rose-dark-500);
+  --color-danger-600: var(--color-rose-dark-600);
+  --color-danger-700: var(--color-rose-dark-700);
+  --color-danger-800: var(--color-rose-dark-800);
+  --color-danger-900: var(--color-rose-dark-900);
+  --color-danger-950: var(--color-rose-dark-950);
+
+  --color-info-50:  var(--color-blue-dark-50);
+  --color-info-100: var(--color-blue-dark-100);
+  --color-info-200: var(--color-blue-dark-200);
+  --color-info-300: var(--color-blue-dark-300);
+  --color-info-400: var(--color-blue-dark-400);
+  --color-info-500: var(--color-blue-dark-500);
+  --color-info-600: var(--color-blue-dark-600);
+  --color-info-700: var(--color-blue-dark-700);
+  --color-info-800: var(--color-blue-dark-800);
+  --color-info-900: var(--color-blue-dark-900);
+  --color-info-950: var(--color-blue-dark-950);
+
+  /* Background（暗色模式）*/
+  --color-bg-base:      var(--color-gray-dark-50);
+  --color-bg-surface:   var(--color-gray-dark-100);
+  --color-bg-overlay:   var(--color-gray-dark-200);
+  --color-bg-muted:     var(--color-gray-dark-100);
+  --color-bg-control:   var(--color-gray-dark-100);
+  --color-bg-inverse:   var(--color-gray-dark-950);
+  --color-bg-primary:   var(--color-primary-dark-600);
+  --color-bg-secondary: var(--color-primary-dark-100);
+
+  /* Text & Icon（暗色模式）*/
+  --color-text-primary:    var(--color-gray-dark-950);
+  --color-text-secondary:  var(--color-gray-dark-700);
+  --color-text-tertiary:   var(--color-gray-dark-500);
+  --color-text-disable:    var(--color-gray-dark-400);
+  --color-text-foreground: var(--color-white);
+  --color-text-accent:     var(--color-primary-dark-600);
+
+  --color-icon-primary:    var(--color-gray-dark-900);
+  --color-icon-secondary:  var(--color-gray-dark-600);
+  --color-icon-disable:    var(--color-gray-dark-400);
+  --color-icon-foreground: var(--color-white);
+  --color-icon-accent:     var(--color-primary-dark-600);
+
+  /* Border（暗色模式）*/
+  --color-border-default:            var(--color-gray-dark-200);
+  --color-border-strong:             var(--color-gray-dark-300);
+  --color-border-interactive:        var(--color-gray-dark-400);
+  --color-border-interactive-active: var(--color-primary-dark-500);
+
+  /* Status Feedback（暗色模式）*/
+  --color-text-success: var(--color-success-900);
+  --color-bg-success:   var(--color-success-50);
+  --color-text-warning: var(--color-warning-900);
+  --color-bg-warning:   var(--color-warning-50);
+  --color-text-danger:  var(--color-danger-900);
+  --color-bg-danger:    var(--color-danger-50);
+  --color-text-info:    var(--color-info-900);
+  --color-bg-info:      var(--color-info-50);
+
+  /* Recipe（暗色模式）*/
+  --state-hover-solid-mix:        var(--color-gray-dark-50);
+  --state-pressed-solid-mix:      var(--color-gray-dark-50);
+  --state-hover-subtle-mix:       var(--color-primary-dark-600);
+  --state-pressed-subtle-mix:     var(--color-primary-dark-600);
+
+  /* Shadow（暗色模式，透明度翻倍）*/
+  --shadow-sm: 0 1px 3px -1px rgba(0,0,0,.16), 0 1px 8px 0 rgba(0,0,0,.10);
+  --shadow-md: 0 2px 4px -2px rgba(0,0,0,.10), 0 4px 26px -1px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 10px -2px rgba(0,0,0,.10), 0 20px 25px -3px rgba(0,0,0,.10);
+}

@@ -1,0 +1,82 @@
+/* Studio typography uses the selected Latin font first, then the selected CJK font. */
+html[data-embed="true"] body,
+html[data-embed="true"] .app-shell {
+  font-family: var(--font-en), var(--font-cn), sans-serif;
+}
+
+/* Studio gradient mode replaces the whole Agent shell background; the outer preview stays white. */
+html[data-embed="true"][data-background-style="gradient"] .app-shell {
+  background:
+    radial-gradient(ellipse 118% 92% at 50% 50%, transparent 46%, rgb(16 16 24 / calc(var(--studio-gradient-depth, .36) * .05)) 100%),
+    linear-gradient(135deg, rgb(255 255 255 / calc((1 - var(--studio-gradient-depth, .36)) * .28)) 0%, transparent 44%, rgb(16 16 24 / calc(var(--studio-gradient-depth, .36) * .1)) 100%),
+    radial-gradient(ellipse 76% 62% at 0% 0%, color-mix(in srgb, var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1, 22%), transparent), transparent 72%),
+    radial-gradient(ellipse 68% 56% at 100% 4%, color-mix(in srgb, var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2, 18%), transparent), transparent 74%),
+    radial-gradient(ellipse 58% 48% at 14% 100%, color-mix(in srgb, var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3, 15%), transparent), transparent 74%),
+    #fbfdff;
+}
+
+/* Dark mode keeps the same dynamic hue system, but moves every stop onto a
+   dark semantic surface so transparent sidebars retain readable contrast. */
+html.dark[data-embed="true"][data-background-style="gradient"] .app-shell {
+  background:
+    radial-gradient(ellipse 118% 92% at 50% 50%, transparent 36%, rgb(0 0 0 / calc(var(--studio-gradient-depth, .36) * .38)) 100%),
+    linear-gradient(135deg, rgb(255 255 255 / .04) 0%, transparent 46%, rgb(0 0 0 / calc(var(--studio-gradient-depth, .36) * .32)) 100%),
+    radial-gradient(ellipse 76% 62% at 0% 0%, color-mix(in oklab, var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1, 20%), transparent), transparent 70%),
+    radial-gradient(ellipse 68% 56% at 100% 4%, color-mix(in oklab, var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2, 16%), transparent), transparent 72%),
+    radial-gradient(ellipse 58% 48% at 14% 100%, color-mix(in oklab, var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3, 13%), transparent), transparent 72%),
+    var(--color-bg-surface);
+  background-blend-mode: screen, normal, normal, normal, normal;
+}
+
+html[data-embed="true"][data-background-style="image"] .app-shell {
+  background:
+    linear-gradient(rgb(7 13 24 / 12%), rgb(7 13 24 / 12%)),
+    var(--studio-background-image),
+    var(--color-bg-surface);
+  background-position: center;
+  background-size: cover;
+}
+
+html[data-embed="true"]:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar {
+  --ve-sidebar-background: transparent;
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+html[data-embed="true"]:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar::part(container),
+html[data-embed="true"]:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar::part(content),
+html[data-embed="true"]:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar::part(body),
+html[data-embed="true"]:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar::part(footer) {
+  background: transparent;
+}
+
+html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .app-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .app-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--studio-gradient-noise-opacity, 0);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.08' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.72'/%3E%3C/svg%3E"),
+    radial-gradient(circle at center, rgb(255 255 255 / 18%) 0 1px, transparent 1.4px);
+  background-size: 140px 140px, 10px 10px;
+  mix-blend-mode: overlay;
+}
+
+html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .agent-sidebar,
+html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .main-panel {
+  position: relative;
+  z-index: 1;
+}
+
+html.dark[data-embed="true"] .ve-input {
+  --ve-input-bg: var(--color-bg-base);
+  --ve-input-border-color: var(--color-border-default);
+}
