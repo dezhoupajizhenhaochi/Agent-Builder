@@ -6,3 +6,15 @@ dist/
 *.log
 .vscode/
 .idea/
+
+# IDE / Tooling
+.playwright-cli/
+.claude/
+.trae/
+
+# Backup files
+*.bak
+
+# Local exports
+vedesign-themes-local-*.zip
+*.skill.zip
