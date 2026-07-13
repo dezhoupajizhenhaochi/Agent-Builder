@@ -11,6 +11,32 @@ html[data-embed="true"] .app-shell {
   grid-template-columns: var(--studio-sidebar-width, 220px) minmax(0, 1fr);
 }
 
+/* Message content and the chat composer share one responsive measure. */
+html[data-embed="true"] .chat-column {
+  --studio-conversation-content-width: 800px;
+}
+
+html[data-embed="true"] .studio-wide .chat-column,
+html[data-embed="true"] .chat-column.studio-wide {
+  --studio-conversation-content-width: 1040px;
+}
+
+html[data-embed="true"] .chat-column .bubble-list,
+html[data-embed="true"] .chat-column .assistant-stack,
+html[data-embed="true"] .chat-column .composer-zone .composer-shell {
+  width: min(var(--studio-conversation-content-width), 100%);
+}
+
+html[data-embed="true"] .chat-column .composer-zone {
+  padding-inline: 32px;
+}
+
+html[data-embed="true"] .agent-sidebar {
+  width: var(--studio-sidebar-current-width, var(--studio-sidebar-width, 220px)) !important;
+  min-width: var(--studio-sidebar-current-width, var(--studio-sidebar-width, 220px)) !important;
+  max-width: var(--studio-sidebar-current-width, var(--studio-sidebar-width, 220px)) !important;
+}
+
 html[data-embed="true"][data-sidebar-visible="false"] .app-shell {
   grid-template-columns: minmax(0, 1fr);
 }
@@ -66,6 +92,31 @@ html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar
 }
 
 /* Studio gradient mode replaces the whole Agent shell background; the outer preview stays white. */
+html[data-embed="true"] {
+  /* Secondary actions and metadata badges are neutral UI, not brand emphasis. */
+  --color-bg-secondary: oklch(0.965 0.003 286.3) !important;
+}
+
+html.dark[data-embed="true"] {
+  --color-bg-secondary: oklch(0.27 0.006 286.3) !important;
+}
+
+.connector-row > ve-button[type="secondary"] {
+  --ve-button-background-secondary: oklch(0.965 0.003 286.3);
+}
+
+.source-list {
+  --color-bg-secondary: oklch(0.965 0.003 286.3) !important;
+}
+
+html.dark .connector-row > ve-button[type="secondary"] {
+  --ve-button-background-secondary: oklch(0.27 0.006 286.3);
+}
+
+html.dark .source-list {
+  --color-bg-secondary: oklch(0.27 0.006 286.3) !important;
+}
+
 html[data-embed="true"][data-background-style="gradient"] .app-shell {
   background:
     radial-gradient(ellipse 54% 46% at 72% 30%, rgb(255 255 255 / .24) 0%, transparent 72%),
@@ -73,6 +124,18 @@ html[data-embed="true"][data-background-style="gradient"] .app-shell {
     radial-gradient(ellipse 90% 78% at var(--studio-gradient-pos-2, 108% 8%), color-mix(in oklch, var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2, 58%), transparent), transparent 74%),
     radial-gradient(ellipse 84% 72% at var(--studio-gradient-pos-3, 18% 112%), color-mix(in oklch, var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3, 49%), transparent), transparent 74%),
     oklch(var(--studio-gradient-base-lightness, .948) var(--studio-gradient-base-chroma, .022) var(--brand-hue, 285.8));
+}
+
+@keyframes studio-runtime-gradient-flow {
+  0%, 100% { background-position: 50% 50%, 0% 0%, 100% 0%, 0% 100%, 50% 50%; }
+  33% { background-position: 58% 42%, 100% 24%, 12% 100%, 72% 0%, 50% 50%; }
+  66% { background-position: 42% 58%, 18% 100%, 100% 68%, 0% 18%, 50% 50%; }
+}
+
+html[data-embed="true"][data-background-style="gradient"][data-gradient-animated="true"] .app-shell {
+  background-repeat: no-repeat;
+  background-size: 120% 120%, calc(100% + var(--studio-gradient-flow-spread, 28%)) calc(100% + var(--studio-gradient-flow-spread, 28%)), calc(100% + var(--studio-gradient-flow-spread, 28%)) calc(100% + var(--studio-gradient-flow-spread, 28%)), calc(100% + var(--studio-gradient-flow-spread, 28%)) calc(100% + var(--studio-gradient-flow-spread, 28%)), auto;
+  animation: studio-runtime-gradient-flow var(--studio-gradient-duration, 18s) ease-in-out infinite;
 }
 
 /* Dark mode keeps the same dynamic hue system, but moves every stop onto a
@@ -120,15 +183,26 @@ html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="t
   z-index: 0;
   pointer-events: none;
   opacity: var(--studio-gradient-noise-opacity, 0);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='.68'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 180px 180px;
-  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.52' numOctaves='4' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: var(--studio-gradient-texture-size, 128px) var(--studio-gradient-texture-size, 128px);
+  mix-blend-mode: multiply;
+  filter: contrast(210%);
+}
+
+html.dark[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .app-shell::before {
+  mix-blend-mode: screen;
 }
 
 html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .agent-sidebar,
 html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .main-panel {
   position: relative;
   z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-embed="true"][data-background-style="gradient"] .app-shell {
+    animation: none !important;
+  }
 }
 
 html.dark[data-embed="true"] .ve-input {
