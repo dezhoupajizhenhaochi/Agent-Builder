@@ -1368,7 +1368,7 @@
   .accordion.sub-accordion > summary {
     font-size: 12px;
     font-weight: 500;
-    color: var(--app-text-secondary);
+    color: var(--app-text);
     padding: 0 0 4px;
     cursor: default;
     pointer-events: none;
@@ -3133,10 +3133,12 @@
   }
   .studio-brand-upload.has-logo .studio-upload-icon { padding:0; }
   .studio-brand-upload.has-logo .studio-upload-icon img { display:block; width:100%; height:100%; object-fit:cover; }
+  .studio-brand-config { margin-top:12px; }
   .studio-brand-config > :first-child { margin-top:0; }
   .studio-brand-actions { display:flex; align-items:center; justify-content:flex-end; margin-top:8px; }
   .studio-brand-remove { display:none; height:26px; padding:0 9px; border:1px solid var(--app-border); border-radius:6px; color:var(--app-text-secondary); background:var(--app-surface); font-size:11px; }
   .studio-brand-remove:hover { color:var(--app-text); border-color:var(--app-border-strong); }
+  .studio-sidebar-width-row { margin-top:16px; }
   #studio-image-config { margin-top:12px; margin-bottom:18px; }
   .studio-image-library { display:grid; gap:8px; margin-bottom:12px; }
   .studio-image-options { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
@@ -3835,14 +3837,33 @@
           <summary>产品功能</summary>
           <div class="accordion-body">
 
-            <div class="studio-brand-config">
+            <!-- sidebar -->
+            <details class="accordion sub-accordion" open>
+              <summary>sidebar</summary>
+              <div class="accordion-body">
+                <label class="studio-field"><span>Agent 名称</span><input class="text-input" id="studio-brand-name" value="Agent" maxlength="32" placeholder="Agent" style="width:176px;height:32px;font-size:12px;"></label>
+                <div class="studio-brand-config">
                 <label class="studio-upload studio-brand-upload" id="studio-brand-upload" for="studio-logo-upload">
                   <span class="studio-upload-icon" id="studio-brand-logo-preview">+</span>
                   <span><strong>更新 Logo</strong><small>SVG、PNG、JPG 或 WebP，最大 2MB</small></span>
                   <input id="studio-logo-upload" type="file" accept="image/svg+xml,image/png,image/jpeg,image/webp" hidden>
                 </label>
                 <div class="studio-brand-actions"><button class="studio-brand-remove" id="studio-logo-remove" type="button">恢复默认 Logo</button></div>
-            </div>
+                </div>
+                <label class="studio-field"><span>显示侧边栏</span><span class="studio-switch"><input type="checkbox" id="studio-sidebar-visible" checked> 显示</span></label>
+                <div class="slider-row studio-sidebar-width-row">
+                  <div class="slider-row-head"><span>侧边栏宽度</span><span id="studio-sidebar-width-val">220px</span></div>
+                  <input type="range" id="studio-sidebar-width" min="180" max="280" value="220" step="4">
+                </div>
+                <label class="studio-field"><span>侧边栏位置</span>
+                  <select class="studio-select" id="studio-sidebar-position">
+                    <option value="left">左侧</option>
+                    <option value="right">右侧</option>
+                  </select>
+                </label>
+                <div class="studio-hint">控制 Agent 界面左侧导航栏的外观与行为。</div>
+              </div>
+            </details>
 
             <!-- 欢迎页 -->
             <details class="accordion sub-accordion is-collapsible" open>
@@ -3855,26 +3876,6 @@
                   <select class="studio-select" id="studio-composer-style"><option value="outlined">描边卡片</option><option value="floating">悬浮胶囊</option></select>
                 </label>
                 <div class="studio-hint">控制用户进入 Agent 后的第一屏内容与行动入口。</div>
-              </div>
-            </details>
-
-            <!-- sidebar -->
-            <details class="accordion sub-accordion" open>
-              <summary>sidebar</summary>
-              <div class="accordion-body">
-                <label class="studio-field"><span>Agent 名称</span><input class="text-input" id="studio-brand-name" value="Agent" maxlength="32" placeholder="Agent" style="width:176px;height:32px;font-size:12px;"></label>
-                <label class="studio-field"><span>显示侧边栏</span><span class="studio-switch"><input type="checkbox" id="studio-sidebar-visible" checked> 显示</span></label>
-                <div class="slider-row">
-                  <div class="slider-row-head"><span>侧边栏宽度</span><span id="studio-sidebar-width-val">220px</span></div>
-                  <input type="range" id="studio-sidebar-width" min="180" max="280" value="220" step="4">
-                </div>
-                <label class="studio-field"><span>侧边栏位置</span>
-                  <select class="studio-select" id="studio-sidebar-position">
-                    <option value="left">左侧</option>
-                    <option value="right">右侧</option>
-                  </select>
-                </label>
-                <div class="studio-hint">控制 Agent 界面左侧导航栏的外观与行为。</div>
               </div>
             </details>
 
