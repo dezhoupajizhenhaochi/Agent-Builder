@@ -3135,8 +3135,8 @@
   .studio-image-option.active { border-color:var(--app-accent); box-shadow:0 0 0 1px var(--app-accent); color:var(--app-text); }
   .studio-image-thumb { display:block; aspect-ratio:1.45; border-radius:6px; background-size:cover; background-position:center; }
   .studio-image-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  #studio-solid-config { margin-top:14px; margin-bottom:16px; }
   .studio-gradient-config { display:grid; gap:8px; margin-top:14px; margin-bottom:16px; }
-  .studio-gradient-head { color:var(--app-text-muted); font-size:12px; }
   .studio-gradient-options { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
   .studio-gradient-option { display:grid; gap:5px; min-width:0; border:1px solid var(--app-border); border-radius:8px; padding:5px; background:var(--app-surface); color:var(--app-text-secondary); font-size:11px; text-align:left; }
   .studio-gradient-option.active { border-color:var(--app-accent); box-shadow:0 0 0 1px var(--app-accent); color:var(--app-text); }
@@ -3148,10 +3148,11 @@
     aspect-ratio:1.45;
     border-radius:6px;
     background:
-      radial-gradient(ellipse 105% 82% at var(--studio-gradient-pos-1,22% 18%), color-mix(in oklch,var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1,67%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-1) 32%,transparent) 48%, transparent 78%),
-      radial-gradient(ellipse 94% 78% at var(--studio-gradient-pos-2,88% 22%), color-mix(in oklch,var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2,58%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-2) 26%,transparent) 52%, transparent 80%),
-      radial-gradient(ellipse 110% 88% at var(--studio-gradient-pos-3,28% 92%), color-mix(in oklch,var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3,49%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-3) 24%,transparent) 52%, transparent 82%),
-      oklch(var(--studio-gradient-base-lightness,.948) var(--studio-gradient-base-chroma,.022) var(--brand-hue,285.8));
+      radial-gradient(ellipse 74% 116% at 0% 100%, color-mix(in oklch,var(--studio-gradient-color-1) 44%,transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-1) 18%,transparent) 54%, transparent 82%),
+      radial-gradient(ellipse 105% 82% at var(--studio-gradient-pos-1,22% 18%), color-mix(in oklch,var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1,67%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-1) var(--studio-gradient-tail-1,32%),transparent) 48%, transparent 78%),
+      radial-gradient(ellipse 94% 78% at var(--studio-gradient-pos-2,88% 22%), color-mix(in oklch,var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2,58%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-2) var(--studio-gradient-tail-2,26%),transparent) 52%, transparent 80%),
+      radial-gradient(ellipse 110% 88% at var(--studio-gradient-pos-3,28% 92%), color-mix(in oklch,var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3,49%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-3) var(--studio-gradient-tail-3,24%),transparent) 52%, transparent 82%),
+      oklch(var(--studio-gradient-base-lightness,.972) var(--studio-gradient-base-chroma,.022) var(--brand-hue,285.8));
     background-size:cover;
     background-position:center;
     position:relative;
@@ -3162,10 +3163,10 @@
     inset:0;
     border-radius:6px;
     pointer-events:none;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='2' seed='11' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size:128px 128px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.62' numOctaves='3' seed='23' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:160px 160px;
     mix-blend-mode:soft-light;
-    filter:grayscale(1) contrast(135%);
+    filter:contrast(145%) saturate(190%);
     opacity:var(--studio-gradient-noise-opacity, 0);
   }
   .studio-gradient-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -3235,10 +3236,11 @@
   .agent-demo[data-background]:not([data-background="solid"]) { background:transparent; box-shadow:none; }
   .agent-demo[data-background="gradient"] {
     background:
-      radial-gradient(ellipse 105% 82% at var(--studio-gradient-pos-1,22% 18%), color-mix(in oklch,var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1,67%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-1) 32%,transparent) 48%, transparent 78%),
-      radial-gradient(ellipse 94% 78% at var(--studio-gradient-pos-2,88% 22%), color-mix(in oklch,var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2,58%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-2) 26%,transparent) 52%, transparent 80%),
-      radial-gradient(ellipse 110% 88% at var(--studio-gradient-pos-3,28% 92%), color-mix(in oklch,var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3,49%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-3) 24%,transparent) 52%, transparent 82%),
-      oklch(var(--studio-gradient-base-lightness,.948) var(--studio-gradient-base-chroma,.022) var(--brand-hue,285.8));
+      radial-gradient(ellipse 74% 116% at 0% 100%, color-mix(in oklch,var(--studio-gradient-color-1) 44%,transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-1) 18%,transparent) 54%, transparent 82%),
+      radial-gradient(ellipse 105% 82% at var(--studio-gradient-pos-1,22% 18%), color-mix(in oklch,var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1,67%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-1) var(--studio-gradient-tail-1,32%),transparent) 48%, transparent 78%),
+      radial-gradient(ellipse 94% 78% at var(--studio-gradient-pos-2,88% 22%), color-mix(in oklch,var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2,58%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-2) var(--studio-gradient-tail-2,26%),transparent) 52%, transparent 80%),
+      radial-gradient(ellipse 110% 88% at var(--studio-gradient-pos-3,28% 92%), color-mix(in oklch,var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3,49%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-3) var(--studio-gradient-tail-3,24%),transparent) 52%, transparent 82%),
+      oklch(var(--studio-gradient-base-lightness,.972) var(--studio-gradient-base-chroma,.022) var(--brand-hue,285.8));
   }
   html.dark .agent-demo[data-background="gradient"] {
     background:
@@ -3271,11 +3273,12 @@
     z-index:0;
     pointer-events:none;
     opacity:var(--studio-gradient-noise-opacity, 0);
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='2' seed='11' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size:128px 128px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.62' numOctaves='3' seed='23' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:160px 160px;
     mix-blend-mode:soft-light;
-    filter:grayscale(1) contrast(135%);
+    filter:contrast(145%) saturate(190%);
   }
+  html.dark .agent-demo[data-background="gradient"][data-gradient-noise="true"]::after { mix-blend-mode:screen; }
   .agent-demo[data-background="gradient"][data-gradient-noise="true"] > .ved-sidebar,
   .agent-demo[data-background="gradient"][data-gradient-noise="true"] > .ved-main { position:relative; z-index:1; }
 
@@ -3699,7 +3702,6 @@
                 </div>
                 <input type="hidden" id="studio-background" value="image">
                 <div id="studio-solid-config" style="display:none;">
-                  <div class="studio-gradient-head">界面背景色</div>
                   <input type="hidden" id="studio-bg-token" value="surface">
                   <div class="studio-gradient-options studio-solid-options" role="radiogroup" aria-label="选择界面背景色">
                     <button class="studio-gradient-option studio-bg-token-option active" role="radio" aria-checked="true" type="button" data-bg-token="surface" title="BG Surface"><span class="studio-solid-thumb"></span><span class="studio-gradient-name">页面底色</span></button>
@@ -3709,7 +3711,6 @@
                   </div>
                 </div>
                 <div class="studio-gradient-config" id="studio-gradient-mode-row">
-                  <div class="studio-gradient-head">渐变配色</div>
                   <input type="hidden" id="studio-gradient-mode" value="analogous">
                   <div class="studio-gradient-options">
                     <button class="studio-gradient-option active" type="button" data-gradient-mode="analogous">
@@ -6459,12 +6460,15 @@ bindOklchPair('lch-h', 'lch-h-num', 'H');
 // （semantic + AI 模式不自动跑，避免每次拖动都打 API）
 // 矢量滑杆：state.{density,radiusIdx,shadowIdx} 是浮点比例（1.0 = 标准基线）
 const fmtScale = (v) => v.toFixed(2) + '×';
-const gradientNoiseOpacity = () => String(Math.pow(studioState.gradientNoise / 100, 0.8) * 0.28);
+const gradientNoiseOpacity = () => {
+  const strength = studioState.gradientNoise / 100;
+  return String(Math.pow(strength, 0.86) * 0.18);
+};
 // 低强度使用非线性曲线：左侧同时衰减透明度与色度，获得真正的“极弱”渐变。
-const studioGradientIntensity = () => Math.pow(clamp(studioState.gradientStrength / 100, 0, 1), 1.25);
+const studioGradientIntensity = () => Math.pow(clamp(studioState.gradientStrength / 100, 0, 1), 1.6);
 const studioGradientChroma = () => {
   const intensity = studioGradientIntensity();
-  return clamp(state.primary.C * (0.08 + intensity * 0.95), 0.004, 0.18);
+  return clamp(state.primary.C * (0.01 + intensity * 1.05), 0.001, 0.22);
 };
 
 function studioGradientRule(mode = studioState.gradientMode) {
@@ -6493,29 +6497,32 @@ function syncStudioGradientVariables(target, mode = studioState.gradientMode, { 
     : studioGradientChroma();
   const { offsets:[offsetA, offsetB], positions } = studioGradientRule(mode);
   const thumbnailProfiles = {
-    monochrome: { lightness:[0.76, 0.82, 0.88], chroma:[0.9, 0.58, 0.3] },
-    analogous: { lightness:[0.76, 0.8, 0.84], chroma:[0.92, 0.86, 0.8] },
-    complementary: { lightness:[0.76, 0.8, 0.84], chroma:[0.92, 0.88, 0.8] },
-    triadic: { lightness:[0.76, 0.8, 0.84], chroma:[0.92, 0.86, 0.82] }
+    monochrome: { lightness:[0.82, 0.87, 0.91], chroma:[0.9, 0.58, 0.3] },
+    analogous: { lightness:[0.82, 0.86, 0.9], chroma:[0.92, 0.86, 0.8] },
+    complementary: { lightness:[0.82, 0.86, 0.9], chroma:[0.92, 0.88, 0.8] },
+    triadic: { lightness:[0.82, 0.86, 0.9], chroma:[0.92, 0.86, 0.82] }
   };
   const profile = thumbnailProfiles[mode] || thumbnailProfiles.analogous;
-  const lightness1 = thumbnail ? profile.lightness[0] : clamp(state.primary.L + 0.2, 0.74, 0.84);
-  const lightness2 = thumbnail ? profile.lightness[1] : clamp(lightness1 + 0.045, 0.78, 0.88);
-  const lightness3 = thumbnail ? profile.lightness[2] : clamp(lightness1 + 0.08, 0.82, 0.92);
+  const lightness1 = thumbnail ? profile.lightness[0] : clamp(state.primary.L + 0.25, 0.8, 0.89);
+  const lightness2 = thumbnail ? profile.lightness[1] : clamp(lightness1 + 0.04, 0.84, 0.92);
+  const lightness3 = thumbnail ? profile.lightness[2] : clamp(lightness1 + 0.075, 0.87, 0.95);
   const chroma1 = chroma * (thumbnail ? profile.chroma[0] : 1);
   const chroma2 = chroma * (thumbnail ? profile.chroma[1] : 0.92);
   const chroma3 = chroma * (thumbnail ? profile.chroma[2] : 0.82);
-  const baseLightness = clamp(0.975 - intensity * 0.045 + state.primary.L * 0.012, 0.93, 0.982);
-  const baseChroma = clamp(chroma * (0.08 + intensity * 0.2), 0.004, 0.05);
+  const baseLightness = clamp(0.99 - intensity * 0.04 + state.primary.L * 0.006, 0.95, 0.994);
+  const baseChroma = clamp(chroma * intensity * 0.26, 0, 0.058);
   target.style.setProperty('--brand-hue', state.primary.H.toFixed(1));
   target.style.setProperty('--brand-chroma', state.primary.C.toFixed(4));
   target.style.setProperty('--studio-gradient-chroma', chroma.toFixed(3));
   target.style.setProperty('--studio-gradient-color-1', `oklch(${lightness1.toFixed(3)} ${chroma1.toFixed(3)} ${state.primary.H})`);
   target.style.setProperty('--studio-gradient-color-2', `oklch(${lightness2.toFixed(3)} ${chroma2.toFixed(3)} ${state.primary.H + offsetA})`);
   target.style.setProperty('--studio-gradient-color-3', `oklch(${lightness3.toFixed(3)} ${chroma3.toFixed(3)} ${state.primary.H + offsetB})`);
-  target.style.setProperty('--studio-ui-gradient-weight-1', `${thumbnail ? 88 : Math.round(10 + intensity * 76)}%`);
-  target.style.setProperty('--studio-ui-gradient-weight-2', `${thumbnail ? 82 : Math.round(8 + intensity * 68)}%`);
-  target.style.setProperty('--studio-ui-gradient-weight-3', `${thumbnail ? 76 : Math.round(6 + intensity * 60)}%`);
+  target.style.setProperty('--studio-ui-gradient-weight-1', `${thumbnail ? 88 : Math.round(2 + intensity * 94)}%`);
+  target.style.setProperty('--studio-ui-gradient-weight-2', `${thumbnail ? 82 : Math.round(1 + intensity * 83)}%`);
+  target.style.setProperty('--studio-ui-gradient-weight-3', `${thumbnail ? 76 : Math.round(intensity * 74)}%`);
+  target.style.setProperty('--studio-gradient-tail-1', `${thumbnail ? 34 : Math.round(intensity * 42)}%`);
+  target.style.setProperty('--studio-gradient-tail-2', `${thumbnail ? 28 : Math.round(intensity * 34)}%`);
+  target.style.setProperty('--studio-gradient-tail-3', `${thumbnail ? 24 : Math.round(intensity * 30)}%`);
   target.style.setProperty('--studio-gradient-base-lightness', baseLightness.toFixed(3));
   target.style.setProperty('--studio-gradient-base-chroma', baseChroma.toFixed(3));
   target.style.setProperty('--studio-gradient-pos-1', positions[0]);
