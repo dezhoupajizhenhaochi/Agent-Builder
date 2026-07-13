@@ -3116,18 +3116,20 @@
   .studio-brand-upload {
     position:relative;
     display:grid;
-    grid-template-columns:48px minmax(0,1fr);
+    grid-template-columns:36px minmax(0,1fr);
     justify-content:start;
-    gap:12px;
+    gap:10px;
+    min-height:48px;
+    padding:6px 8px;
   }
   .studio-brand-upload > input[type="file"] { display:none !important; }
   .studio-brand-upload .studio-upload-icon {
-    width:48px;
-    height:48px;
+    width:36px;
+    height:36px;
     aspect-ratio:1;
     flex:none;
     overflow:hidden;
-    border-radius:8px;
+    border-radius:6px;
   }
   .studio-brand-upload.has-logo .studio-upload-icon { padding:0; }
   .studio-brand-upload.has-logo .studio-upload-icon img { display:block; width:100%; height:100%; object-fit:cover; }
@@ -3834,7 +3836,6 @@
           <div class="accordion-body">
 
             <div class="studio-brand-config">
-                <label class="studio-field"><span>Agent 名称</span><input class="text-input" id="studio-brand-name" value="Agent" maxlength="32" placeholder="Agent" style="width:176px;height:32px;font-size:12px;"></label>
                 <label class="studio-upload studio-brand-upload" id="studio-brand-upload" for="studio-logo-upload">
                   <span class="studio-upload-icon" id="studio-brand-logo-preview">+</span>
                   <span><strong>更新 Logo</strong><small>SVG、PNG、JPG 或 WebP，最大 2MB</small></span>
@@ -3861,6 +3862,7 @@
             <details class="accordion sub-accordion" open>
               <summary>sidebar</summary>
               <div class="accordion-body">
+                <label class="studio-field"><span>Agent 名称</span><input class="text-input" id="studio-brand-name" value="Agent" maxlength="32" placeholder="Agent" style="width:176px;height:32px;font-size:12px;"></label>
                 <label class="studio-field"><span>显示侧边栏</span><span class="studio-switch"><input type="checkbox" id="studio-sidebar-visible" checked> 显示</span></label>
                 <div class="slider-row">
                   <div class="slider-row-head"><span>侧边栏宽度</span><span id="studio-sidebar-width-val">220px</span></div>
