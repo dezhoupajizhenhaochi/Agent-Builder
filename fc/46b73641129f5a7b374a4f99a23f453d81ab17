@@ -1,0 +1,26 @@
+agent-runtime/index.html
+  s_eeb2a88cb62711::t_af5c67174c27a7 10725
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "fc46b73641129f5a7b374a4f99a23f453d81ab17",
+  "prompts": {},
+  "humans": {
+    "h_bce47d088b4035": {
+      "author": "dezhoupajizhenhaochi <ahai981118536@126.com>"
+    }
+  },
+  "sessions": {
+    "s_eeb2a88cb62711": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f54d1-aa7e-7650-bab0-5655567a27f6",
+        "model": "unknown"
+      },
+      "human_author": "dezhoupajizhenhaochi <ahai981118536@126.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
