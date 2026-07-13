@@ -1233,14 +1233,6 @@
     background: var(--color-bg-muted, var(--app-muted));
     color: var(--color-text-primary, var(--app-text));
   }
-  .studio-color-select { width: 172px; }
-  .studio-color-select .ved-select-trigger { height: 38px; font-weight: 500; }
-  .studio-color-select .ved-select-menu { min-width: 220px; left: auto; }
-  .studio-color-select .ved-select-option { height: 40px; }
-  .studio-color-select .ved-select-swatch { width: 20px; height: 20px; border-radius: 5px; }
-  .studio-color-option-copy { display:flex; min-width:0; flex-direction:column; gap:1px; }
-  .studio-color-option-name { color:var(--color-text-primary, var(--app-text)); }
-  .studio-color-option-token { color:var(--color-text-tertiary, var(--app-text-muted)); font-size:10px; font-weight:400; }
 
   /* Color picker for reference mode */
   .color-picker-row {
@@ -3121,6 +3113,9 @@
   .studio-gradient-options { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
   .studio-gradient-option { display:grid; gap:5px; min-width:0; border:1px solid var(--app-border); border-radius:8px; padding:5px; background:var(--app-surface); color:var(--app-text-secondary); font-size:11px; text-align:left; }
   .studio-gradient-option.active { border-color:var(--app-accent); box-shadow:0 0 0 1px var(--app-accent); color:var(--app-text); }
+  .studio-solid-options { width:100%; }
+  .studio-solid-thumb { display:block; width:100%; aspect-ratio:1.45; border-radius:6px; box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--app-text) 8%, transparent); }
+  .studio-bg-token-option .studio-gradient-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .studio-gradient-thumb {
     display:block;
     aspect-ratio:1.45;
@@ -3675,19 +3670,14 @@
                   <button type="button" class="active" data-background="image">图片背景</button>
                 </div>
                 <input type="hidden" id="studio-background" value="image">
-                <div class="studio-field" id="studio-solid-config" style="display:none;"><span>界面背景色</span>
-                  <div class="ved-select studio-color-select" id="studio-bg-token-select" data-value="surface">
-                    <input type="hidden" id="studio-bg-token" value="surface">
-                    <button class="ved-select-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
-                      <span class="ved-select-value"><span class="ved-select-swatch" id="studio-bg-token-swatch" style="background:var(--color-bg-surface);"></span><span class="ved-select-label" id="studio-bg-token-label">页面底色</span></span>
-                      <svg class="ved-select-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </button>
-                    <div class="ved-select-menu" role="listbox" aria-label="选择界面背景色">
-                      <button class="ved-select-option is-active" role="option" aria-selected="true" type="button" data-value="surface" data-label="页面底色" data-color="var(--color-bg-surface)"><span class="ved-select-swatch" style="background:var(--color-bg-surface);"></span><span class="studio-color-option-copy"><span class="studio-color-option-name">页面底色</span><span class="studio-color-option-token">BG Surface</span></span></button>
-                      <button class="ved-select-option" role="option" aria-selected="false" type="button" data-value="base" data-label="内容底色" data-color="var(--color-bg-base)"><span class="ved-select-swatch" style="background:var(--color-bg-base);"></span><span class="studio-color-option-copy"><span class="studio-color-option-name">内容底色</span><span class="studio-color-option-token">BG Base</span></span></button>
-                      <button class="ved-select-option" role="option" aria-selected="false" type="button" data-value="soft" data-label="品牌柔光" data-color="var(--color-primary-50)"><span class="ved-select-swatch" style="background:var(--color-primary-50);"></span><span class="studio-color-option-copy"><span class="studio-color-option-name">品牌柔光</span><span class="studio-color-option-token">Primary 50</span></span></button>
-                      <button class="ved-select-option" role="option" aria-selected="false" type="button" data-value="neutral" data-label="中性衬底" data-color="var(--color-gray-100)"><span class="ved-select-swatch" style="background:var(--color-gray-100);"></span><span class="studio-color-option-copy"><span class="studio-color-option-name">中性衬底</span><span class="studio-color-option-token">Gray 100</span></span></button>
-                    </div>
+                <div id="studio-solid-config" style="display:none;">
+                  <div class="studio-gradient-head">界面背景色</div>
+                  <input type="hidden" id="studio-bg-token" value="surface">
+                  <div class="studio-gradient-options studio-solid-options" role="radiogroup" aria-label="选择界面背景色">
+                    <button class="studio-gradient-option studio-bg-token-option active" role="radio" aria-checked="true" type="button" data-bg-token="surface" title="BG Surface"><span class="studio-solid-thumb" style="background:var(--color-bg-surface);"></span><span class="studio-gradient-name">页面底色</span></button>
+                    <button class="studio-gradient-option studio-bg-token-option" role="radio" aria-checked="false" type="button" data-bg-token="base" title="BG Base"><span class="studio-solid-thumb" style="background:var(--color-bg-base);"></span><span class="studio-gradient-name">内容底色</span></button>
+                    <button class="studio-gradient-option studio-bg-token-option" role="radio" aria-checked="false" type="button" data-bg-token="soft" title="Primary 50"><span class="studio-solid-thumb" style="background:var(--color-primary-50);"></span><span class="studio-gradient-name">品牌柔光</span></button>
+                    <button class="studio-gradient-option studio-bg-token-option" role="radio" aria-checked="false" type="button" data-bg-token="neutral" title="Gray 100"><span class="studio-solid-thumb" style="background:var(--color-gray-100);"></span><span class="studio-gradient-name">中性衬底</span></button>
                   </div>
                 </div>
                 <div class="studio-gradient-config" id="studio-gradient-mode-row">
@@ -6832,7 +6822,12 @@ function syncStudioBackgroundControls() {
   const solidConfig = $('#studio-solid-config'); if (solidConfig) solidConfig.style.display = studioState.background === 'solid' ? '' : 'none';
   const blurRow = $('#studio-blur-row'); if (blurRow) blurRow.style.display = image ? '' : 'none';
   $$('#studio-background-tabs button').forEach(button => button.classList.toggle('active', button.dataset.background === studioState.background));
-  $$('.studio-gradient-option').forEach(button => button.classList.toggle('active', button.dataset.gradientMode === studioState.gradientMode));
+  $$('.studio-gradient-option[data-gradient-mode]').forEach(button => button.classList.toggle('active', button.dataset.gradientMode === studioState.gradientMode));
+  $$('.studio-bg-token-option').forEach(button => {
+    const active = button.dataset.bgToken === studioState.bgToken;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-checked', String(active));
+  });
   syncStudioGradientThumbs();
   const hidden = $('#studio-background'); if (hidden) hidden.value = studioState.background;
   const gradientHidden = $('#studio-gradient-mode'); if (gradientHidden) gradientHidden.value = studioState.gradientMode;
@@ -6941,37 +6936,13 @@ syncStudioBackgroundControls();
 syncStudioImageLibrarySelection();
 hydrateBackgroundImage(DEFAULT_BACKGROUND_IMAGE_PATH);
 
-const studioBgTokenSelect = $('#studio-bg-token-select');
-function syncStudioBgTokenSelect() {
-  if (!studioBgTokenSelect) return;
-  const options = Array.from(studioBgTokenSelect.querySelectorAll('.ved-select-option'));
-  const selected = options.find(option => option.dataset.value === studioState.bgToken) || options[0];
-  studioBgTokenSelect.dataset.value = selected.dataset.value;
-  $('#studio-bg-token').value = selected.dataset.value;
-  $('#studio-bg-token-label').textContent = selected.dataset.label;
-  $('#studio-bg-token-swatch').style.background = selected.dataset.color;
-  options.forEach(option => {
-    const active = option === selected;
-    option.classList.toggle('is-active', active);
-    option.setAttribute('aria-selected', String(active));
-  });
-}
-if (studioBgTokenSelect) {
-  const trigger = studioBgTokenSelect.querySelector('.ved-select-trigger');
-  const close = () => { studioBgTokenSelect.classList.remove('is-open'); trigger.setAttribute('aria-expanded', 'false'); };
-  trigger.addEventListener('click', event => {
-    event.stopPropagation();
-    const open = studioBgTokenSelect.classList.toggle('is-open');
-    trigger.setAttribute('aria-expanded', String(open));
-  });
-  studioBgTokenSelect.querySelectorAll('.ved-select-option').forEach(option => option.addEventListener('click', event => {
-    event.stopPropagation(); studioState.bgToken = option.dataset.value; syncStudioBgTokenSelect(); applyStudioAppearance(); close();
-  }));
-  document.addEventListener('click', event => { if (!studioBgTokenSelect.contains(event.target)) close(); });
-  document.addEventListener('keydown', event => { if (event.key === 'Escape') close(); });
-  syncStudioBgTokenSelect();
-}
-$$('.studio-gradient-option').forEach(button => button.addEventListener('click', () => {
+$$('.studio-bg-token-option').forEach(button => button.addEventListener('click', () => {
+  studioState.bgToken = button.dataset.bgToken || 'surface';
+  $('#studio-bg-token').value = studioState.bgToken;
+  syncStudioBackgroundControls();
+  applyStudioAppearance();
+}));
+$$('.studio-gradient-option[data-gradient-mode]').forEach(button => button.addEventListener('click', () => {
   studioState.gradientMode = button.dataset.gradientMode || 'analogous';
   syncStudioBackgroundControls();
   applyStudioAppearance();
