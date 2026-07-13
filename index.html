@@ -8,8 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Roboto:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="./studio-react/selects.css">
 <!-- JSZip: 浏览器端 zip 打包，用于「下载 Skill」按钮按 skill-creator 规范打包 .skill 包 -->
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script type="module" src="./studio-react/selects.js"></script>
 <style>
   /* ============================================
    * App Shell Tokens (stable — 不随生成主题变化)
@@ -1073,31 +1075,39 @@
     width: 100%;
     aspect-ratio: 5/4;
     border-radius: 12px;
-    /* 纯灰底 + 点阵：去掉了对角主色渐变，给点击交互更纯净的画布 */
-    background:
-      radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1.5px) 0 0 / 16px 16px,
-      var(--app-bg);
+    background: var(--app-bg);
     border: 1px solid var(--app-border);
     cursor: crosshair;
-    overflow: hidden;
+    overflow: visible;
     touch-action: none;  /* 防止移动端拖动时滚动页面 */
     user-select: none;
+    contain: layout;
+  }
+  .mood-grid::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle, rgba(0,0,0,0.10) 1px, transparent 1.5px) 0 0 / 16px 16px;
+    -webkit-mask-image: radial-gradient(ellipse closest-side at center, #000 0 46%, rgba(0,0,0,.82) 72%, rgba(0,0,0,.36) 100%);
+    mask-image: radial-gradient(ellipse closest-side at center, #000 0 46%, rgba(0,0,0,.82) 72%, rgba(0,0,0,.36) 100%);
   }
   html.dark .mood-grid {
-    background:
-      radial-gradient(circle, rgba(255,255,255,0.16) 1px, transparent 1.5px) 0 0 / 16px 16px,
-      var(--app-bg);
+    background: var(--app-bg);
     border-color: var(--app-border-strong);
+  }
+  html.dark .mood-grid::before {
+    background: radial-gradient(circle, rgba(255,255,255,0.22) 1px, transparent 1.5px) 0 0 / 16px 16px;
   }
   .mood-grid-cross {
     position: absolute;
     inset: 0;
     pointer-events: none;
-    /* 用 currentColor 让线条颜色跟随父元素文字色 → 浅模式深色、深模式浅色 */
+    /* 横纵分割线在标签附近淡出，避免线条穿过文字。 */
     color: rgba(0,0,0,0.10);
     background:
-      linear-gradient(to right, transparent calc(50% - 0.5px), currentColor calc(50% - 0.5px), currentColor calc(50% + 0.5px), transparent calc(50% + 0.5px)),
-      linear-gradient(to bottom, transparent calc(50% - 0.5px), currentColor calc(50% - 0.5px), currentColor calc(50% + 0.5px), transparent calc(50% + 0.5px));
+      linear-gradient(to bottom, transparent 0 8%, currentColor 18% 82%, transparent 92% 100%) center / 1px 100% no-repeat,
+      linear-gradient(to right, transparent 0 10%, currentColor 20% 80%, transparent 90% 100%) center / 100% 1px no-repeat;
   }
   html.dark .mood-grid-cross { color: rgba(255,255,255,0.16); }
   .mood-label {
@@ -1117,17 +1127,23 @@
     position: absolute;
     --mood-x: 50%;
     --mood-y: 50%;
-    left: clamp(0px, calc(var(--mood-x) - 12px), calc(100% - 24px));
-    top: clamp(0px, calc(var(--mood-y) - 12px), calc(100% - 24px));
+    left: var(--mood-x);
+    top: var(--mood-y);
     width: 24px; height: 24px;
+    transform: translate(-50%, -50%);
     border-radius: 50%;
     background: var(--app-accent);
     border: 3px solid white;
     box-shadow: 0 2px 6px rgba(0,0,0,.18), 0 0 0 1px rgba(0,0,0,.06);
     cursor: grab;
-    transition: background .15s;
+    transition: background .15s, box-shadow .15s;
+    will-change: left, top;
   }
-  .mood-dot:active { cursor: grabbing; }
+  .mood-grid.is-dragging { cursor: grabbing; }
+  .mood-grid.is-dragging .mood-dot {
+    cursor: grabbing;
+    box-shadow: 0 3px 10px rgba(0,0,0,.24), 0 0 0 2px rgba(0,0,0,.08);
+  }
 
   .mood-presets {
     display: flex;
@@ -1242,7 +1258,8 @@
 
   /* Color picker for reference mode */
   .color-picker-row {
-    display: flex;
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr) 72px;
     align-items: center;
     gap: 10px;
     margin-bottom: 10px;
@@ -1269,11 +1286,24 @@
     position: absolute; inset: 0;
     pointer-events: none;
   }
-  .color-info { flex: 1; }
+  .color-info { min-width: 0; }
+  .color-picker-row .text-input {
+    height: 40px;
+    padding: 0 12px;
+    border-radius: var(--app-radius);
+  }
   .color-picker-row .mood-reset {
-    flex: 0 0 auto;
-    height: 32px;
-    padding: 0 8px;
+    width: 72px;
+    height: 40px;
+    padding: 0 10px;
+    border: 1px solid var(--app-border);
+    background: transparent;
+    color: var(--app-text);
+    transition: background .15s, border-color .15s, color .15s;
+  }
+  .color-picker-row .mood-reset:hover {
+    border-color: var(--app-border-strong);
+    background: var(--app-muted);
   }
   .color-info-row {
     display: flex; gap: 6px; align-items: center;
@@ -1336,7 +1366,7 @@
   /* 分组级 accordion（大标题） */
   .accordion.group-accordion {
     border-top: 1px solid var(--app-border);
-    padding-top: 12px;
+    padding-top: 16px;
     margin-top: 16px;
   }
   .accordion.group-accordion:first-child {
@@ -1357,8 +1387,8 @@
   /* 子级 accordion（子项） */
   .accordion.sub-accordion {
     border-top: 1px dashed var(--app-border);
-    padding-top: 10px;
-    margin-top: 10px;
+    padding-top: 16px;
+    margin-top: 16px;
   }
   .accordion.group-accordion > .accordion-body > .accordion.sub-accordion:first-child {
     border-top: 0;
@@ -2701,6 +2731,16 @@
   .modal-status.ok { color: #16a34a; }
   .modal-status.err { color: #dc2626; }
   .preview-header-actions { display:flex; align-items:center; gap:8px; }
+  .preview-outline-action {
+    border:1px solid var(--app-border);
+    background:transparent;
+    color:var(--app-text-secondary);
+  }
+  .preview-outline-action:hover {
+    border-color:var(--app-border-strong);
+    background:var(--app-muted);
+    color:var(--app-text);
+  }
   .download-menu-wrap { position:relative; z-index:60; }
   .download-menu-trigger { display:inline-flex; align-items:center; gap:6px; }
   .download-menu-trigger svg { width:14px; height:14px; }
@@ -3090,7 +3130,7 @@
   /* VeDesign Agent Studio 扩展：风格化背景与真实页面预览 */
   .studio-field { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:12px; }
   .studio-field > span { font-size:12px; color:var(--app-text-secondary); }
-  .studio-select { width:148px; height:32px; padding:0 28px 0 10px; border:1px solid var(--app-border); border-radius:6px; background:var(--app-surface); color:var(--app-text); font-size:12px; }
+  .studio-select { display:block; width:148px; min-width:0; color:var(--app-text); font-size:12px; }
   .studio-switch { display:inline-flex; align-items:center; gap:8px; font-size:12px; color:var(--app-text-secondary); }
   .studio-switch input { accent-color:var(--app-accent); }
   .studio-hint { display:none; }
@@ -3519,7 +3559,7 @@
               <span class="product-preset-hex">#10A37F</span>
             </span>
           </button>
-          <button class="product-preset-card" data-hex="#D97757" data-density="2" data-radius="2" data-shadow="0" type="button">
+          <button class="product-preset-card" data-hex="#D97757" data-density="2" data-radius="1.2" data-shadow="0" type="button">
             <span class="product-preset-swatch" style="background:#D97757;"></span>
             <span class="product-preset-info">
               <span class="product-preset-name">Claude</span>
@@ -3618,7 +3658,7 @@
                     <button class="ved-select-option" role="option" type="button" data-value="#1F1F23" data-label="Arkclaw" data-density="0" data-radius="0" data-shadow="0"><span class="ved-select-swatch" style="background:#1F1F23;"></span><span>Arkclaw</span></button>
                     <button class="ved-select-option" role="option" type="button" data-value="#5252FF" data-label="火山方舟" data-density="1" data-radius="1" data-shadow="0"><span class="ved-select-swatch" style="background:#5252FF;"></span><span>火山方舟</span></button>
                     <button class="ved-select-option" role="option" type="button" data-value="#10A37F" data-label="ChatGPT" data-density="1" data-radius="2" data-shadow="0"><span class="ved-select-swatch" style="background:#10A37F;"></span><span>ChatGPT</span></button>
-                    <button class="ved-select-option" role="option" type="button" data-value="#D97757" data-label="Claude" data-density="2" data-radius="2" data-shadow="0"><span class="ved-select-swatch" style="background:#D97757;"></span><span>Claude</span></button>
+                    <button class="ved-select-option" role="option" type="button" data-value="#D97757" data-label="Claude" data-density="2" data-radius="1.2" data-shadow="0"><span class="ved-select-swatch" style="background:#D97757;"></span><span>Claude</span></button>
                     <button class="ved-select-option" role="option" type="button" data-value="#20808D" data-label="Perplexity" data-density="1" data-radius="1" data-shadow="0"><span class="ved-select-swatch" style="background:#20808D;"></span><span>Perplexity</span></button>
                     <button class="ved-select-option" role="option" type="button" data-value="#111111" data-label="Minimal" data-density="0" data-radius="0" data-shadow="0"><span class="ved-select-swatch" style="background:#111111;"></span><span>Minimal</span></button>
                     <button class="ved-select-option" role="option" type="button" data-value="#8E75FF" data-label="Gemini" data-density="1" data-radius="2" data-shadow="1"><span class="ved-select-swatch" style="background:#8E75FF;"></span><span>Gemini</span></button>
@@ -3655,7 +3695,7 @@
                   </div>
                   <button class="mood-reset" id="mood-reset" type="button" title="随机生成主色" aria-label="随机生成主色">
                     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-                      <path d="M16 3h5v5M4 20l5.5-5.5M15 4l-2.5 2.5M20 4l-7.5 7.5M4 4l16 16M16 20h5v-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M18.5 7.009c-1.821-2.055-3.704-3.259-6.521-3.259a8.25 8.25 0 1 0 7.78 11M19.25 4v4h-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                     <span>随机</span>
                   </button>
@@ -3801,20 +3841,10 @@
               <summary>系统字体</summary>
               <div class="accordion-body">
                 <label class="studio-field"><span>中文默认字体</span>
-                  <select class="studio-select" id="studio-font-cn">
-                    <option value="pingfang" selected>苹方 PingFang SC</option>
-                    <option value="noto">思源黑体 Noto Sans SC</option>
-                    <option value="yahei">微软雅黑</option>
-                    <option value="system">系统默认</option>
-                  </select>
+                  <span class="studio-select" id="studio-font-cn"></span>
                 </label>
                 <label class="studio-field"><span>英文默认字体</span>
-                  <select class="studio-select" id="studio-font-en">
-                    <option value="inter" selected>Inter</option>
-                    <option value="roboto">Roboto</option>
-                    <option value="sfpro">SF Pro</option>
-                    <option value="arial">Arial</option>
-                  </select>
+                  <span class="studio-select" id="studio-font-en"></span>
                 </label>
               </div>
             </details>
@@ -3857,10 +3887,7 @@
                   <input type="range" id="studio-sidebar-width" min="180" max="280" value="220" step="4">
                 </div>
                 <label class="studio-field"><span>侧边栏位置</span>
-                  <select class="studio-select" id="studio-sidebar-position">
-                    <option value="left">左侧</option>
-                    <option value="right">右侧</option>
-                  </select>
+                  <span class="studio-select" id="studio-sidebar-position"></span>
                 </label>
                 <div class="studio-hint">控制 Agent 界面左侧导航栏的外观与行为。</div>
               </div>
@@ -3874,7 +3901,7 @@
                 <label class="studio-field"><span>快捷推荐</span><span class="studio-switch"><input type="checkbox" id="studio-welcome-suggestions" checked> 显示</span></label>
                 <label class="studio-field"><span>任务卡片</span><span class="studio-switch"><input type="checkbox" id="studio-welcome-tasks" checked> 显示</span></label>
                 <label class="studio-field"><span>Composer 风格</span>
-                  <select class="studio-select" id="studio-composer-style"><option value="outlined">描边卡片</option><option value="floating">悬浮胶囊</option></select>
+                  <span class="studio-select" id="studio-composer-style"></span>
                 </label>
                 <div class="studio-hint">控制用户进入 Agent 后的第一屏内容与行动入口。</div>
               </div>
@@ -3885,14 +3912,10 @@
               <summary>对话页</summary>
               <div class="accordion-body">
                 <label class="studio-field"><span>内容密度</span>
-                  <select class="studio-select" id="studio-content-density">
-                    <option value="comfortable">舒适</option><option value="compact">紧凑</option>
-                  </select>
+                  <span class="studio-select" id="studio-content-density"></span>
                 </label>
                 <label class="studio-field"><span>对话内容宽度</span>
-                  <select class="studio-select" id="studio-content-width">
-                    <option value="default">标准</option><option value="wide">宽屏</option>
-                  </select>
+                  <span class="studio-select" id="studio-content-width"></span>
                 </label>
                 <label class="studio-field"><span>预览能力</span><span class="studio-switch"><input type="checkbox" id="studio-reasoning" checked> 思考链</span></label>
                 <label class="studio-field"><span></span><span class="studio-switch"><input type="checkbox" id="studio-sources" checked> 来源与引用</span></label>
@@ -3905,8 +3928,8 @@
             <details class="accordion sub-accordion" open>
               <summary>最终产物</summary>
               <div class="accordion-body">
-                <label class="studio-field"><span>结果布局</span><select class="studio-select" id="studio-artifact-layout"><option value="split">对话 + 产物双栏</option><option value="canvas">产物画布</option><option value="tabs">分页切换</option></select></label>
-                <label class="studio-field"><span>默认视图</span><select class="studio-select" id="studio-artifact-view"><option value="preview">预览</option><option value="code">代码</option></select></label>
+                <label class="studio-field"><span>结果布局</span><span class="studio-select" id="studio-artifact-layout"></span></label>
+                <label class="studio-field"><span>默认视图</span><span class="studio-select" id="studio-artifact-view"></span></label>
                 <label class="studio-field"><span>代码面板</span><span class="studio-switch"><input type="checkbox" id="studio-artifact-code" checked> 允许切换</span></label>
                 <label class="studio-field"><span>产物操作</span><span class="studio-switch"><input type="checkbox" id="studio-artifact-actions" checked> 复制与下载</span></label>
                 <div class="studio-hint">用于 HTML、代码、文档和图片等 Agent 最终产物的展示方式。</div>
@@ -3999,8 +4022,16 @@
         <button data-tab="typography">排版</button>
       </div>
       <div class="preview-header-actions">
+      <button class="icon-btn preview-outline-action" id="btn-fullscreen-preview" title="全屏预览（ESC 退出）">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="icon-enter-fullscreen">
+          <path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/>
+        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="icon-exit-fullscreen" style="display:none;">
+          <path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/>
+        </svg>
+      </button>
       <div class="download-menu-wrap" id="download-menu-wrap">
-        <button class="btn-sm download-menu-trigger" id="btn-download-menu" type="button" aria-haspopup="menu" aria-expanded="false">
+        <button class="btn-sm download-menu-trigger preview-outline-action" id="btn-download-menu" type="button" aria-haspopup="menu" aria-expanded="false">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
           <span>下载</span>
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
@@ -4012,14 +4043,6 @@
         </div>
       </div>
       <button class="btn-sm primary" id="btn-create-project" type="button">创建项目</button>
-      <button class="icon-btn" id="btn-fullscreen-preview" title="全屏预览（ESC 退出）">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="icon-enter-fullscreen">
-          <path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/>
-        </svg>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="icon-exit-fullscreen" style="display:none;">
-          <path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/>
-        </svg>
-      </button>
       </div>
     </div>
 
@@ -6412,41 +6435,74 @@ function oklchToMood(L, C, H) {
   const dot = document.getElementById('mood-dot');
   if (!grid || !dot) return;
   let dragging = false;
+  let dragRect = null;
+  let pendingMood = null;
+  let moodFrame = 0;
 
-  function setPosition(x, y) {
-    x = clamp(x, 0, 1); y = clamp(y, 0, 1);
-    dot.style.setProperty('--mood-x', (x * 100) + '%');
-    dot.style.setProperty('--mood-y', (y * 100) + '%');
+  function commitPendingMood() {
+    moodFrame = 0;
+    if (!pendingMood) return;
+    const { x, y } = pendingMood;
+    pendingMood = null;
     const oklch = moodToOklch(x, y);
     commitColor(oklch.L, oklch.C, oklch.H, 'mood');
   }
+  function flushPendingMood() {
+    if (moodFrame) cancelAnimationFrame(moodFrame);
+    moodFrame = 0;
+    commitPendingMood();
+  }
+  function setPosition(x, y, immediate = false) {
+    x = clamp(x, 0, 1); y = clamp(y, 0, 1);
+    dot.style.setProperty('--mood-x', (x * 100) + '%');
+    dot.style.setProperty('--mood-y', (y * 100) + '%');
+    pendingMood = { x, y };
+    if (immediate) {
+      flushPendingMood();
+    } else if (!moodFrame) {
+      moodFrame = requestAnimationFrame(commitPendingMood);
+    }
+  }
   function fromEvent(e) {
-    const rect = grid.getBoundingClientRect();
+    const rect = dragRect || grid.getBoundingClientRect();
     return [(e.clientX - rect.left) / rect.width, (e.clientY - rect.top) / rect.height];
   }
 
   grid.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
     dragging = true;
+    dragRect = grid.getBoundingClientRect();
+    grid.classList.add('is-dragging');
     grid.setPointerCapture(e.pointerId);
     const [x, y] = fromEvent(e);
     setPosition(x, y);
   });
   grid.addEventListener('pointermove', e => {
-    if (!dragging) return;
-    const [x, y] = fromEvent(e);
+    if (!dragging || (e.pointerType === 'mouse' && e.buttons !== 1)) return;
+    const events = e.getCoalescedEvents?.();
+    const latestEvent = events?.length ? events[events.length - 1] : e;
+    const [x, y] = fromEvent(latestEvent);
     setPosition(x, y);
   });
   grid.addEventListener('pointerup', e => {
     dragging = false;
+    dragRect = null;
+    grid.classList.remove('is-dragging');
+    flushPendingMood();
     try { grid.releasePointerCapture(e.pointerId); } catch {}
   });
-  grid.addEventListener('pointercancel', () => { dragging = false; });
+  grid.addEventListener('pointercancel', () => {
+    dragging = false;
+    dragRect = null;
+    grid.classList.remove('is-dragging');
+    flushPendingMood();
+  });
 
   // 随机按钮：在完整情绪平面中生成一个新位置
   document.getElementById('mood-reset')?.addEventListener('click', event => {
     event.preventDefault();
     event.stopPropagation();
-    setPosition(Math.random(), Math.random());
+    setPosition(Math.random(), Math.random(), true);
   });
 })();
 
@@ -6501,26 +6557,17 @@ function studioGradientOffsets(mode = studioState.gradientMode) {
   return studioGradientRule(mode).offsets;
 }
 
-function syncStudioGradientVariables(target, mode = studioState.gradientMode, { thumbnail = false } = {}) {
+function syncStudioGradientVariables(target, mode = studioState.gradientMode) {
   if (!target) return;
-  const intensity = thumbnail ? 1 : studioGradientIntensity();
-  const chroma = thumbnail
-    ? clamp(Math.max(state.primary.C * 0.85, 0.065), 0.065, 0.15)
-    : studioGradientChroma();
+  const intensity = studioGradientIntensity();
+  const chroma = studioGradientChroma();
   const { offsets:[offsetA, offsetB], positions } = studioGradientRule(mode);
-  const thumbnailProfiles = {
-    monochrome: { lightness:[0.78, 0.87, 0.91], chroma:[0.9, 0.58, 0.3] },
-    analogous: { lightness:[0.78, 0.86, 0.9], chroma:[0.92, 0.86, 0.8] },
-    complementary: { lightness:[0.78, 0.86, 0.9], chroma:[0.92, 0.88, 0.8] },
-    triadic: { lightness:[0.78, 0.86, 0.9], chroma:[0.92, 0.86, 0.82] }
-  };
-  const profile = thumbnailProfiles[mode] || thumbnailProfiles.analogous;
-  const lightness1 = thumbnail ? profile.lightness[0] : clamp(state.primary.L + 0.18, 0.73, 0.83);
-  const lightness2 = thumbnail ? profile.lightness[1] : clamp(state.primary.L + 0.29, 0.84, 0.92);
-  const lightness3 = thumbnail ? profile.lightness[2] : clamp(state.primary.L + 0.325, 0.87, 0.95);
-  const chroma1 = chroma * (thumbnail ? profile.chroma[0] : 1);
-  const chroma2 = chroma * (thumbnail ? profile.chroma[1] : 0.92);
-  const chroma3 = chroma * (thumbnail ? profile.chroma[2] : 0.82);
+  const lightness1 = clamp(state.primary.L + 0.18, 0.73, 0.83);
+  const lightness2 = clamp(state.primary.L + 0.29, 0.84, 0.92);
+  const lightness3 = clamp(state.primary.L + 0.325, 0.87, 0.95);
+  const chroma1 = chroma;
+  const chroma2 = chroma * 0.92;
+  const chroma3 = chroma * 0.82;
   const baseLightness = clamp(0.99 - intensity * 0.04 + state.primary.L * 0.006, 0.95, 0.994);
   const baseChroma = clamp(chroma * intensity * 0.26, 0, 0.058);
   target.style.setProperty('--brand-hue', state.primary.H.toFixed(1));
@@ -6529,12 +6576,12 @@ function syncStudioGradientVariables(target, mode = studioState.gradientMode, { 
   target.style.setProperty('--studio-gradient-color-1', `oklch(${lightness1.toFixed(3)} ${chroma1.toFixed(3)} ${state.primary.H})`);
   target.style.setProperty('--studio-gradient-color-2', `oklch(${lightness2.toFixed(3)} ${chroma2.toFixed(3)} ${state.primary.H + offsetA})`);
   target.style.setProperty('--studio-gradient-color-3', `oklch(${lightness3.toFixed(3)} ${chroma3.toFixed(3)} ${state.primary.H + offsetB})`);
-  target.style.setProperty('--studio-ui-gradient-weight-1', `${thumbnail ? 88 : Math.round(2 + intensity * 94)}%`);
-  target.style.setProperty('--studio-ui-gradient-weight-2', `${thumbnail ? 82 : Math.round(1 + intensity * 83)}%`);
-  target.style.setProperty('--studio-ui-gradient-weight-3', `${thumbnail ? 76 : Math.round(intensity * 74)}%`);
-  target.style.setProperty('--studio-gradient-tail-1', `${thumbnail ? 34 : Math.round(intensity * 42)}%`);
-  target.style.setProperty('--studio-gradient-tail-2', `${thumbnail ? 28 : Math.round(intensity * 34)}%`);
-  target.style.setProperty('--studio-gradient-tail-3', `${thumbnail ? 24 : Math.round(intensity * 30)}%`);
+  target.style.setProperty('--studio-ui-gradient-weight-1', `${Math.round(2 + intensity * 94)}%`);
+  target.style.setProperty('--studio-ui-gradient-weight-2', `${Math.round(1 + intensity * 83)}%`);
+  target.style.setProperty('--studio-ui-gradient-weight-3', `${Math.round(intensity * 74)}%`);
+  target.style.setProperty('--studio-gradient-tail-1', `${Math.round(intensity * 42)}%`);
+  target.style.setProperty('--studio-gradient-tail-2', `${Math.round(intensity * 34)}%`);
+  target.style.setProperty('--studio-gradient-tail-3', `${Math.round(intensity * 30)}%`);
   target.style.setProperty('--studio-gradient-base-lightness', baseLightness.toFixed(3));
   target.style.setProperty('--studio-gradient-base-chroma', baseChroma.toFixed(3));
   target.style.setProperty('--studio-gradient-pos-1', positions[0]);
@@ -6550,7 +6597,7 @@ function syncStudioGradientThumbs() {
     const mode = option.dataset.gradientMode || 'analogous';
     const [offsetA, offsetB] = studioGradientOffsets(mode);
     thumb.style.setProperty('--brand-hue', state.primary.H);
-    syncStudioGradientVariables(thumb, mode, { thumbnail:true });
+    syncStudioGradientVariables(thumb, mode);
     thumb.style.setProperty('--studio-gradient-hue-2', `calc(var(--brand-hue, 285.8) + ${offsetA})`);
     thumb.style.setProperty('--studio-gradient-hue-3', `calc(var(--brand-hue, 285.8) + ${offsetB})`);
     thumb.style.setProperty('--studio-gradient-opacity', opacity);
@@ -6682,6 +6729,17 @@ function scheduleStudioGradientLivePreview() {
 
 let observedAgentSidebar = null;
 let agentSidebarResizeObserver = null;
+let agentSidebarToggleHandler = null;
+let agentRuntimeAutoCollapsed = null;
+let agentRuntimeSidebarCollapsed = null;
+const AGENT_SIDEBAR_AUTO_COLLAPSE_WIDTH = 1000;
+
+function setAgentRuntimeSidebarCollapsed(sidebar, shell, collapsed) {
+  agentRuntimeSidebarCollapsed = collapsed;
+  if (sidebar.collapsed !== collapsed) sidebar.collapsed = collapsed;
+  sidebar.toggleAttribute('collapsed', collapsed);
+  shell.classList.toggle('sidebar-collapsed', collapsed);
+}
 
 function syncAgentRuntimeResponsive() {
   const frame = document.getElementById('agent-runtime-frame');
@@ -6695,11 +6753,24 @@ function syncAgentRuntimeResponsive() {
   root.dataset.sidebarPosition = studioState.sidebarPosition;
   root.style.setProperty('--studio-sidebar-width', studioState.sidebarWidth + 'px');
 
-  if (observedAgentSidebar !== sidebar && 'ResizeObserver' in window) {
+  if (observedAgentSidebar !== sidebar) {
     agentSidebarResizeObserver?.disconnect();
+    if (observedAgentSidebar && agentSidebarToggleHandler) {
+      observedAgentSidebar.removeEventListener('ve-sidebar-toggle', agentSidebarToggleHandler);
+    }
     observedAgentSidebar = sidebar;
-    agentSidebarResizeObserver = new ResizeObserver(() => syncAgentRuntimeResponsive());
-    agentSidebarResizeObserver.observe(sidebar);
+    agentRuntimeAutoCollapsed = null;
+    agentRuntimeSidebarCollapsed = sidebar.collapsed === true || sidebar.hasAttribute('collapsed');
+    agentSidebarToggleHandler = event => {
+      agentRuntimeSidebarCollapsed = Boolean(event.detail?.collapsed);
+      shell.classList.toggle('sidebar-collapsed', agentRuntimeSidebarCollapsed);
+      syncAgentRuntimeResponsive();
+    };
+    sidebar.addEventListener('ve-sidebar-toggle', agentSidebarToggleHandler);
+    if ('ResizeObserver' in window) {
+      agentSidebarResizeObserver = new ResizeObserver(() => syncAgentRuntimeResponsive());
+      agentSidebarResizeObserver.observe(sidebar);
+    }
   }
 
   shell.style.setProperty('--app-sidebar-width-expanded', studioState.sidebarWidth + 'px');
@@ -6708,7 +6779,14 @@ function syncAgentRuntimeResponsive() {
     return;
   }
 
-  const collapsed = shell.classList.contains('sidebar-collapsed') || sidebar.collapsed === true || sidebar.hasAttribute('collapsed');
+  const shouldAutoCollapse = frame.getBoundingClientRect().width < AGENT_SIDEBAR_AUTO_COLLAPSE_WIDTH;
+  if (shouldAutoCollapse !== agentRuntimeAutoCollapsed) {
+    agentRuntimeAutoCollapsed = shouldAutoCollapse;
+    setAgentRuntimeSidebarCollapsed(sidebar, shell, shouldAutoCollapse);
+  }
+
+  const collapsed = agentRuntimeSidebarCollapsed ?? (sidebar.collapsed === true || sidebar.hasAttribute('collapsed'));
+  shell.classList.toggle('sidebar-collapsed', collapsed);
   const currentWidth = collapsed ? 54 : studioState.sidebarWidth;
   const sidebarTrack = currentWidth + 'px';
   root.style.setProperty('--studio-sidebar-current-width', sidebarTrack);
@@ -7022,23 +7100,24 @@ $('#studio-gradient-noise')?.addEventListener('input', e => {
   $('#studio-gradient-noise-val').textContent = studioState.gradientNoise + '%';
   applyStudioAppearance();
 });
-$('#studio-font-cn')?.addEventListener('change', e => { studioState.fontCn = e.target.value; applyStudioAppearance(); });
-$('#studio-font-en')?.addEventListener('change', e => { studioState.fontEn = e.target.value; applyStudioAppearance(); });
+const bindStudioSelect = (id, handler) => $(id)?.addEventListener('studio-select-change', event => handler(String(event.detail?.value ?? '')));
+bindStudioSelect('#studio-font-cn', value => { studioState.fontCn = value; applyStudioAppearance(); });
+bindStudioSelect('#studio-font-en', value => { studioState.fontEn = value; applyStudioAppearance(); });
 $('#studio-blur')?.addEventListener('input', e => { studioState.blur = Number(e.target.value); $('#studio-blur-val').textContent = studioState.blur + 'px'; applyStudioAppearance(); });
 $('#studio-sidebar-visible')?.addEventListener('change', e => { studioState.sidebarVisible = e.target.checked; applyStudioAppearance(); syncAgentRuntimeTheme(); });
 $('#studio-sidebar-width')?.addEventListener('input', e => { studioState.sidebarWidth = Number(e.target.value); $('#studio-sidebar-width-val').textContent = studioState.sidebarWidth + 'px'; applyStudioAppearance(); syncAgentRuntimeTheme(); });
-$('#studio-sidebar-position')?.addEventListener('change', e => { studioState.sidebarPosition = e.target.value; applyStudioAppearance(); syncAgentRuntimeTheme(); });
-$('#studio-content-density')?.addEventListener('change', e => { studioState.compact = e.target.value === 'compact'; applyStudioAppearance(); });
-$('#studio-content-width')?.addEventListener('change', e => { studioState.wide = e.target.value === 'wide'; applyStudioAppearance(); });
+bindStudioSelect('#studio-sidebar-position', value => { studioState.sidebarPosition = value; applyStudioAppearance(); syncAgentRuntimeTheme(); });
+bindStudioSelect('#studio-content-density', value => { studioState.compact = value === 'compact'; applyStudioAppearance(); });
+bindStudioSelect('#studio-content-width', value => { studioState.wide = value === 'wide'; applyStudioAppearance(); });
 $('#studio-reasoning')?.addEventListener('change', e => { studioState.reasoning = e.target.checked; syncAgentRuntimeTheme(); if (studioState.page === 'chat') renderAgentRuntimePage('chat'); });
 $('#studio-sources')?.addEventListener('change', e => { studioState.sources = e.target.checked; syncAgentRuntimeTheme(); if (studioState.page === 'chat') renderAgentRuntimePage('chat'); });
 $('#studio-welcome-title')?.addEventListener('input', e => { studioState.welcomeTitle = e.target.value || '今天想设计点什么？'; applyStudioAppearance(); });
 $('#studio-welcome-suggestions')?.addEventListener('change', e => { studioState.welcomeSuggestions = e.target.checked; applyStudioAppearance(); });
 $('#studio-welcome-tasks')?.addEventListener('change', e => { studioState.welcomeTasks = e.target.checked; applyStudioAppearance(); });
-$('#studio-composer-style')?.addEventListener('change', e => { studioState.composerStyle = e.target.value; applyStudioAppearance(); });
+bindStudioSelect('#studio-composer-style', value => { studioState.composerStyle = value; applyStudioAppearance(); });
 $('#studio-message-actions')?.addEventListener('change', e => { studioState.messageActions = e.target.checked; syncAgentRuntimeTheme(); });
-$('#studio-artifact-layout')?.addEventListener('change', e => { studioState.artifactLayout = e.target.value; syncAgentRuntimeTheme(); });
-$('#studio-artifact-view')?.addEventListener('change', e => { studioState.artifactView = e.target.value; syncAgentRuntimeTheme(); });
+bindStudioSelect('#studio-artifact-layout', value => { studioState.artifactLayout = value; syncAgentRuntimeTheme(); });
+bindStudioSelect('#studio-artifact-view', value => { studioState.artifactView = value; syncAgentRuntimeTheme(); });
 $('#studio-artifact-code')?.addEventListener('change', e => { studioState.artifactCode = e.target.checked; syncAgentRuntimeTheme(); });
 $('#studio-artifact-actions')?.addEventListener('change', e => { studioState.artifactActions = e.target.checked; syncAgentRuntimeTheme(); });
 // 阴影滑杆已从 UI 移除，state.shadowIdx 保持默认 1.0（标准强度）
