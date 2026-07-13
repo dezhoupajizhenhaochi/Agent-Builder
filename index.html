@@ -1398,6 +1398,7 @@
     color: var(--app-text-secondary);
     font-family: var(--app-mono);
   }
+  .slider-row-head.value-only { justify-content:flex-end; }
   input[type="range"] {
     width: 100%;
     height: 4px;
@@ -3784,12 +3785,12 @@
               </div>
             </details>
 
-            <!-- 系统圆角 -->
+            <!-- 圆角大小 -->
             <details class="accordion sub-accordion" open>
-              <summary>系统圆角</summary>
+              <summary>圆角大小</summary>
               <div class="accordion-body">
                 <div class="slider-row">
-                  <div class="slider-row-head"><span>圆角大小</span><span id="radius-val">1.00×</span></div>
+                  <div class="slider-row-head value-only"><span id="radius-val">1.00×</span></div>
                   <input type="range" id="radius" min="0" max="2" value="0.4" step="0.05">
                 </div>
               </div>
