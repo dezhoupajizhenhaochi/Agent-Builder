@@ -1,0 +1,26 @@
+agent-runtime/studio-overrides.css
+  s_7c2c8fcc1ea172::t_f70aaa2c1d573f 14-39,95-119,129-140,186-193,202-207
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "272cf1b09c9f765e13661a196c9f5367e03ec1b7",
+  "prompts": {},
+  "humans": {
+    "h_bce47d088b4035": {
+      "author": "dezhoupajizhenhaochi <ahai981118536@126.com>"
+    }
+  },
+  "sessions": {
+    "s_7c2c8fcc1ea172": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f54d2-43d7-7e61-bbf0-d9125ea395ba",
+        "model": "unknown"
+      },
+      "human_author": "dezhoupajizhenhaochi <ahai981118536@126.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
