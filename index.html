@@ -504,7 +504,11 @@
     z-index: 0;
   }
   /* 导航栏浮在预览内容之上，确保其下拉菜单不会被 iframe / Agent 卡片遮挡。 */
-  .panel-preview > .panel-header { position:relative; z-index:50; }
+  .panel-preview > .panel-header {
+    position: relative;
+    z-index: 50;
+    background: var(--app-bg);
+  }
   .panel-preview > .panel-body { position:relative; z-index:1; }
   /* 深色模式下噪点调成 screen */
   html.dark .panel-preview::after { mix-blend-mode: screen; opacity: 0.07; }
@@ -3375,8 +3379,8 @@
       #f2f3f6;
     filter:blur(calc(var(--studio-canvas-blur,18px) * .45)); transform:scale(1.025); opacity:.9;
   }
-  /* 渐变/图片模式：渐变或图片由 Agent UI 自身承载，外层保持白色。 */
-  .panel-preview:is([data-studio-background="gradient"],[data-studio-background="image"]):has(.runtime-enabled)::before { background:#fff; filter:none; transform:none; opacity:1; }
+  /* 渐变/图片模式：渐变或图片由 Agent UI 自身承载，外层沿用应用整体背景 token。 */
+  .panel-preview:is([data-studio-background="gradient"],[data-studio-background="image"]):has(.runtime-enabled)::before { background:var(--app-bg); filter:none; transform:none; opacity:1; }
   html.dark .panel-preview:has(.runtime-enabled)::before { background:#202126; filter:none; transform:none; opacity:1; }
   .gradient-swatches { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
   .gradient-swatch { height:112px; border-radius:10px; padding:12px; display:flex; align-items:flex-end; color:#18181b; border:1px solid rgba(0,0,0,.06); font-size:11px; font-family:var(--app-mono); cursor:pointer; }
@@ -3759,20 +3763,20 @@
                 <div id="studio-image-config">
                   <div class="studio-image-library" id="studio-image-library">
                     <div class="studio-image-options">
-                      <button class="studio-image-option active" type="button" data-image-path="/asset/bg1.png" data-image-tone="light">
-                        <span class="studio-image-thumb" style="background-image:url('/asset/bg1.png');"></span>
+                      <button class="studio-image-option active" type="button" data-image-path="./asset/bg1.png" data-image-tone="light">
+                        <span class="studio-image-thumb" style="background-image:url('./asset/bg1.png');"></span>
                         <span class="studio-image-name">柔彩渐变</span>
                       </button>
-                      <button class="studio-image-option" type="button" data-image-path="/asset/bg2.jpg" data-image-tone="dark">
-                        <span class="studio-image-thumb" style="background-image:url('/asset/bg2.jpg');"></span>
+                      <button class="studio-image-option" type="button" data-image-path="./asset/bg2.jpg" data-image-tone="dark">
+                        <span class="studio-image-thumb" style="background-image:url('./asset/bg2.jpg');"></span>
                         <span class="studio-image-name">极光山谷</span>
                       </button>
-                      <button class="studio-image-option" type="button" data-image-path="/asset/42d56d9a4bd2a7fb4936e42101d61081.jpg" data-image-tone="light">
-                        <span class="studio-image-thumb" style="background-image:url('/asset/42d56d9a4bd2a7fb4936e42101d61081.jpg');"></span>
+                      <button class="studio-image-option" type="button" data-image-path="./asset/42d56d9a4bd2a7fb4936e42101d61081.jpg" data-image-tone="light">
+                        <span class="studio-image-thumb" style="background-image:url('./asset/42d56d9a4bd2a7fb4936e42101d61081.jpg');"></span>
                         <span class="studio-image-name">浅雾柔光</span>
                       </button>
-                      <button class="studio-image-option" type="button" data-image-path="/asset/174b6ee2398798918afb6b21d1c60441.jpg" data-image-tone="light">
-                        <span class="studio-image-thumb" style="background-image:url('/asset/174b6ee2398798918afb6b21d1c60441.jpg');"></span>
+                      <button class="studio-image-option" type="button" data-image-path="./asset/174b6ee2398798918afb6b21d1c60441.jpg" data-image-tone="light">
+                        <span class="studio-image-thumb" style="background-image:url('./asset/174b6ee2398798918afb6b21d1c60441.jpg');"></span>
                         <span class="studio-image-name">青雾柔影</span>
                       </button>
                     </div>
@@ -5539,17 +5543,18 @@ const state = {
 };
 
 const BACKGROUND_IMAGE_LIBRARY = [
-  { path: '/asset/bg1.png', label: '柔彩渐变', tone: 'light' },
-  { path: '/asset/bg2.jpg', label: '极光山谷', tone: 'dark' },
-  { path: '/asset/42d56d9a4bd2a7fb4936e42101d61081.jpg', label: '浅雾柔光', tone: 'light' },
-  { path: '/asset/174b6ee2398798918afb6b21d1c60441.jpg', label: '青雾柔影', tone: 'light' }
+  { path: './asset/bg1.png', label: '柔彩渐变', tone: 'light' },
+  { path: './asset/bg2.jpg', label: '极光山谷', tone: 'dark' },
+  { path: './asset/42d56d9a4bd2a7fb4936e42101d61081.jpg', label: '浅雾柔光', tone: 'light' },
+  { path: './asset/174b6ee2398798918afb6b21d1c60441.jpg', label: '青雾柔影', tone: 'light' }
 ];
 const DEFAULT_BACKGROUND_IMAGE_PATH = BACKGROUND_IMAGE_LIBRARY[0].path;
 const backgroundImageDataUrlCache = {};
 
 function getRuntimeBackgroundImageUrl() {
   if (backgroundImageDataUrlCache[studioState.imageDataUrl]) return backgroundImageDataUrlCache[studioState.imageDataUrl];
-  return studioState.imageDataUrl;
+  if (!studioState.imageDataUrl || studioState.imageDataUrl.startsWith('data:image/') || studioState.imageDataUrl.startsWith('blob:')) return studioState.imageDataUrl;
+  try { return new URL(studioState.imageDataUrl, document.baseURI).href; } catch { return studioState.imageDataUrl; }
 }
 
 const studioState = {
