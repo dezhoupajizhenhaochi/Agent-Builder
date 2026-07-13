@@ -451,7 +451,7 @@
   body.has-fullscreen-preview { overflow: hidden; }
 
   .panel-preview {
-    background: var(--app-bg);
+    background: var(--app-surface);
     position: relative;
     isolation: isolate;  /* 让 ::before/::after 的 blend-mode 限制在面板内 */
   }
@@ -507,7 +507,7 @@
   .panel-preview > .panel-header {
     position: relative;
     z-index: 50;
-    background: var(--app-bg);
+    background: var(--app-surface);
   }
   .panel-preview > .panel-body { position:relative; z-index:1; }
   /* 深色模式下噪点调成 screen */
@@ -3148,10 +3148,9 @@
     aspect-ratio:1.45;
     border-radius:6px;
     background:
-      radial-gradient(ellipse 54% 46% at 72% 30%, rgb(255 255 255 / .24) 0%, transparent 72%),
-      radial-gradient(ellipse 96% 84% at var(--studio-gradient-pos-1,-10% -8%), color-mix(in oklch,var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1,67%),transparent), transparent 72%),
-      radial-gradient(ellipse 90% 78% at var(--studio-gradient-pos-2,108% 8%), color-mix(in oklch,var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2,58%),transparent), transparent 74%),
-      radial-gradient(ellipse 84% 72% at var(--studio-gradient-pos-3,18% 112%), color-mix(in oklch,var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3,49%),transparent), transparent 74%),
+      radial-gradient(ellipse 105% 82% at var(--studio-gradient-pos-1,22% 18%), color-mix(in oklch,var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1,67%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-1) 32%,transparent) 48%, transparent 78%),
+      radial-gradient(ellipse 94% 78% at var(--studio-gradient-pos-2,88% 22%), color-mix(in oklch,var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2,58%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-2) 26%,transparent) 52%, transparent 80%),
+      radial-gradient(ellipse 110% 88% at var(--studio-gradient-pos-3,28% 92%), color-mix(in oklch,var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3,49%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-3) 24%,transparent) 52%, transparent 82%),
       oklch(var(--studio-gradient-base-lightness,.948) var(--studio-gradient-base-chroma,.022) var(--brand-hue,285.8));
     background-size:cover;
     background-position:center;
@@ -3163,10 +3162,10 @@
     inset:0;
     border-radius:6px;
     pointer-events:none;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.52' numOctaves='4' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='2' seed='11' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     background-size:128px 128px;
-    mix-blend-mode:multiply;
-    filter:contrast(210%);
+    mix-blend-mode:soft-light;
+    filter:grayscale(1) contrast(135%);
     opacity:var(--studio-gradient-noise-opacity, 0);
   }
   .studio-gradient-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -3236,27 +3235,16 @@
   .agent-demo[data-background]:not([data-background="solid"]) { background:transparent; box-shadow:none; }
   .agent-demo[data-background="gradient"] {
     background:
-      radial-gradient(ellipse 54% 46% at 72% 30%, rgb(255 255 255 / .24) 0%, transparent 72%),
-      radial-gradient(ellipse 96% 84% at var(--studio-gradient-pos-1,-10% -8%), color-mix(in oklch,var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1,67%),transparent), transparent 72%),
-      radial-gradient(ellipse 90% 78% at var(--studio-gradient-pos-2,108% 8%), color-mix(in oklch,var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2,58%),transparent), transparent 74%),
-      radial-gradient(ellipse 84% 72% at var(--studio-gradient-pos-3,18% 112%), color-mix(in oklch,var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3,49%),transparent), transparent 74%),
+      radial-gradient(ellipse 105% 82% at var(--studio-gradient-pos-1,22% 18%), color-mix(in oklch,var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1,67%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-1) 32%,transparent) 48%, transparent 78%),
+      radial-gradient(ellipse 94% 78% at var(--studio-gradient-pos-2,88% 22%), color-mix(in oklch,var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2,58%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-2) 26%,transparent) 52%, transparent 80%),
+      radial-gradient(ellipse 110% 88% at var(--studio-gradient-pos-3,28% 92%), color-mix(in oklch,var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3,49%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-3) 24%,transparent) 52%, transparent 82%),
       oklch(var(--studio-gradient-base-lightness,.948) var(--studio-gradient-base-chroma,.022) var(--brand-hue,285.8));
-  }
-  @keyframes studio-gradient-flow {
-    0%,100% { background-position:50% 50%, 0% 0%, 100% 0%, 0% 100%, 50% 50%; }
-    33% { background-position:58% 42%, 100% 24%, 12% 100%, 72% 0%, 50% 50%; }
-    66% { background-position:42% 58%, 18% 100%, 100% 68%, 0% 18%, 50% 50%; }
-  }
-  .agent-demo[data-background="gradient"][data-gradient-animated="true"] {
-    background-repeat:no-repeat;
-    background-size:120% 120%, calc(100% + var(--studio-gradient-flow-spread,28%)) calc(100% + var(--studio-gradient-flow-spread,28%)), calc(100% + var(--studio-gradient-flow-spread,28%)) calc(100% + var(--studio-gradient-flow-spread,28%)), calc(100% + var(--studio-gradient-flow-spread,28%)) calc(100% + var(--studio-gradient-flow-spread,28%)), auto;
-    animation:studio-gradient-flow var(--studio-gradient-duration,18s) ease-in-out infinite;
   }
   html.dark .agent-demo[data-background="gradient"] {
     background:
-      radial-gradient(ellipse 82% 68% at 0% 0%, oklch(.36 var(--studio-gradient-chroma,.065) var(--brand-hue,285.8) / calc(var(--studio-gradient-opacity,.72) * .56)), transparent 58%),
-      radial-gradient(ellipse 74% 62% at 100% 4%, oklch(.32 calc(var(--studio-gradient-chroma,.065) * .82) var(--studio-gradient-hue-2, calc(var(--brand-hue,285.8) + 48)) / calc(var(--studio-gradient-opacity,.72) * .48)), transparent 60%),
-      radial-gradient(ellipse 64% 54% at 14% 100%, oklch(.28 calc(var(--studio-gradient-chroma,.065) * .7) var(--studio-gradient-hue-3, calc(var(--brand-hue,285.8) - 46)) / calc(var(--studio-gradient-opacity,.72) * .42)), transparent 60%),
+      radial-gradient(ellipse 82% 68% at var(--studio-gradient-pos-1,22% 18%), oklch(.36 var(--studio-gradient-chroma,.065) var(--brand-hue,285.8) / calc(var(--studio-gradient-opacity,.72) * .56)), transparent 58%),
+      radial-gradient(ellipse 74% 62% at var(--studio-gradient-pos-2,88% 22%), oklch(.32 calc(var(--studio-gradient-chroma,.065) * .82) var(--studio-gradient-hue-2, calc(var(--brand-hue,285.8) + 48)) / calc(var(--studio-gradient-opacity,.72) * .48)), transparent 60%),
+      radial-gradient(ellipse 64% 54% at var(--studio-gradient-pos-3,28% 92%), oklch(.28 calc(var(--studio-gradient-chroma,.065) * .7) var(--studio-gradient-hue-3, calc(var(--brand-hue,285.8) - 46)) / calc(var(--studio-gradient-opacity,.72) * .42)), transparent 60%),
       var(--color-bg-surface);
   }
   .agent-demo[data-background]:not([data-background="solid"])::before,
@@ -3283,17 +3271,13 @@
     z-index:0;
     pointer-events:none;
     opacity:var(--studio-gradient-noise-opacity, 0);
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.52' numOctaves='4' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size:var(--studio-gradient-texture-size,128px) var(--studio-gradient-texture-size,128px);
-    mix-blend-mode:multiply;
-    filter:contrast(210%);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='2' seed='11' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:128px 128px;
+    mix-blend-mode:soft-light;
+    filter:grayscale(1) contrast(135%);
   }
-  html.dark .agent-demo[data-background="gradient"][data-gradient-noise="true"]::after { mix-blend-mode:screen; }
   .agent-demo[data-background="gradient"][data-gradient-noise="true"] > .ved-sidebar,
   .agent-demo[data-background="gradient"][data-gradient-noise="true"] > .ved-main { position:relative; z-index:1; }
-  @media (prefers-reduced-motion:reduce) {
-    .agent-demo[data-background="gradient"] { animation:none !important; }
-  }
 
   /* ===== Sidebar 控制样式 ===== */
   .agent-demo .ved-sidebar { width: var(--studio-sidebar-width, 220px); }
@@ -3380,8 +3364,10 @@
     filter:blur(calc(var(--studio-canvas-blur,18px) * .45)); transform:scale(1.025); opacity:.9;
   }
   /* 渐变/图片模式：渐变或图片由 Agent UI 自身承载，外层沿用应用整体背景 token。 */
-  .panel-preview:is([data-studio-background="gradient"],[data-studio-background="image"]):has(.runtime-enabled)::before { background:var(--app-bg); filter:none; transform:none; opacity:1; }
-  html.dark .panel-preview:has(.runtime-enabled)::before { background:#202126; filter:none; transform:none; opacity:1; }
+  .panel-preview:is([data-studio-background="gradient"],[data-studio-background="image"]):has(.runtime-enabled)::before { background:var(--app-surface); filter:none; transform:none; opacity:1; }
+  html.dark .panel-preview:has(.runtime-enabled)::before { background:var(--app-surface); filter:none; transform:none; opacity:1; }
+  .panel-preview:has(.runtime-enabled)::after { opacity:0; }
+  html.dark .panel-preview:has(.runtime-enabled)::after { opacity:0; }
   .gradient-swatches { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
   .gradient-swatch { height:112px; border-radius:10px; padding:12px; display:flex; align-items:flex-end; color:#18181b; border:1px solid rgba(0,0,0,.06); font-size:11px; font-family:var(--app-mono); cursor:pointer; }
   html.dark .gradient-swatch { color:rgba(255,255,255,.9); border-color:rgba(255,255,255,.1); }
@@ -3744,21 +3730,13 @@
                     </button>
                   </div>
                 </div>
-                <div class="slider-row" id="studio-gradient-speed-row">
-                  <div class="slider-row-head"><span>动画速度</span><span id="studio-gradient-speed-val">45%</span></div>
-                  <input type="range" id="studio-gradient-speed" min="0" max="100" value="45" step="1" aria-label="动画速度，设为零时保持静态">
-                </div>
                 <div class="slider-row" id="studio-gradient-strength-row">
-                  <div class="slider-row-head"><span>流动强度</span><span id="studio-gradient-val">72%</span></div>
-                  <input type="range" id="studio-gradient-strength" min="0" max="100" value="72" step="1">
-                </div>
-                <div class="slider-row" id="studio-gradient-texture-row">
-                  <div class="slider-row-head"><span>纹理密度</span><span id="studio-gradient-texture-val">55%</span></div>
-                  <input type="range" id="studio-gradient-texture" min="0" max="100" value="55" step="1">
+                  <div class="slider-row-head"><span>渐变强度</span><span id="studio-gradient-strength-val">72%</span></div>
+                  <input type="range" id="studio-gradient-strength" min="0" max="100" value="72" step="1" aria-label="渐变强度，左侧极弱且饱和度极低，右侧更明显">
                 </div>
                 <div class="slider-row" id="studio-gradient-noise-row">
-                  <div class="slider-row-head"><span>颗粒效果</span><span id="studio-gradient-noise-val">24%</span></div>
-                  <input type="range" id="studio-gradient-noise" min="0" max="100" value="24" step="1" aria-label="噪点纹理强度，左侧弱，右侧强">
+                  <div class="slider-row-head"><span>噪点效果</span><span id="studio-gradient-noise-val">46%</span></div>
+                  <input type="range" id="studio-gradient-noise" min="0" max="100" value="46" step="1" aria-label="彩色噪点强度，左侧弱，右侧强">
                 </div>
                 <div id="studio-image-config">
                   <div class="studio-image-library" id="studio-image-library">
@@ -5563,7 +5541,7 @@ const studioState = {
   sidebarTransparent: false,
   sidebarVisible: true, sidebarWidth: 220, sidebarPosition: 'left',
   sidebarBg: 'surface', sidebarIcons: true,
-  bgToken: 'surface', gradientMode: 'analogous', gradientSpeed: 45, gradientStrength: 72, gradientTexture: 55, gradientNoise: 24,
+  bgToken: 'surface', gradientMode: 'analogous', gradientStrength: 72, gradientNoise: 46,
   fontCn: 'pingfang', fontEn: 'inter',
   compact: false, wide: false, reasoning: true, sources: true,
   welcomeTitle: '今天想设计点什么？', welcomeSuggestions: true, welcomeTasks: true,
@@ -6481,9 +6459,7 @@ bindOklchPair('lch-h', 'lch-h-num', 'H');
 // （semantic + AI 模式不自动跑，避免每次拖动都打 API）
 // 矢量滑杆：state.{density,radiusIdx,shadowIdx} 是浮点比例（1.0 = 标准基线）
 const fmtScale = (v) => v.toFixed(2) + '×';
-const gradientNoiseOpacity = () => String(Math.pow(studioState.gradientNoise / 100, 0.8) * 0.7);
-const gradientAnimationDuration = () => 30 - (studioState.gradientSpeed / 100) * 27;
-const gradientTextureSize = () => Math.round(220 - (studioState.gradientTexture / 100) * 172);
+const gradientNoiseOpacity = () => String(Math.pow(studioState.gradientNoise / 100, 0.8) * 0.28);
 // 低强度使用非线性曲线：左侧同时衰减透明度与色度，获得真正的“极弱”渐变。
 const studioGradientIntensity = () => Math.pow(clamp(studioState.gradientStrength / 100, 0, 1), 1.25);
 const studioGradientChroma = () => {
@@ -6492,12 +6468,17 @@ const studioGradientChroma = () => {
 };
 
 function studioGradientRule(mode = studioState.gradientMode) {
+  const mood = oklchToMood(state.primary.L, state.primary.C, state.primary.H);
+  // 色彩调试点与背景色团共用同一套空间坐标；派生色围绕主色形成稳定的色彩星座。
+  const x = 10 + mood.x * 80;
+  const y = 10 + mood.y * 70;
+  const pos = (px, py) => `${clamp(px, -8, 108).toFixed(1)}% ${clamp(py, -8, 108).toFixed(1)}%`;
   return {
-    monochrome: { offsets:[0, 0], positions:['-8% -8%', '108% 12%', '20% 112%'] },
-    analogous: { offsets:[48, -44], positions:['-10% -8%', '108% 8%', '18% 112%'] },
-    complementary: { offsets:[180, 210], positions:['-8% 4%', '108% 104%', '104% -8%'] },
-    triadic: { offsets:[120, 240], positions:['-8% -6%', '108% -4%', '50% 112%'] }
-  }[mode] || { offsets:[36, -32], positions:['-10% -8%', '108% 8%', '18% 112%'] };
+    monochrome: { offsets:[0, 0], positions:[pos(x, y), pos(108 - x * .45, 12 + y * .2), pos(18 + x * .18, 106 - y * .38)] },
+    analogous: { offsets:[48, -64], positions:[pos(x, y), pos(106 - x * .32, 14 + y * .18), pos(16 + x * .16, 106 - y * .3)] },
+    complementary: { offsets:[180, 210], positions:[pos(x, y), pos(100 - x, 100 - y), pos(104 - x * .25, 12 + y * .24)] },
+    triadic: { offsets:[120, 240], positions:[pos(x, y), pos(104 - x * .28, 16 + y * .16), pos(50 + (x - 50) * .25, 106 - y * .28)] }
+  }[mode] || { offsets:[48, -64], positions:[pos(x, y), pos(106 - x * .32, 14 + y * .18), pos(16 + x * .16, 106 - y * .3)] };
 }
 
 function studioGradientOffsets(mode = studioState.gradientMode) {
@@ -6512,40 +6493,34 @@ function syncStudioGradientVariables(target, mode = studioState.gradientMode, { 
     : studioGradientChroma();
   const { offsets:[offsetA, offsetB], positions } = studioGradientRule(mode);
   const thumbnailProfiles = {
-    monochrome: { lightness:[0.64, 0.76, 0.89], chroma:[1, 0.62, 0.2] },
-    analogous: { lightness:[0.68, 0.73, 0.78], chroma:[1, 0.96, 0.88] },
-    complementary: { lightness:[0.68, 0.72, 0.77], chroma:[1, 0.98, 0.9] },
-    triadic: { lightness:[0.68, 0.72, 0.76], chroma:[1, 0.96, 0.94] }
+    monochrome: { lightness:[0.76, 0.82, 0.88], chroma:[0.9, 0.58, 0.3] },
+    analogous: { lightness:[0.76, 0.8, 0.84], chroma:[0.92, 0.86, 0.8] },
+    complementary: { lightness:[0.76, 0.8, 0.84], chroma:[0.92, 0.88, 0.8] },
+    triadic: { lightness:[0.76, 0.8, 0.84], chroma:[0.92, 0.86, 0.82] }
   };
   const profile = thumbnailProfiles[mode] || thumbnailProfiles.analogous;
-  const lightness1 = thumbnail ? profile.lightness[0] : clamp(state.primary.L + 0.18, 0.72, 0.82);
-  const lightness2 = thumbnail ? profile.lightness[1] : clamp(lightness1 + 0.055, 0.76, 0.88);
-  const lightness3 = thumbnail ? profile.lightness[2] : clamp(lightness1 + 0.095, 0.8, 0.92);
+  const lightness1 = thumbnail ? profile.lightness[0] : clamp(state.primary.L + 0.2, 0.74, 0.84);
+  const lightness2 = thumbnail ? profile.lightness[1] : clamp(lightness1 + 0.045, 0.78, 0.88);
+  const lightness3 = thumbnail ? profile.lightness[2] : clamp(lightness1 + 0.08, 0.82, 0.92);
   const chroma1 = chroma * (thumbnail ? profile.chroma[0] : 1);
   const chroma2 = chroma * (thumbnail ? profile.chroma[1] : 0.92);
   const chroma3 = chroma * (thumbnail ? profile.chroma[2] : 0.82);
-  const baseLightness = clamp(0.982 - intensity * 0.034 + state.primary.L * 0.012, 0.948, 0.988);
-  const baseChroma = clamp(chroma * (0.04 + intensity * 0.14), 0.002, 0.04);
+  const baseLightness = clamp(0.975 - intensity * 0.045 + state.primary.L * 0.012, 0.93, 0.982);
+  const baseChroma = clamp(chroma * (0.08 + intensity * 0.2), 0.004, 0.05);
   target.style.setProperty('--brand-hue', state.primary.H.toFixed(1));
   target.style.setProperty('--brand-chroma', state.primary.C.toFixed(4));
   target.style.setProperty('--studio-gradient-chroma', chroma.toFixed(3));
   target.style.setProperty('--studio-gradient-color-1', `oklch(${lightness1.toFixed(3)} ${chroma1.toFixed(3)} ${state.primary.H})`);
   target.style.setProperty('--studio-gradient-color-2', `oklch(${lightness2.toFixed(3)} ${chroma2.toFixed(3)} ${state.primary.H + offsetA})`);
   target.style.setProperty('--studio-gradient-color-3', `oklch(${lightness3.toFixed(3)} ${chroma3.toFixed(3)} ${state.primary.H + offsetB})`);
-  target.style.setProperty('--studio-ui-gradient-weight-1', `${thumbnail ? 96 : Math.round(4 + intensity * 72)}%`);
-  target.style.setProperty('--studio-ui-gradient-weight-2', `${thumbnail ? 90 : Math.round(3 + intensity * 63)}%`);
-  target.style.setProperty('--studio-ui-gradient-weight-3', `${thumbnail ? 84 : Math.round(2 + intensity * 54)}%`);
+  target.style.setProperty('--studio-ui-gradient-weight-1', `${thumbnail ? 88 : Math.round(10 + intensity * 76)}%`);
+  target.style.setProperty('--studio-ui-gradient-weight-2', `${thumbnail ? 82 : Math.round(8 + intensity * 68)}%`);
+  target.style.setProperty('--studio-ui-gradient-weight-3', `${thumbnail ? 76 : Math.round(6 + intensity * 60)}%`);
   target.style.setProperty('--studio-gradient-base-lightness', baseLightness.toFixed(3));
   target.style.setProperty('--studio-gradient-base-chroma', baseChroma.toFixed(3));
   target.style.setProperty('--studio-gradient-pos-1', positions[0]);
   target.style.setProperty('--studio-gradient-pos-2', positions[1]);
   target.style.setProperty('--studio-gradient-pos-3', positions[2]);
-  if (!thumbnail) {
-    target.style.setProperty('--studio-gradient-duration', `${gradientAnimationDuration().toFixed(1)}s`);
-    target.style.setProperty('--studio-gradient-flow-spread', `${Math.round(8 + studioState.gradientStrength * .42)}%`);
-    target.style.setProperty('--studio-gradient-texture-size', `${gradientTextureSize()}px`);
-    target.dataset.gradientAnimated = String(studioState.background === 'gradient' && studioState.gradientSpeed > 0);
-  }
 }
 
 function syncStudioGradientThumbs() {
@@ -6759,9 +6734,7 @@ function syncAgentRuntimeTheme() {
       sidebarIcons: studioState.sidebarIcons,
       bgToken: studioState.bgToken,
       gradientMode: studioState.gradientMode,
-      gradientSpeed: studioState.gradientSpeed,
       gradientStrength: studioState.gradientStrength,
-      gradientTexture: studioState.gradientTexture,
       gradientNoise: studioState.gradientNoise,
       fontCn: studioState.fontCn,
       fontEn: studioState.fontEn,
@@ -6885,7 +6858,7 @@ window.setTimeout(() => {
 function syncStudioBackgroundControls() {
   const gradient = studioState.background === 'gradient';
   const image = studioState.background === 'image';
-  ['#studio-gradient-mode-row','#studio-gradient-speed-row','#studio-gradient-strength-row','#studio-gradient-texture-row','#studio-gradient-noise-row'].forEach(sel => {
+  ['#studio-gradient-mode-row','#studio-gradient-strength-row','#studio-gradient-noise-row'].forEach(sel => {
     const el = $(sel); if (el) el.style.display = gradient ? '' : 'none';
   });
   const imageConfig = $('#studio-image-config'); if (imageConfig) imageConfig.style.display = image ? '' : 'none';
@@ -6901,6 +6874,8 @@ function syncStudioBackgroundControls() {
   syncStudioGradientThumbs();
   const hidden = $('#studio-background'); if (hidden) hidden.value = studioState.background;
   const gradientHidden = $('#studio-gradient-mode'); if (gradientHidden) gradientHidden.value = studioState.gradientMode;
+  const gradientStrength = $('#studio-gradient-strength'); if (gradientStrength) gradientStrength.value = studioState.gradientStrength;
+  const gradientStrengthVal = $('#studio-gradient-strength-val'); if (gradientStrengthVal) gradientStrengthVal.textContent = studioState.gradientStrength + '%';
 }
 
 $('#studio-brand-name')?.addEventListener('input', e => {
@@ -7020,19 +6995,8 @@ $$('.studio-gradient-option[data-gradient-mode]').forEach(button => button.addEv
 }));
 $('#studio-gradient-strength')?.addEventListener('input', e => {
   studioState.gradientStrength = Number(e.target.value);
-  $('#studio-gradient-val').textContent = studioState.gradientStrength + '%';
+  $('#studio-gradient-strength-val').textContent = studioState.gradientStrength + '%';
   scheduleStudioGradientLivePreview();
-});
-$('#studio-gradient-strength')?.addEventListener('change', () => applyStudioAppearance());
-$('#studio-gradient-speed')?.addEventListener('input', e => {
-  studioState.gradientSpeed = Number(e.target.value);
-  $('#studio-gradient-speed-val').textContent = studioState.gradientSpeed === 0 ? '静态' : studioState.gradientSpeed + '%';
-  applyStudioAppearance();
-});
-$('#studio-gradient-texture')?.addEventListener('input', e => {
-  studioState.gradientTexture = Number(e.target.value);
-  $('#studio-gradient-texture-val').textContent = studioState.gradientTexture + '%';
-  applyStudioAppearance();
 });
 $('#studio-gradient-noise')?.addEventListener('input', e => {
   studioState.gradientNoise = Number(e.target.value);
@@ -7648,9 +7612,9 @@ function renderPalettes(theme) {
   });
 
   const gradientOffsets = {
-    monochrome: [0, 0], analogous: [48, -46],
+    monochrome: [0, 0], analogous: [48, -64],
     complementary: [180, 140], triadic: [120, 240]
-  }[studioState.gradientMode] || [48, -46];
+  }[studioState.gradientMode] || [48, -64];
   const H = state.primary.H;
   const C = Math.max(state.primary.C, .08);
   const gradientDefs = state.themeMode === 'dark' ? [
@@ -9748,8 +9712,7 @@ function getProjectConfig(imagePath = '') {
     appearance: {
       radius: state.radiusIdx, density: state.density,
       background: studioState.background, backgroundToken: studioState.bgToken,
-      gradientMode: studioState.gradientMode, gradientSpeed: studioState.gradientSpeed,
-      gradientStrength: studioState.gradientStrength, gradientTexture: studioState.gradientTexture,
+      gradientMode: studioState.gradientMode, gradientStrength: studioState.gradientStrength,
       gradientNoise: studioState.gradientNoise, backgroundBlur: studioState.blur,
       fontCn: studioState.fontCn, fontEn: studioState.fontEn,
       backgroundImage: imagePath, imageTone: studioState.imageTone,

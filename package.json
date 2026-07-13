@@ -6,6 +6,22 @@
   "scripts": {
     "check": "python3 scripts/check-project.py",
     "dev": "python3 -m http.server 4173",
+    "shader:dev": "vite --config fluid-gradient-demo/vite.config.js",
+    "shader:build": "vite build --config fluid-gradient-demo/vite.config.js",
     "sync:dist": "mkdir -p dist/agent-runtime dist/asset && cp index.html dist/index.html && cp -R agent-runtime/. dist/agent-runtime/ && cp -R asset/. dist/asset/"
+  },
+  "dependencies": {
+    "@react-three/fiber": "^9.6.1",
+    "@shadergradient/react": "^2.4.20",
+    "camera-controls": "^3.1.2",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "three": "^0.185.1",
+    "three-stdlib": "^2.36.1"
+  },
+  "devDependencies": {
+    "@types/three": "^0.185.1",
+    "@vitejs/plugin-react": "^6.0.3",
+    "vite": "^8.1.4"
   }
 }

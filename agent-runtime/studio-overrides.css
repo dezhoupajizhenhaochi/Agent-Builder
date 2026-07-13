@@ -68,10 +68,36 @@ html[data-embed="true"][data-studio-welcome-tasks="false"] .gallery-section {
    active item otherwise sit on nearly identical neutral surfaces. */
 html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar,
 html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item {
-  --ve-sidebar-item-hover-surface: var(--color-bg-muted);
-  --ve-sidebar-item-selected-background: var(--color-bg-muted);
   --ve-sidebar-item-selected-text-color: var(--color-text-primary);
   --ve-sidebar-item-icon-color: var(--color-icon-primary);
+  --ve-sidebar-focus-ring-color: var(--color-border-interactive);
+  --ve-sidebar-item-disabled-opacity: .38;
+}
+
+/* Each solid canvas gets its own interaction recipe instead of reusing one
+   neutral state across backgrounds with different visual weight. */
+html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token="surface"] .agent-sidebar,
+html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token="surface"] .agent-sidebar ve-sidebar-item {
+  --ve-sidebar-item-hover-surface: color-mix(in srgb, var(--color-bg-base) 58%, transparent);
+  --ve-sidebar-item-selected-background: var(--color-bg-base);
+}
+
+html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token="base"] .agent-sidebar,
+html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token="base"] .agent-sidebar ve-sidebar-item {
+  --ve-sidebar-item-hover-surface: var(--color-bg-surface);
+  --ve-sidebar-item-selected-background: var(--color-primary-100);
+}
+
+html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token="soft"] .agent-sidebar,
+html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token="soft"] .agent-sidebar ve-sidebar-item {
+  --ve-sidebar-item-hover-surface: color-mix(in srgb, var(--color-primary-100) 72%, transparent);
+  --ve-sidebar-item-selected-background: var(--color-primary-200);
+}
+
+html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token="neutral"] .agent-sidebar,
+html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token="neutral"] .agent-sidebar ve-sidebar-item {
+  --ve-sidebar-item-hover-surface: color-mix(in srgb, var(--color-bg-base) 58%, transparent);
+  --ve-sidebar-item-selected-background: var(--color-bg-base);
 }
 
 html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[active],
@@ -87,8 +113,42 @@ html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar
 html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[active]::part(item),
 html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[selected]::part(item),
 html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[aria-current="page"]::part(item) {
-  background: var(--color-bg-muted);
+  background: var(--ve-sidebar-item-selected-background);
   box-shadow: none;
+}
+
+/* Transparent sidebars use a restrained glass state so labels remain legible
+   without placing an opaque card over the selected background. */
+html:not(.dark)[data-embed="true"][data-background-style="gradient"] .agent-sidebar,
+html:not(.dark)[data-embed="true"][data-background-style="gradient"] .agent-sidebar ve-sidebar-item,
+html:not(.dark)[data-embed="true"][data-background-style="image"][data-image-tone="light"] .agent-sidebar,
+html:not(.dark)[data-embed="true"][data-background-style="image"][data-image-tone="light"] .agent-sidebar ve-sidebar-item {
+  --ve-sidebar-item-hover-surface: rgb(255 255 255 / 42%);
+  --ve-sidebar-item-selected-background: rgb(255 255 255 / 76%);
+  --ve-sidebar-item-selected-text-color: var(--color-text-primary);
+  --ve-sidebar-focus-ring-color: var(--color-border-interactive);
+  --ve-sidebar-item-disabled-opacity: .38;
+}
+
+html[data-embed="true"][data-background-style="image"][data-image-tone="dark"] .agent-sidebar,
+html[data-embed="true"][data-background-style="image"][data-image-tone="dark"] .agent-sidebar ve-sidebar-item {
+  --ve-sidebar-item-hover-surface: rgb(255 255 255 / 10%);
+  --ve-sidebar-item-selected-background: rgb(255 255 255 / 18%);
+  --ve-sidebar-focus-ring-color: rgb(255 255 255 / 72%);
+  --ve-sidebar-item-disabled-opacity: .42;
+}
+
+html.dark[data-embed="true"][data-background-style="solid"] .agent-sidebar,
+html.dark[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item {
+  --ve-sidebar-item-hover-surface: var(--color-gray-dark-100);
+  --ve-sidebar-item-selected-background: var(--color-gray-dark-200);
+  --ve-sidebar-focus-ring-color: var(--color-border-interactive);
+}
+
+html.dark[data-embed="true"][data-background-style="solid"][data-bg-token="soft"] .agent-sidebar,
+html.dark[data-embed="true"][data-background-style="solid"][data-bg-token="soft"] .agent-sidebar ve-sidebar-item {
+  --ve-sidebar-item-hover-surface: var(--color-primary-dark-100);
+  --ve-sidebar-item-selected-background: var(--color-primary-dark-200);
 }
 
 /* Studio gradient mode replaces the whole Agent shell background; the outer preview stays white. */
@@ -119,32 +179,19 @@ html.dark .source-list {
 
 html[data-embed="true"][data-background-style="gradient"] .app-shell {
   background:
-    radial-gradient(ellipse 54% 46% at 72% 30%, rgb(255 255 255 / .24) 0%, transparent 72%),
-    radial-gradient(ellipse 96% 84% at var(--studio-gradient-pos-1, -10% -8%), color-mix(in oklch, var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1, 67%), transparent), transparent 72%),
-    radial-gradient(ellipse 90% 78% at var(--studio-gradient-pos-2, 108% 8%), color-mix(in oklch, var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2, 58%), transparent), transparent 74%),
-    radial-gradient(ellipse 84% 72% at var(--studio-gradient-pos-3, 18% 112%), color-mix(in oklch, var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3, 49%), transparent), transparent 74%),
+    radial-gradient(ellipse 105% 82% at var(--studio-gradient-pos-1, 22% 18%), color-mix(in oklch, var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1, 67%), transparent) 0%, color-mix(in oklch, var(--studio-gradient-color-1) 32%, transparent) 48%, transparent 78%),
+    radial-gradient(ellipse 94% 78% at var(--studio-gradient-pos-2, 88% 22%), color-mix(in oklch, var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2, 58%), transparent) 0%, color-mix(in oklch, var(--studio-gradient-color-2) 26%, transparent) 52%, transparent 80%),
+    radial-gradient(ellipse 110% 88% at var(--studio-gradient-pos-3, 28% 92%), color-mix(in oklch, var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3, 49%), transparent) 0%, color-mix(in oklch, var(--studio-gradient-color-3) 24%, transparent) 52%, transparent 82%),
     oklch(var(--studio-gradient-base-lightness, .948) var(--studio-gradient-base-chroma, .022) var(--brand-hue, 285.8));
-}
-
-@keyframes studio-runtime-gradient-flow {
-  0%, 100% { background-position: 50% 50%, 0% 0%, 100% 0%, 0% 100%, 50% 50%; }
-  33% { background-position: 58% 42%, 100% 24%, 12% 100%, 72% 0%, 50% 50%; }
-  66% { background-position: 42% 58%, 18% 100%, 100% 68%, 0% 18%, 50% 50%; }
-}
-
-html[data-embed="true"][data-background-style="gradient"][data-gradient-animated="true"] .app-shell {
-  background-repeat: no-repeat;
-  background-size: 120% 120%, calc(100% + var(--studio-gradient-flow-spread, 28%)) calc(100% + var(--studio-gradient-flow-spread, 28%)), calc(100% + var(--studio-gradient-flow-spread, 28%)) calc(100% + var(--studio-gradient-flow-spread, 28%)), calc(100% + var(--studio-gradient-flow-spread, 28%)) calc(100% + var(--studio-gradient-flow-spread, 28%)), auto;
-  animation: studio-runtime-gradient-flow var(--studio-gradient-duration, 18s) ease-in-out infinite;
 }
 
 /* Dark mode keeps the same dynamic hue system, but moves every stop onto a
    dark semantic surface so transparent sidebars retain readable contrast. */
 html.dark[data-embed="true"][data-background-style="gradient"] .app-shell {
   background:
-    radial-gradient(ellipse 76% 62% at 0% 0%, color-mix(in oklab, var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1, 20%), transparent), transparent 70%),
-    radial-gradient(ellipse 68% 56% at 100% 4%, color-mix(in oklab, var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2, 16%), transparent), transparent 72%),
-    radial-gradient(ellipse 58% 48% at 14% 100%, color-mix(in oklab, var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3, 13%), transparent), transparent 72%),
+    radial-gradient(ellipse 76% 62% at var(--studio-gradient-pos-1, 22% 18%), color-mix(in oklab, var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1, 20%), transparent), transparent 70%),
+    radial-gradient(ellipse 68% 56% at var(--studio-gradient-pos-2, 88% 22%), color-mix(in oklab, var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2, 16%), transparent), transparent 72%),
+    radial-gradient(ellipse 58% 48% at var(--studio-gradient-pos-3, 28% 92%), color-mix(in oklab, var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3, 13%), transparent), transparent 72%),
     var(--color-bg-surface);
 }
 
@@ -183,26 +230,16 @@ html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="t
   z-index: 0;
   pointer-events: none;
   opacity: var(--studio-gradient-noise-opacity, 0);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.52' numOctaves='4' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: var(--studio-gradient-texture-size, 128px) var(--studio-gradient-texture-size, 128px);
-  mix-blend-mode: multiply;
-  filter: contrast(210%);
-}
-
-html.dark[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .app-shell::before {
-  mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='2' seed='11' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 128px 128px;
+  mix-blend-mode: soft-light;
+  filter: grayscale(1) contrast(135%);
 }
 
 html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .agent-sidebar,
 html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .main-panel {
   position: relative;
   z-index: 1;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html[data-embed="true"][data-background-style="gradient"] .app-shell {
-    animation: none !important;
-  }
 }
 
 html.dark[data-embed="true"] .ve-input {
