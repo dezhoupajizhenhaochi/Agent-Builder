@@ -1,0 +1,30 @@
+package-lock.json
+  s_7c2c8fcc1ea172::t_50c5d0fba7740f 13,53-101,402-424,476-507,586-591,598-632,716-724,741-749,827-842,1104-1147,1230-1238
+package.json
+  s_7c2c8fcc1ea172::t_35642e2166dd52 9,12,17
+studio-react-src/vite.config.js
+  s_7c2c8fcc1ea172::t_bad7e788701aed 1-2,5-8,10-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "ba6bd0e81e78b41d9b7671c1a373a925d5d05098",
+  "prompts": {},
+  "humans": {
+    "h_bce47d088b4035": {
+      "author": "dezhoupajizhenhaochi <ahai981118536@126.com>"
+    }
+  },
+  "sessions": {
+    "s_7c2c8fcc1ea172": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f54d2-43d7-7e61-bbf0-d9125ea395ba",
+        "model": "unknown"
+      },
+      "human_author": "dezhoupajizhenhaochi <ahai981118536@126.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
