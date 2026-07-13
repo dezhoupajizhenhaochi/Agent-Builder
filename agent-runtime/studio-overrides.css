@@ -37,6 +37,14 @@ html[data-embed="true"] .agent-sidebar {
   max-width: var(--studio-sidebar-current-width, var(--studio-sidebar-width, 220px)) !important;
 }
 
+/* The account row belongs to the sidebar canvas; remove the component's
+   separate footer surface while retaining the user-entry hover feedback. */
+html[data-embed="true"] .agent-sidebar::part(footer) {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
 html[data-embed="true"][data-sidebar-visible="false"] .app-shell {
   grid-template-columns: minmax(0, 1fr);
 }
@@ -179,7 +187,7 @@ html.dark .source-list {
 
 html[data-embed="true"][data-background-style="gradient"] .app-shell {
   background:
-    radial-gradient(ellipse 74% 116% at 0% 100%, color-mix(in oklch, var(--studio-gradient-color-1) 44%, transparent) 0%, color-mix(in oklch, var(--studio-gradient-color-1) 18%, transparent) 54%, transparent 82%),
+    radial-gradient(ellipse 74% 116% at 0% 0%, color-mix(in oklch, var(--studio-gradient-color-1) 44%, transparent) 0%, color-mix(in oklch, var(--studio-gradient-color-1) 18%, transparent) 54%, transparent 82%),
     radial-gradient(ellipse 105% 82% at var(--studio-gradient-pos-1, 22% 18%), color-mix(in oklch, var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1, 67%), transparent) 0%, color-mix(in oklch, var(--studio-gradient-color-1) var(--studio-gradient-tail-1, 32%), transparent) 48%, transparent 78%),
     radial-gradient(ellipse 94% 78% at var(--studio-gradient-pos-2, 88% 22%), color-mix(in oklch, var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2, 58%), transparent) 0%, color-mix(in oklch, var(--studio-gradient-color-2) var(--studio-gradient-tail-2, 26%), transparent) 52%, transparent 80%),
     radial-gradient(ellipse 110% 88% at var(--studio-gradient-pos-3, 28% 92%), color-mix(in oklch, var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3, 49%), transparent) 0%, color-mix(in oklch, var(--studio-gradient-color-3) var(--studio-gradient-tail-3, 24%), transparent) 52%, transparent 82%),

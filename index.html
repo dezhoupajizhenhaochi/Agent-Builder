@@ -1115,13 +1115,15 @@
 
   .mood-dot {
     position: absolute;
-    left: 50%; top: 50%;
+    --mood-x: 50%;
+    --mood-y: 50%;
+    left: clamp(0px, calc(var(--mood-x) - 12px), calc(100% - 24px));
+    top: clamp(0px, calc(var(--mood-y) - 12px), calc(100% - 24px));
     width: 24px; height: 24px;
     border-radius: 50%;
     background: var(--app-accent);
     border: 3px solid white;
     box-shadow: 0 2px 6px rgba(0,0,0,.18), 0 0 0 1px rgba(0,0,0,.06);
-    transform: translate(-50%, -50%);
     cursor: grab;
     transition: background .15s;
   }
@@ -1268,6 +1270,11 @@
     pointer-events: none;
   }
   .color-info { flex: 1; }
+  .color-picker-row .mood-reset {
+    flex: 0 0 auto;
+    height: 32px;
+    padding: 0 8px;
+  }
   .color-info-row {
     display: flex; gap: 6px; align-items: center;
     margin-bottom: 4px;
@@ -3148,7 +3155,7 @@
     aspect-ratio:1.45;
     border-radius:6px;
     background:
-      radial-gradient(ellipse 74% 116% at 0% 100%, color-mix(in oklch,var(--studio-gradient-color-1) 44%,transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-1) 18%,transparent) 54%, transparent 82%),
+      radial-gradient(ellipse 74% 116% at 0% 0%, color-mix(in oklch,var(--studio-gradient-color-1) 44%,transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-1) 18%,transparent) 54%, transparent 82%),
       radial-gradient(ellipse 105% 82% at var(--studio-gradient-pos-1,22% 18%), color-mix(in oklch,var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1,67%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-1) var(--studio-gradient-tail-1,32%),transparent) 48%, transparent 78%),
       radial-gradient(ellipse 94% 78% at var(--studio-gradient-pos-2,88% 22%), color-mix(in oklch,var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2,58%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-2) var(--studio-gradient-tail-2,26%),transparent) 52%, transparent 80%),
       radial-gradient(ellipse 110% 88% at var(--studio-gradient-pos-3,28% 92%), color-mix(in oklch,var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3,49%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-3) var(--studio-gradient-tail-3,24%),transparent) 52%, transparent 82%),
@@ -3236,7 +3243,7 @@
   .agent-demo[data-background]:not([data-background="solid"]) { background:transparent; box-shadow:none; }
   .agent-demo[data-background="gradient"] {
     background:
-      radial-gradient(ellipse 74% 116% at 0% 100%, color-mix(in oklch,var(--studio-gradient-color-1) 44%,transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-1) 18%,transparent) 54%, transparent 82%),
+      radial-gradient(ellipse 74% 116% at 0% 0%, color-mix(in oklch,var(--studio-gradient-color-1) 44%,transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-1) 18%,transparent) 54%, transparent 82%),
       radial-gradient(ellipse 105% 82% at var(--studio-gradient-pos-1,22% 18%), color-mix(in oklch,var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1,67%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-1) var(--studio-gradient-tail-1,32%),transparent) 48%, transparent 78%),
       radial-gradient(ellipse 94% 78% at var(--studio-gradient-pos-2,88% 22%), color-mix(in oklch,var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2,58%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-2) var(--studio-gradient-tail-2,26%),transparent) 52%, transparent 80%),
       radial-gradient(ellipse 110% 88% at var(--studio-gradient-pos-3,28% 92%), color-mix(in oklch,var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3,49%),transparent) 0%, color-mix(in oklch,var(--studio-gradient-color-3) var(--studio-gradient-tail-3,24%),transparent) 52%, transparent 82%),
@@ -3589,11 +3596,11 @@
           <summary>常用模板</summary>
           <div class="accordion-body">
 
-            <div class="ved-select" id="preset-select" data-value="" style="width:100%;">
-                  <button class="ved-select-trigger" type="button" title="选择常用主题" aria-haspopup="listbox" aria-expanded="false">
+            <div class="ved-select" id="preset-select" data-value="#1664FF" style="width:100%;">
+                  <button class="ved-select-trigger" type="button" title="火山引擎" aria-haspopup="listbox" aria-expanded="false">
                     <span class="ved-select-value">
-                      <span class="ved-select-swatch" id="preset-select-swatch"></span>
-                      <span class="ved-select-label" id="preset-select-label">选择常用主题</span>
+                      <span class="ved-select-swatch" id="preset-select-swatch" style="background:#1664FF;"></span>
+                      <span class="ved-select-label" id="preset-select-label">火山引擎</span>
                     </span>
                     <svg class="ved-select-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
                       <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -3601,7 +3608,7 @@
                   </button>
                   <div class="ved-select-menu" role="listbox" aria-label="选择常用主题">
                     <button class="ved-select-option" role="option" type="button" data-value="#18181B" data-label="Default" data-density="1" data-radius="1" data-shadow="1"><span class="ved-select-swatch" style="background:#18181B;"></span><span>Default</span></button>
-                    <button class="ved-select-option" role="option" type="button" data-value="#1664FF" data-label="火山引擎" data-density="1" data-radius="0" data-shadow="0"><span class="ved-select-swatch" style="background:#1664FF;"></span><span>火山引擎</span></button>
+                    <button class="ved-select-option is-active" role="option" type="button" data-value="#1664FF" data-label="火山引擎" data-density="1" data-radius="0" data-shadow="0" aria-selected="true"><span class="ved-select-swatch" style="background:#1664FF;"></span><span>火山引擎</span></button>
                     <button class="ved-select-option" role="option" type="button" data-value="#1F1F23" data-label="安全 Agent" data-density="0" data-radius="0" data-shadow="1"><span class="ved-select-swatch" style="background:#1F1F23;"></span><span>安全 Agent</span></button>
                     <button class="ved-select-option" role="option" type="button" data-value="#1F1F23" data-label="Arkclaw" data-density="0" data-radius="0" data-shadow="0"><span class="ved-select-swatch" style="background:#1F1F23;"></span><span>Arkclaw</span></button>
                     <button class="ved-select-option" role="option" type="button" data-value="#5252FF" data-label="火山方舟" data-density="1" data-radius="1" data-shadow="0"><span class="ved-select-swatch" style="background:#5252FF;"></span><span>火山方舟</span></button>
@@ -3621,12 +3628,6 @@
               <summary>
                 <span>选择主色</span>
               </summary>
-              <button class="mood-reset" id="mood-reset" type="button" title="随机生成主色" aria-label="随机生成主色">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-                  <path d="M16 3h5v5M4 20l5.5-5.5M15 4l-2.5 2.5M20 4l-7.5 7.5M4 4l16 16M16 20h5v-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span>随机</span>
-              </button>
               <div class="accordion-body">
                 <div class="mood-card" style="margin-bottom:14px;">
                   <div class="mood-grid" id="mood-grid">
@@ -3641,12 +3642,18 @@
 
                 <div class="color-picker-row">
                   <div class="color-swatch-large">
-                    <div class="swatch-bg" id="color-preview" style="background:#4a8a59;"></div>
-                    <input type="color" id="color-input" value="#4a8a59">
+                    <div class="swatch-bg" id="color-preview" style="background:#1664ff;"></div>
+                    <input type="color" id="color-input" value="#1664ff">
                   </div>
                   <div class="color-info">
-                    <input class="text-input" id="hex-input" value="#4a8a59" placeholder="HEX 十六进制色值" aria-label="HEX 十六进制色值">
+                    <input class="text-input" id="hex-input" value="#1664ff" placeholder="HEX 十六进制色值" aria-label="HEX 十六进制色值">
                   </div>
+                  <button class="mood-reset" id="mood-reset" type="button" title="随机生成主色" aria-label="随机生成主色">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                      <path d="M16 3h5v5M4 20l5.5-5.5M15 4l-2.5 2.5M20 4l-7.5 7.5M4 4l16 16M16 20h5v-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>随机</span>
+                  </button>
                 </div>
 
                 <div class="primary-color-popover" id="primary-color-popover">
@@ -3711,9 +3718,9 @@
                   </div>
                 </div>
                 <div class="studio-gradient-config" id="studio-gradient-mode-row">
-                  <input type="hidden" id="studio-gradient-mode" value="analogous">
+                  <input type="hidden" id="studio-gradient-mode" value="complementary">
                   <div class="studio-gradient-options">
-                    <button class="studio-gradient-option active" type="button" data-gradient-mode="analogous">
+                    <button class="studio-gradient-option" type="button" data-gradient-mode="analogous">
                       <span class="studio-gradient-thumb analogous"></span>
                       <span class="studio-gradient-name">邻近色</span>
                     </button>
@@ -3721,7 +3728,7 @@
                       <span class="studio-gradient-thumb monochrome"></span>
                       <span class="studio-gradient-name">同色系</span>
                     </button>
-                    <button class="studio-gradient-option" type="button" data-gradient-mode="complementary">
+                    <button class="studio-gradient-option active" type="button" data-gradient-mode="complementary">
                       <span class="studio-gradient-thumb complementary"></span>
                       <span class="studio-gradient-name">互补色</span>
                     </button>
@@ -3732,12 +3739,12 @@
                   </div>
                 </div>
                 <div class="slider-row" id="studio-gradient-strength-row">
-                  <div class="slider-row-head"><span>渐变强度</span><span id="studio-gradient-strength-val">72%</span></div>
-                  <input type="range" id="studio-gradient-strength" min="0" max="100" value="72" step="1" aria-label="渐变强度，左侧极弱且饱和度极低，右侧更明显">
+                  <div class="slider-row-head"><span>渐变强度</span><span id="studio-gradient-strength-val">50%</span></div>
+                  <input type="range" id="studio-gradient-strength" min="0" max="100" value="50" step="1" aria-label="渐变强度，左侧极弱且饱和度极低，右侧更明显">
                 </div>
                 <div class="slider-row" id="studio-gradient-noise-row">
-                  <div class="slider-row-head"><span>噪点效果</span><span id="studio-gradient-noise-val">46%</span></div>
-                  <input type="range" id="studio-gradient-noise" min="0" max="100" value="46" step="1" aria-label="彩色噪点强度，左侧弱，右侧强">
+                  <div class="slider-row-head"><span>噪点效果</span><span id="studio-gradient-noise-val">50%</span></div>
+                  <input type="range" id="studio-gradient-noise" min="0" max="100" value="50" step="1" aria-label="彩色噪点强度，左侧弱，右侧强">
                 </div>
                 <div id="studio-image-config">
                   <div class="studio-image-library" id="studio-image-library">
@@ -3779,7 +3786,7 @@
               <div class="accordion-body">
                 <div class="slider-row">
                   <div class="slider-row-head"><span>圆角大小</span><span id="radius-val">1.00×</span></div>
-                  <input type="range" id="radius" min="0" max="2" value="1" step="0.05">
+                  <input type="range" id="radius" min="0" max="2" value="0.4" step="0.05">
                 </div>
               </div>
             </details>
@@ -4548,7 +4555,7 @@ const DEFAULT_SKILL = {
       stepPair: { 50: 950, 100: 900, 200: 800, 300: 700, 400: 600, 500: 500, 600: 400, 700: 300, 800: 200, 900: 100, 950: 50 }
     },
 
-    defaultPrimary: { L: 0.554, C: 0.2480, H: 274.7 },  // #5252FF
+    defaultPrimary: { L: 0.562, C: 0.2412, H: 262.2 },  // #1664FF
     statusAlias: { success: 'green', warning: 'orange', danger: 'rose', info: 'blue' }
   },
   presets: [
@@ -5507,14 +5514,16 @@ function buildTheme(opts) {
  * Section 6 — UI controllers
  * ============================================================ */
 
+const MOOD_GAMUT = Object.freeze({ hueCold: 290, hueWarm: 15, chromaMin: 0.04, chromaMax: 0.28 });
+
 const state = {
   // 默认进「手动调试」
   mode: 'reference',
   // 矢量缩放：值为浮点比例（1.0 = 标准基线），可平滑控制整套 token 体系
   density: 1.0,
-  radiusIdx: 1.0,
-  shadowIdx: 1.0,
-  primary: hexToOklch('#4a8a59'),
+  radiusIdx: 0.4,
+  shadowIdx: 0,
+  primary: hexToOklch('#1664ff'),
   themeMode: 'light',
   currentTab: 'colors',
   currentTheme: null,
@@ -5542,7 +5551,7 @@ const studioState = {
   sidebarTransparent: false,
   sidebarVisible: true, sidebarWidth: 220, sidebarPosition: 'left',
   sidebarBg: 'surface', sidebarIcons: true,
-  bgToken: 'surface', gradientMode: 'analogous', gradientStrength: 72, gradientNoise: 46,
+  bgToken: 'surface', gradientMode: 'complementary', gradientStrength: 50, gradientNoise: 50,
   fontCn: 'pingfang', fontEn: 'inter',
   compact: false, wide: false, reasoning: true, sources: true,
   welcomeTitle: '今天想设计点什么？', welcomeSuggestions: true, welcomeTasks: true,
@@ -6197,8 +6206,8 @@ function commitColor(L, C, H, source) {
   const moodDot = document.getElementById('mood-dot');
   if (moodDot && source !== 'mood') {
     const mood = oklchToMood(L, C, H);
-    moodDot.style.left = (mood.x * 100) + '%';
-    moodDot.style.top = (mood.y * 100) + '%';
+    moodDot.style.setProperty('--mood-x', (mood.x * 100) + '%');
+    moodDot.style.setProperty('--mood-y', (mood.y * 100) + '%');
   }
 
   // 主色变化时立即刷新渐变预览与运行页，不等待主题 CSS 的防抖生成。
@@ -6327,7 +6336,7 @@ if (presetSelect) {
     presetSelectTrigger.setAttribute('aria-expanded', String(isOpen));
   });
   presetSelectOptions.forEach(option => {
-    option.setAttribute('aria-selected', 'false');
+    option.setAttribute('aria-selected', String(option.dataset.value === presetSelect.dataset.value));
     option.addEventListener('click', event => {
       event.stopPropagation();
       applyPresetOption(option);
@@ -6348,16 +6357,16 @@ if (presetSelect) {
 });
 
 /* --- Mood 2D 网格（情绪选择器） ---
-   X 轴：0(冷, H≈240 蓝) → 1(暖, H≈30 橙)
+   X 轴：0(冷, H≈290 紫蓝) → 1(暖, H≈15 橙红)
    Y 轴：0(克制, 低 C 微亮) → 1(张扬, 高 C 中明)
 */
 function moodToOklch(x, y) {
   x = clamp(x, 0, 1); y = clamp(y, 0, 1);
-  // 色相走横轴 — 自然路径 蓝(240) → 青 → 绿 → 黄 → 橙红(15)
-  // x=0:240(蓝), x=0.25:185(青), x=0.5:127(绿), x=0.75:71(黄), x=1:15(橙红)
-  const hue = ((240 - 225 * x) % 360 + 360) % 360;
+  // 色相走横轴 — 紫蓝(290) → 蓝 → 青 → 绿 → 黄 → 橙红(15)
+  const hueSpan = MOOD_GAMUT.hueCold - MOOD_GAMUT.hueWarm;
+  const hue = MOOD_GAMUT.hueCold - hueSpan * x;
   // 色度走纵轴：克制 → 张扬
-  const C = 0.05 + 0.17 * y;
+  const C = MOOD_GAMUT.chromaMin + (MOOD_GAMUT.chromaMax - MOOD_GAMUT.chromaMin) * y;
   // 明度：克制略亮，张扬居中
   const L = 0.60 - 0.08 * y;
   return { L, C, H: hue };
@@ -6365,21 +6374,20 @@ function moodToOklch(x, y) {
 
 function oklchToMood(L, C, H) {
   // 从 C 反推 y（C 与"克制-张扬"维度最相关，动态范围也大）
-  const yFromC = (C - 0.05) / 0.17;
+  const yFromC = (C - MOOD_GAMUT.chromaMin) / (MOOD_GAMUT.chromaMax - MOOD_GAMUT.chromaMin);
   // 从 L 反推 y
   const yFromL = (0.60 - L) / 0.08;
   // 加权平均：C 权重更高（色度是 y 的主信号）
   const y = clamp(yFromC * 0.7 + yFromL * 0.3, 0, 1);
-  // 从 H 反推 x：H 范围 [15, 240] 对应 x [1, 0]
+  // 从 H 反推 x：H 范围 [15, 290] 对应 x [1, 0]
   // 先把 H 规整到 [0, 360)
   H = ((H % 360) + 360) % 360;
   let x;
-  // mood grid 色相路径：240→15（顺时针跨越 0°），总跨度 225°
-  // H 在 [15, 240] 区间内可直接映射
-  if (H >= 15 && H <= 240) {
-    x = (240 - H) / 225;
-  } else if (H > 240) {
-    // H > 240（紫色/品红方向）：超出网格冷端，贴到 x=0
+  const hueSpan = MOOD_GAMUT.hueCold - MOOD_GAMUT.hueWarm;
+  if (H >= MOOD_GAMUT.hueWarm && H <= MOOD_GAMUT.hueCold) {
+    x = (MOOD_GAMUT.hueCold - H) / hueSpan;
+  } else if (H > MOOD_GAMUT.hueCold) {
+    // H > 290（品红方向）：超出网格冷端，贴到 x=0
     x = 0;
   } else {
     // H < 15（红/深红方向）：超出网格暖端，贴到 x=1
@@ -6403,8 +6411,8 @@ function oklchToMood(L, C, H) {
 
   function setPosition(x, y) {
     x = clamp(x, 0, 1); y = clamp(y, 0, 1);
-    dot.style.left = (x * 100) + '%';
-    dot.style.top = (y * 100) + '%';
+    dot.style.setProperty('--mood-x', (x * 100) + '%');
+    dot.style.setProperty('--mood-y', (y * 100) + '%');
     const oklch = moodToOklch(x, y);
     commitColor(oklch.L, oklch.C, oklch.H, 'mood');
   }
@@ -6476,7 +6484,7 @@ function studioGradientRule(mode = studioState.gradientMode) {
   // 色彩调试点与背景色团共用同一套空间坐标；派生色围绕主色形成稳定的色彩星座。
   const x = 10 + mood.x * 80;
   const y = 10 + mood.y * 70;
-  const pos = (px, py) => `${clamp(px, -8, 108).toFixed(1)}% ${clamp(py, -8, 108).toFixed(1)}%`;
+  const pos = (px, py) => `${clamp(px, -8, 108).toFixed(1)}% ${clamp(100 - py, -8, 108).toFixed(1)}%`;
   return {
     monochrome: { offsets:[0, 0], positions:[pos(x, y), pos(108 - x * .45, 12 + y * .2), pos(18 + x * .18, 106 - y * .38)] },
     analogous: { offsets:[48, -64], positions:[pos(x, y), pos(106 - x * .32, 14 + y * .18), pos(16 + x * .16, 106 - y * .3)] },
@@ -6497,15 +6505,15 @@ function syncStudioGradientVariables(target, mode = studioState.gradientMode, { 
     : studioGradientChroma();
   const { offsets:[offsetA, offsetB], positions } = studioGradientRule(mode);
   const thumbnailProfiles = {
-    monochrome: { lightness:[0.82, 0.87, 0.91], chroma:[0.9, 0.58, 0.3] },
-    analogous: { lightness:[0.82, 0.86, 0.9], chroma:[0.92, 0.86, 0.8] },
-    complementary: { lightness:[0.82, 0.86, 0.9], chroma:[0.92, 0.88, 0.8] },
-    triadic: { lightness:[0.82, 0.86, 0.9], chroma:[0.92, 0.86, 0.82] }
+    monochrome: { lightness:[0.78, 0.87, 0.91], chroma:[0.9, 0.58, 0.3] },
+    analogous: { lightness:[0.78, 0.86, 0.9], chroma:[0.92, 0.86, 0.8] },
+    complementary: { lightness:[0.78, 0.86, 0.9], chroma:[0.92, 0.88, 0.8] },
+    triadic: { lightness:[0.78, 0.86, 0.9], chroma:[0.92, 0.86, 0.82] }
   };
   const profile = thumbnailProfiles[mode] || thumbnailProfiles.analogous;
-  const lightness1 = thumbnail ? profile.lightness[0] : clamp(state.primary.L + 0.25, 0.8, 0.89);
-  const lightness2 = thumbnail ? profile.lightness[1] : clamp(lightness1 + 0.04, 0.84, 0.92);
-  const lightness3 = thumbnail ? profile.lightness[2] : clamp(lightness1 + 0.075, 0.87, 0.95);
+  const lightness1 = thumbnail ? profile.lightness[0] : clamp(state.primary.L + 0.18, 0.73, 0.83);
+  const lightness2 = thumbnail ? profile.lightness[1] : clamp(state.primary.L + 0.29, 0.84, 0.92);
+  const lightness3 = thumbnail ? profile.lightness[2] : clamp(state.primary.L + 0.325, 0.87, 0.95);
   const chroma1 = chroma * (thumbnail ? profile.chroma[0] : 1);
   const chroma2 = chroma * (thumbnail ? profile.chroma[1] : 0.92);
   const chroma3 = chroma * (thumbnail ? profile.chroma[2] : 0.82);
