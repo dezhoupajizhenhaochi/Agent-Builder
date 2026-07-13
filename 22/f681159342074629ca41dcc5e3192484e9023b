@@ -1,0 +1,45 @@
+vedesign-Agent-Theme.css
+  s_e7c60a1a9d3e04::t_fb84b11155ecf6 454
+  s_e7c60a1a9d3e04::t_11f67481a84807 681-689
+  s_e7c60a1a9d3e04::t_725073c38a8abb 691-703
+  s_e7c60a1a9d3e04::t_ec951930148db3 451-453,455-458
+  s_e7c60a1a9d3e04::t_c2df7321a00156 571
+  s_e7c60a1a9d3e04::t_53f41547129153 754-760
+  s_e7c60a1a9d3e04::t_b70cd58ad77bd5 529-534
+  s_e7c60a1a9d3e04::t_a2af6b6abbd618 705-709
+  s_e7c60a1a9d3e04::t_9b9f3eb25c2ba9 479-482
+  s_e7c60a1a9d3e04::t_195cb22b67257a 485-490,493,495-502,505,507-510
+  s_e7c60a1a9d3e04::t_3d16b5a6bb6347 484,512,528,711-752
+  s_e7c60a1a9d3e04::t_7938028a66b381 513-526
+  s_e7c60a1a9d3e04::t_bfaadaabf73ac7 463-474
+  s_e7c60a1a9d3e04::t_30ac4bdda7757d 483
+  s_e7c60a1a9d3e04::t_3096e7c5643ee2 511
+  s_e7c60a1a9d3e04::t_c7bb25533aab16 527
+  s_e7c60a1a9d3e04::t_d6c1a89a4b1898 690
+  s_e7c60a1a9d3e04::t_3afd32b73a5982 704
+  s_e7c60a1a9d3e04::t_37cd145ab3304e 710
+  s_e7c60a1a9d3e04::t_1137e484b98e0e 753
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "22f681159342074629ca41dcc5e3192484e9023b",
+  "prompts": {},
+  "humans": {
+    "h_bce47d088b4035": {
+      "author": "dezhoupajizhenhaochi <ahai981118536@126.com>"
+    }
+  },
+  "sessions": {
+    "s_e7c60a1a9d3e04": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6a533a52147f04909585f0fe",
+        "model": "gpt-5.5__dev"
+      },
+      "human_author": null
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
