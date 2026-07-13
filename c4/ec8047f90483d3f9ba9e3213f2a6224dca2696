@@ -1,0 +1,14 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "c4ec8047f90483d3f9ba9e3213f2a6224dca2696",
+  "prompts": {},
+  "humans": {
+    "h_bce47d088b4035": {
+      "author": "dezhoupajizhenhaochi <ahai981118536@126.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
