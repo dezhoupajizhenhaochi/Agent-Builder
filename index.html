@@ -717,93 +717,36 @@
   }
   .ve-thinking {
     width: min(100%, 520px);
-    border: var(--stroke-0_5, 0.5px) solid color-mix(in oklch, var(--color-border-interactive, var(--app-accent)) 42%, var(--color-border-default, var(--app-border)));
+    border: var(--stroke-0_5, 0.5px) solid var(--color-border-default, var(--app-border));
     border-radius: var(--radius-xl, 16px);
-    background:
-      radial-gradient(circle at 0% 0%, color-mix(in oklch, var(--color-bg-secondary, var(--app-muted)) 78%, transparent), transparent 52%),
-      var(--color-bg-base, var(--app-surface));
+    background: var(--color-bg-base, var(--app-surface));
     color: var(--color-text-primary, var(--app-text));
-    box-shadow: var(--shadow-sm, 0 2px 8px rgba(0,0,0,.04));
+    box-shadow: var(--shadow-sm, none);
     overflow: hidden;
   }
   .ve-thinking-header {
-    width: 100%;
     min-height: 40px;
     padding: 0 var(--space-xs, 12px);
     display: flex;
     align-items: center;
     gap: var(--space-xxs, 8px);
-    border: 0;
-    background: transparent;
-    color: inherit;
-    font-family: inherit;
     font-size: var(--text-body-sm, 13px);
     font-weight: var(--font-weight-semibold, 600);
-    text-align: left;
-    cursor: pointer;
-  }
-  .ve-thinking-header:focus-visible {
-    outline: 2px solid var(--color-border-interactive, var(--app-accent));
-    outline-offset: -2px;
   }
   .ve-thinking-icon {
-    position: relative;
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
-    border: 1.5px solid var(--color-text-primary, var(--app-text));
-    color: var(--color-text-primary, var(--app-text));
-    animation: ve-thinking-spin 1.4s linear infinite;
-    flex-shrink: 0;
-  }
-  .ve-thinking-icon::before,
-  .ve-thinking-icon::after {
-    content: "";
-    position: absolute;
-    inset: 50% auto auto 50%;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: currentColor;
-    transform: translate(-50%, -50%);
-  }
-  .ve-thinking-icon::after {
-    width: 18px;
-    height: 7px;
-    border: 1.5px solid currentColor;
-    border-radius: 999px;
-    background: transparent;
-    transform: translate(-50%, -50%) rotate(62deg);
-  }
-  .ve-thinking-title {
-    flex: 1;
-    min-width: 0;
-  }
-  .ve-thinking-extra {
-    color: var(--color-text-tertiary, var(--app-text-muted));
-    font-size: 11px;
-    font-weight: var(--font-weight-regular, 400);
-  }
-  .ve-thinking-chevron {
-    width: 14px;
-    height: 14px;
-    color: var(--color-icon-secondary, var(--app-text-secondary));
-    transition: transform var(--motion-fast, .15s) var(--ease-standard, ease);
+    border: 2px solid var(--color-border-default, var(--app-border));
+    border-top-color: var(--color-text-primary, var(--app-text));
+    animation: ve-thinking-spin .9s linear infinite;
     flex-shrink: 0;
   }
   .ve-thinking-body {
-    max-height: 96px;
     padding: 0 var(--space-xs, 12px) var(--space-xs, 12px) 36px;
     color: var(--color-text-secondary, var(--app-text-secondary));
     font-size: var(--text-caption, 12px);
     line-height: 1.65;
-    overflow: auto;
-  }
-  .ve-thinking[data-expanded="false"] .ve-thinking-body {
-    display: none;
-  }
-  .ve-thinking[data-expanded="false"] .ve-thinking-chevron {
-    transform: rotate(-90deg);
   }
   @keyframes ve-thinking-spin {
     to { transform: rotate(360deg); }
@@ -1290,6 +1233,14 @@
     background: var(--color-bg-muted, var(--app-muted));
     color: var(--color-text-primary, var(--app-text));
   }
+  .studio-color-select { width: 172px; }
+  .studio-color-select .ved-select-trigger { height: 38px; font-weight: 500; }
+  .studio-color-select .ved-select-menu { min-width: 220px; left: auto; }
+  .studio-color-select .ved-select-option { height: 40px; }
+  .studio-color-select .ved-select-swatch { width: 20px; height: 20px; border-radius: 5px; }
+  .studio-color-option-copy { display:flex; min-width:0; flex-direction:column; gap:1px; }
+  .studio-color-option-name { color:var(--color-text-primary, var(--app-text)); }
+  .studio-color-option-token { color:var(--color-text-tertiary, var(--app-text-muted)); font-size:10px; font-weight:400; }
 
   /* Color picker for reference mode */
   .color-picker-row {
@@ -1299,8 +1250,9 @@
     margin-bottom: 10px;
   }
   .color-swatch-large {
-    width: 56px;
-    height: 56px;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
     border-radius: var(--app-radius);
     border: 1px solid var(--app-border);
     cursor: pointer;
@@ -1369,9 +1321,12 @@
   .mood-accordion > summary { padding-right: 76px; }
   .mood-accordion > .mood-reset {
     position: absolute;
-    top: -4px;
-    right: 18px;
+    top: 7px;
+    right: 0;
     z-index: 2;
+  }
+  .accordion.group-accordion > .accordion-body > .mood-accordion:first-child > .mood-reset {
+    top: -3px;
   }
   .mood-accordion .accordion-body { padding-top: 8px; }
 
@@ -3171,31 +3126,25 @@
     aspect-ratio:1.45;
     border-radius:6px;
     background:
-      radial-gradient(ellipse 82% 68% at 0% 0%, oklch(.88 var(--studio-gradient-thumb-chroma,.13) var(--brand-hue,285.8) / calc(var(--studio-gradient-opacity,.72) * .96)), transparent 60%),
-      radial-gradient(ellipse 88% 72% at 96% 2%, oklch(.9 calc(var(--studio-gradient-thumb-chroma,.13) * .92) var(--studio-gradient-hue-2, calc(var(--brand-hue,285.8) + 48)) / calc(var(--studio-gradient-opacity,.72) * .9)), transparent 55%),
-      radial-gradient(ellipse 64% 54% at 14% 100%, oklch(.92 calc(var(--studio-gradient-thumb-chroma,.13) * .82) var(--studio-gradient-hue-3, calc(var(--brand-hue,285.8) - 46)) / calc(var(--studio-gradient-opacity,.72) * .78)), transparent 62%),
-      linear-gradient(135deg, rgb(255 255 255 / calc((1 - var(--studio-gradient-depth,.36)) * .18)) 0%, transparent 44%, rgb(16 16 24 / calc(var(--studio-gradient-depth,.36) * .04)) 100%),
-      #fbfdff;
+      radial-gradient(ellipse 54% 46% at 72% 30%, rgb(255 255 255 / .24) 0%, transparent 72%),
+      radial-gradient(ellipse 96% 84% at var(--studio-gradient-pos-1,-10% -8%), color-mix(in oklch,var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1,67%),transparent), transparent 72%),
+      radial-gradient(ellipse 90% 78% at var(--studio-gradient-pos-2,108% 8%), color-mix(in oklch,var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2,58%),transparent), transparent 74%),
+      radial-gradient(ellipse 84% 72% at var(--studio-gradient-pos-3,18% 112%), color-mix(in oklch,var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3,49%),transparent), transparent 74%),
+      oklch(var(--studio-gradient-base-lightness,.948) var(--studio-gradient-base-chroma,.022) var(--brand-hue,285.8));
     background-size:cover;
     background-position:center;
     position:relative;
   }
-  .studio-gradient-thumb.monochrome {
-    background:
-      linear-gradient(135deg, oklch(.96 calc(var(--studio-gradient-thumb-chroma,.13) * .38) var(--brand-hue,285.8)) 0%, oklch(.82 calc(var(--studio-gradient-thumb-chroma,.13) * .9) var(--brand-hue,285.8)) 54%, oklch(.68 var(--studio-gradient-thumb-chroma,.13) var(--brand-hue,285.8)) 100%);
-  }
-  .studio-gradient-thumb.complementary {
-    background:
-      radial-gradient(circle at 18% 20%, oklch(.88 var(--studio-gradient-thumb-chroma,.13) var(--brand-hue,285.8) / .9) 0, transparent 46%),
-      radial-gradient(circle at 82% 82%, oklch(.9 calc(var(--studio-gradient-thumb-chroma,.13) * .92) var(--studio-gradient-hue-2, calc(var(--brand-hue,285.8) + 180)) / .82) 0, transparent 50%),
-      linear-gradient(135deg, #fff, #fbfdff);
-  }
-  .studio-gradient-thumb.triadic {
-    background:
-      radial-gradient(circle at 18% 18%, oklch(.88 var(--studio-gradient-thumb-chroma,.13) var(--brand-hue,285.8) / .9) 0, transparent 42%),
-      radial-gradient(circle at 84% 28%, oklch(.9 calc(var(--studio-gradient-thumb-chroma,.13) * .9) var(--studio-gradient-hue-2, calc(var(--brand-hue,285.8) + 120)) / .84) 0, transparent 44%),
-      radial-gradient(circle at 42% 94%, oklch(.92 calc(var(--studio-gradient-thumb-chroma,.13) * .84) var(--studio-gradient-hue-3, calc(var(--brand-hue,285.8) + 240)) / .78) 0, transparent 52%),
-      #fbfdff;
+  .studio-gradient-thumb::after {
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:6px;
+    pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256' viewBox='0 0 256 256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:256px 256px;
+    mix-blend-mode:soft-light;
+    opacity:var(--studio-gradient-noise-opacity, 0);
   }
   .studio-gradient-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .agent-demo { --studio-blur: 18px; --studio-sidebar-percent: 100%; position:relative; isolation:isolate; }
@@ -3235,22 +3184,22 @@
   .panel-preview[data-studio-background="solid"]::before { background:var(--app-bg); }
   .panel-preview[data-studio-background="aurora"]::before {
     background:
-      radial-gradient(ellipse 70% 58% at 2% 3%, oklch(.91 var(--studio-gradient-chroma,.11) var(--brand-hue,285.8) / .64) 0, oklch(.96 calc(var(--studio-gradient-chroma,.11) * .58) var(--brand-hue,285.8) / .36) 43%, transparent 74%),
-      radial-gradient(ellipse 62% 54% at 98% 8%, oklch(.93 calc(var(--studio-gradient-chroma,.11) * .88) var(--studio-gradient-hue-2, calc(var(--brand-hue,285.8) + 48)) / .56) 0, transparent 75%),
-      radial-gradient(ellipse 66% 52% at 86% 100%, oklch(.95 calc(var(--studio-gradient-chroma,.11) * .72) calc(var(--brand-hue,285.8) + 92) / .48) 0, transparent 76%),
-      radial-gradient(ellipse 52% 44% at 14% 96%, oklch(.97 calc(var(--studio-gradient-chroma,.11) * .42) var(--studio-gradient-hue-3, calc(var(--brand-hue,285.8) - 46)) / .28) 0, transparent 72%),
-      #fbfdff;
+      radial-gradient(ellipse 70% 58% at 2% 3%, oklch(.88 var(--studio-gradient-chroma,.11) var(--brand-hue,285.8) / .62) 0, oklch(.94 calc(var(--studio-gradient-chroma,.11) * .58) var(--brand-hue,285.8) / .34) 43%, transparent 74%),
+      radial-gradient(ellipse 62% 54% at 98% 8%, oklch(.9 calc(var(--studio-gradient-chroma,.11) * .88) var(--studio-gradient-hue-2, calc(var(--brand-hue,285.8) + 48)) / .52) 0, transparent 75%),
+      radial-gradient(ellipse 66% 52% at 86% 100%, oklch(.93 calc(var(--studio-gradient-chroma,.11) * .72) calc(var(--brand-hue,285.8) + 92) / .44) 0, transparent 76%),
+      radial-gradient(ellipse 52% 44% at 14% 96%, oklch(.95 calc(var(--studio-gradient-chroma,.11) * .42) var(--studio-gradient-hue-3, calc(var(--brand-hue,285.8) - 46)) / .24) 0, transparent 72%),
+      #f7f7fb;
     filter:blur(calc(var(--studio-canvas-blur, 18px) * .55)) saturate(.94);
     transform:scale(1.035);
     opacity:var(--studio-gradient-opacity,.58);
   }
   .panel-preview[data-studio-background="mesh"]::before {
     background:
-      radial-gradient(circle at 8% 12%, oklch(.86 var(--studio-gradient-chroma,.11) var(--brand-hue,285.8) / .64), transparent 38%),
-      radial-gradient(circle at 92% 8%, oklch(.91 calc(var(--studio-gradient-chroma,.11) * .88) var(--studio-gradient-hue-2, calc(var(--brand-hue,285.8) + 52)) / .58), transparent 36%),
-      radial-gradient(circle at 84% 92%, oklch(.94 calc(var(--studio-gradient-chroma,.11) * .72) calc(var(--brand-hue,285.8) + 96) / .52), transparent 42%),
-      radial-gradient(circle at 20% 90%, oklch(.91 calc(var(--studio-gradient-chroma,.11) * .78) var(--studio-gradient-hue-3, calc(var(--brand-hue,285.8) - 48)) / .48), transparent 40%),
-      #fbfdff;
+      radial-gradient(circle at 8% 12%, oklch(.82 var(--studio-gradient-chroma,.11) var(--brand-hue,285.8) / .62), transparent 38%),
+      radial-gradient(circle at 92% 8%, oklch(.87 calc(var(--studio-gradient-chroma,.11) * .88) var(--studio-gradient-hue-2, calc(var(--brand-hue,285.8) + 52)) / .54), transparent 36%),
+      radial-gradient(circle at 84% 92%, oklch(.91 calc(var(--studio-gradient-chroma,.11) * .72) calc(var(--brand-hue,285.8) + 96) / .48), transparent 42%),
+      radial-gradient(circle at 20% 90%, oklch(.87 calc(var(--studio-gradient-chroma,.11) * .78) var(--studio-gradient-hue-3, calc(var(--brand-hue,285.8) - 48)) / .44), transparent 40%),
+      #f6f6fb;
     filter:blur(var(--studio-canvas-blur, 18px)) saturate(1.16);
     transform:scale(1.08);
     opacity:var(--studio-gradient-opacity,.72);
@@ -3264,10 +3213,11 @@
   .agent-demo[data-background]:not([data-background="solid"]) { background:transparent; box-shadow:none; }
   .agent-demo[data-background="gradient"] {
     background:
-      radial-gradient(ellipse 82% 68% at 0% 0%, oklch(.91 var(--studio-gradient-chroma,.11) var(--brand-hue,285.8) / calc(var(--studio-gradient-opacity,.72) * .82)), transparent 60%),
-      radial-gradient(ellipse 74% 62% at 100% 4%, oklch(.93 calc(var(--studio-gradient-chroma,.11) * .88) var(--studio-gradient-hue-2, calc(var(--brand-hue,285.8) + 48)) / calc(var(--studio-gradient-opacity,.72) * .78)), transparent 62%),
-      radial-gradient(ellipse 64% 54% at 14% 100%, oklch(.95 calc(var(--studio-gradient-chroma,.11) * .76) var(--studio-gradient-hue-3, calc(var(--brand-hue,285.8) - 46)) / calc(var(--studio-gradient-opacity,.72) * .68)), transparent 62%),
-      #fbfdff;
+      radial-gradient(ellipse 54% 46% at 72% 30%, rgb(255 255 255 / .24) 0%, transparent 72%),
+      radial-gradient(ellipse 96% 84% at var(--studio-gradient-pos-1,-10% -8%), color-mix(in oklch,var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1,67%),transparent), transparent 72%),
+      radial-gradient(ellipse 90% 78% at var(--studio-gradient-pos-2,108% 8%), color-mix(in oklch,var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2,58%),transparent), transparent 74%),
+      radial-gradient(ellipse 84% 72% at var(--studio-gradient-pos-3,18% 112%), color-mix(in oklch,var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3,49%),transparent), transparent 74%),
+      oklch(var(--studio-gradient-base-lightness,.948) var(--studio-gradient-base-chroma,.022) var(--brand-hue,285.8));
   }
   html.dark .agent-demo[data-background="gradient"] {
     background:
@@ -3607,16 +3557,12 @@
       <!-- 手动调试：情绪网格 + 拾色器 + L/C/H 滑杆 三段一体 -->
       <div class="input-section" id="section-reference" style="display:none;">
 
-        <!-- 主题模板 -->
+        <!-- 常用模板 -->
         <details class="accordion group-accordion" open>
-          <summary>主题模板</summary>
+          <summary>常用模板</summary>
           <div class="accordion-body">
 
-            <!-- 常用模板 -->
-            <details class="accordion sub-accordion" open>
-              <summary>常用模板</summary>
-              <div class="accordion-body">
-                <div class="ved-select" id="preset-select" data-value="" style="width:100%;">
+            <div class="ved-select" id="preset-select" data-value="" style="width:100%;">
                   <button class="ved-select-trigger" type="button" title="选择常用主题" aria-haspopup="listbox" aria-expanded="false">
                     <span class="ved-select-value">
                       <span class="ved-select-swatch" id="preset-select-swatch"></span>
@@ -3641,16 +3587,14 @@
                     <button class="ved-select-option" role="option" type="button" data-value="#611F69" data-label="Slack" data-density="1" data-radius="2" data-shadow="0"><span class="ved-select-swatch" style="background:#611F69;"></span><span>Slack</span></button>
                     <button class="ved-select-option" role="option" type="button" data-value="#0F1115" data-label="Grok" data-density="0" data-radius="1" data-shadow="0"><span class="ved-select-swatch" style="background:#0F1115;"></span><span>Grok</span></button>
                   </div>
-                </div>
-              </div>
-            </details>
+            </div>
 
-            <!-- 按情绪选择 -->
+            <!-- 选择主色 -->
             <details class="accordion sub-accordion mood-accordion" open>
               <summary>
-                <span>按情绪选择</span>
+                <span>选择主色</span>
               </summary>
-              <button class="mood-reset" id="mood-reset" type="button" title="随机生成情绪" aria-label="随机生成情绪">
+              <button class="mood-reset" id="mood-reset" type="button" title="随机生成主色" aria-label="随机生成主色">
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
                   <path d="M16 3h5v5M4 20l5.5-5.5M15 4l-2.5 2.5M20 4l-7.5 7.5M4 4l16 16M16 20h5v-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
@@ -3675,12 +3619,7 @@
                     <input type="color" id="color-input" value="#4a8a59">
                   </div>
                   <div class="color-info">
-                    <div class="color-info-row">
-                      <input class="text-input" id="hex-input" value="#4a8a59" placeholder="HEX">
-                    </div>
-                    <div class="color-info-row">
-                      <input class="text-input" id="oklch-display" value="oklch(0.577 0.1002 149.9)" readonly>
-                    </div>
+                    <input class="text-input" id="hex-input" value="#4a8a59" placeholder="HEX 十六进制色值" aria-label="HEX 十六进制色值">
                   </div>
                 </div>
 
@@ -3724,7 +3663,7 @@
         <!-- 主题风格 -->
         <details class="accordion group-accordion" open>
           <summary>主题风格</summary>
-          <div class="accordion-body">
+          <div class="accordion-body" id="theme-style-body">
 
             <!-- 背景色 -->
             <details class="accordion sub-accordion" open>
@@ -3736,14 +3675,21 @@
                   <button type="button" class="active" data-background="image">图片背景</button>
                 </div>
                 <input type="hidden" id="studio-background" value="image">
-                <label class="studio-field" id="studio-solid-config" style="display:none;"><span>界面背景色</span>
-                  <select class="studio-select" id="studio-bg-token">
-                    <option value="surface" selected>BG Surface</option>
-                    <option value="base">BG Base</option>
-                    <option value="soft">Primary 50</option>
-                    <option value="neutral">Gray 100</option>
-                  </select>
-                </label>
+                <div class="studio-field" id="studio-solid-config" style="display:none;"><span>界面背景色</span>
+                  <div class="ved-select studio-color-select" id="studio-bg-token-select" data-value="surface">
+                    <input type="hidden" id="studio-bg-token" value="surface">
+                    <button class="ved-select-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+                      <span class="ved-select-value"><span class="ved-select-swatch" id="studio-bg-token-swatch" style="background:var(--color-bg-surface);"></span><span class="ved-select-label" id="studio-bg-token-label">页面底色</span></span>
+                      <svg class="ved-select-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <div class="ved-select-menu" role="listbox" aria-label="选择界面背景色">
+                      <button class="ved-select-option is-active" role="option" aria-selected="true" type="button" data-value="surface" data-label="页面底色" data-color="var(--color-bg-surface)"><span class="ved-select-swatch" style="background:var(--color-bg-surface);"></span><span class="studio-color-option-copy"><span class="studio-color-option-name">页面底色</span><span class="studio-color-option-token">BG Surface</span></span></button>
+                      <button class="ved-select-option" role="option" aria-selected="false" type="button" data-value="base" data-label="内容底色" data-color="var(--color-bg-base)"><span class="ved-select-swatch" style="background:var(--color-bg-base);"></span><span class="studio-color-option-copy"><span class="studio-color-option-name">内容底色</span><span class="studio-color-option-token">BG Base</span></span></button>
+                      <button class="ved-select-option" role="option" aria-selected="false" type="button" data-value="soft" data-label="品牌柔光" data-color="var(--color-primary-50)"><span class="ved-select-swatch" style="background:var(--color-primary-50);"></span><span class="studio-color-option-copy"><span class="studio-color-option-name">品牌柔光</span><span class="studio-color-option-token">Primary 50</span></span></button>
+                      <button class="ved-select-option" role="option" aria-selected="false" type="button" data-value="neutral" data-label="中性衬底" data-color="var(--color-gray-100)"><span class="ved-select-swatch" style="background:var(--color-gray-100);"></span><span class="studio-color-option-copy"><span class="studio-color-option-name">中性衬底</span><span class="studio-color-option-token">Gray 100</span></span></button>
+                    </div>
+                  </div>
+                </div>
                 <div class="studio-gradient-config" id="studio-gradient-mode-row">
                   <div class="studio-gradient-head">渐变配色</div>
                   <input type="hidden" id="studio-gradient-mode" value="analogous">
@@ -3768,29 +3714,29 @@
                 </div>
                 <div class="slider-row" id="studio-gradient-strength-row">
                   <div class="slider-row-head"><span>渐变强度</span><span id="studio-gradient-val">72%</span></div>
-                  <input type="range" id="studio-gradient-strength" min="20" max="100" value="72" step="1">
+                  <input type="range" id="studio-gradient-strength" min="0" max="100" value="72" step="1">
                 </div>
                 <div class="slider-row" id="studio-gradient-noise-row">
-                  <div class="slider-row-head"><span>噪点纹理</span><span id="studio-gradient-noise-val">0%</span></div>
-                  <input type="range" id="studio-gradient-noise" min="0" max="100" value="0" step="1" aria-label="噪点纹理强度，左侧弱，右侧强">
+                  <div class="slider-row-head"><span>噪点纹理</span><span id="studio-gradient-noise-val">24%</span></div>
+                  <input type="range" id="studio-gradient-noise" min="0" max="100" value="24" step="1" aria-label="噪点纹理强度，左侧弱，右侧强">
                 </div>
                 <div id="studio-image-config">
                   <div class="studio-image-library" id="studio-image-library">
                     <div class="studio-image-options">
-                      <button class="studio-image-option active" type="button" data-image-path="asset/bg1.png" data-image-tone="light">
-                        <span class="studio-image-thumb" style="background-image:url('asset/bg1.png');"></span>
+                      <button class="studio-image-option active" type="button" data-image-path="/asset/bg1.png" data-image-tone="light">
+                        <span class="studio-image-thumb" style="background-image:url('/asset/bg1.png');"></span>
                         <span class="studio-image-name">柔彩渐变</span>
                       </button>
-                      <button class="studio-image-option" type="button" data-image-path="asset/bg2.jpg" data-image-tone="dark">
-                        <span class="studio-image-thumb" style="background-image:url('asset/bg2.jpg');"></span>
+                      <button class="studio-image-option" type="button" data-image-path="/asset/bg2.jpg" data-image-tone="dark">
+                        <span class="studio-image-thumb" style="background-image:url('/asset/bg2.jpg');"></span>
                         <span class="studio-image-name">极光山谷</span>
                       </button>
-                      <button class="studio-image-option" type="button" data-image-path="asset/42d56d9a4bd2a7fb4936e42101d61081.jpg" data-image-tone="light">
-                        <span class="studio-image-thumb" style="background-image:url('asset/42d56d9a4bd2a7fb4936e42101d61081.jpg');"></span>
+                      <button class="studio-image-option" type="button" data-image-path="/asset/42d56d9a4bd2a7fb4936e42101d61081.jpg" data-image-tone="light">
+                        <span class="studio-image-thumb" style="background-image:url('/asset/42d56d9a4bd2a7fb4936e42101d61081.jpg');"></span>
                         <span class="studio-image-name">浅雾柔光</span>
                       </button>
-                      <button class="studio-image-option" type="button" data-image-path="asset/174b6ee2398798918afb6b21d1c60441.jpg" data-image-tone="light">
-                        <span class="studio-image-thumb" style="background-image:url('asset/174b6ee2398798918afb6b21d1c60441.jpg');"></span>
+                      <button class="studio-image-option" type="button" data-image-path="/asset/174b6ee2398798918afb6b21d1c60441.jpg" data-image-tone="light">
+                        <span class="studio-image-thumb" style="background-image:url('/asset/174b6ee2398798918afb6b21d1c60441.jpg');"></span>
                         <span class="studio-image-name">青雾柔影</span>
                       </button>
                     </div>
@@ -3813,7 +3759,7 @@
               <summary>系统圆角</summary>
               <div class="accordion-body">
                 <div class="slider-row">
-                  <div class="slider-row-head"><span>圆角大小</span><span id="radius-val">8px</span></div>
+                  <div class="slider-row-head"><span>圆角大小</span><span id="radius-val">1.00×</span></div>
                   <input type="range" id="radius" min="0" max="2" value="1" step="0.05">
                 </div>
               </div>
@@ -5570,10 +5516,10 @@ const state = {
 };
 
 const BACKGROUND_IMAGE_LIBRARY = [
-  { path: 'asset/bg1.png', label: '柔彩渐变', tone: 'light' },
-  { path: 'asset/bg2.jpg', label: '极光山谷', tone: 'dark' },
-  { path: 'asset/42d56d9a4bd2a7fb4936e42101d61081.jpg', label: '浅雾柔光', tone: 'light' },
-  { path: 'asset/174b6ee2398798918afb6b21d1c60441.jpg', label: '青雾柔影', tone: 'light' }
+  { path: '/asset/bg1.png', label: '柔彩渐变', tone: 'light' },
+  { path: '/asset/bg2.jpg', label: '极光山谷', tone: 'dark' },
+  { path: '/asset/42d56d9a4bd2a7fb4936e42101d61081.jpg', label: '浅雾柔光', tone: 'light' },
+  { path: '/asset/174b6ee2398798918afb6b21d1c60441.jpg', label: '青雾柔影', tone: 'light' }
 ];
 const DEFAULT_BACKGROUND_IMAGE_PATH = BACKGROUND_IMAGE_LIBRARY[0].path;
 const backgroundImageDataUrlCache = {};
@@ -5589,7 +5535,7 @@ const studioState = {
   sidebarTransparent: false,
   sidebarVisible: true, sidebarWidth: 220, sidebarPosition: 'left',
   sidebarBg: 'surface', sidebarIcons: true,
-  bgToken: 'surface', gradientMode: 'analogous', gradientStrength: 72, gradientDepth: 36, gradientNoise: 0,
+  bgToken: 'surface', gradientMode: 'analogous', gradientStrength: 72, gradientNoise: 24,
   fontCn: 'pingfang', fontEn: 'inter',
   compact: false, wide: false, reasoning: true, sources: true,
   welcomeTitle: '今天想设计点什么？', welcomeSuggestions: true, welcomeTasks: true,
@@ -6219,7 +6165,7 @@ function commitColor(L, C, H, source) {
   $('#color-preview').style.background = hex;
   if (source !== 'color') $('#color-input').value = hex;
   if (source !== 'hex')   $('#hex-input').value = hex;
-  $('#oklch-display').value = fmtOklch(L, C, H);
+  if ($('#oklch-display')) $('#oklch-display').value = fmtOklch(L, C, H);
 
   // Sliders + number inputs — slider 与 num 是双向配对：
   // 拖滑杆时 num 数字要同步；改 num 框时 slider 把手要跟着挪。
@@ -6247,6 +6193,9 @@ function commitColor(L, C, H, source) {
     moodDot.style.left = (mood.x * 100) + '%';
     moodDot.style.top = (mood.y * 100) + '%';
   }
+
+  // 主色变化时立即刷新渐变预览与运行页，不等待主题 CSS 的防抖生成。
+  if (source !== 'init') applyStudioAppearance();
 
   // 实时重算 14 调色板 + CSS — reference / mood / presets 都走实时路径
   // （语义模式仍用「生成主题」按钮显式触发，避免边打字边重算 + 误打 AI 接口）
@@ -6432,6 +6381,13 @@ function oklchToMood(L, C, H) {
   return { x: clamp(x, 0, 1), y };
 }
 
+// “选择主色”属于主题风格配置，并始终作为该分组的第一项展示。
+(() => {
+  const themeStyleBody = document.getElementById('theme-style-body');
+  const primaryColorSection = document.querySelector('.mood-accordion');
+  if (themeStyleBody && primaryColorSection) themeStyleBody.prepend(primaryColorSection);
+})();
+
 (function setupMoodGrid() {
   const grid = document.getElementById('mood-grid');
   const dot = document.getElementById('mood-dot');
@@ -6497,58 +6453,77 @@ bindOklchPair('lch-h', 'lch-h-num', 'H');
 // （semantic + AI 模式不自动跑，避免每次拖动都打 API）
 // 矢量滑杆：state.{density,radiusIdx,shadowIdx} 是浮点比例（1.0 = 标准基线）
 const fmtScale = (v) => v.toFixed(2) + '×';
-function radiusMdPx(idx) {
-  const base = currentSkill.radius.scales[1]?.md ?? 8;
-  const val = Math.round(base * idx);
-  return val + 'px';
-}
-const gradientNoiseOpacity = () => String(studioState.gradientNoise / 100 * 0.85);
+const gradientNoiseOpacity = () => String(studioState.gradientNoise / 100 * 0.62);
+// 低强度使用非线性曲线：左侧同时衰减透明度与色度，获得真正的“极弱”渐变。
+const studioGradientIntensity = () => Math.pow(clamp(studioState.gradientStrength / 100, 0, 1), 1.25);
 const studioGradientChroma = () => {
-  const strength = studioState.gradientStrength / 100;
-  return clamp(state.primary.C * (0.42 + strength * 0.22), 0.055, 0.16);
+  const intensity = studioGradientIntensity();
+  return clamp(state.primary.C * (0.08 + intensity * 0.95), 0.004, 0.18);
 };
 
-function studioGradientOffsets() {
+function studioGradientRule(mode = studioState.gradientMode) {
   return {
-    monochrome: [0, 0], analogous: [48, -46],
-    complementary: [180, 140], triadic: [120, 240]
-  }[studioState.gradientMode] || [48, -46];
+    monochrome: { offsets:[0, 0], positions:['-8% -8%', '108% 12%', '20% 112%'] },
+    analogous: { offsets:[48, -44], positions:['-10% -8%', '108% 8%', '18% 112%'] },
+    complementary: { offsets:[180, 210], positions:['-8% 4%', '108% 104%', '104% -8%'] },
+    triadic: { offsets:[120, 240], positions:['-8% -6%', '108% -4%', '50% 112%'] }
+  }[mode] || { offsets:[36, -32], positions:['-10% -8%', '108% 8%', '18% 112%'] };
 }
 
-function syncStudioGradientVariables(target) {
+function studioGradientOffsets(mode = studioState.gradientMode) {
+  return studioGradientRule(mode).offsets;
+}
+
+function syncStudioGradientVariables(target, mode = studioState.gradientMode, { thumbnail = false } = {}) {
   if (!target) return;
-  const strength = studioState.gradientStrength / 100;
-  const chroma = studioGradientChroma();
-  const [offsetA, offsetB] = studioGradientOffsets();
+  const intensity = thumbnail ? 1 : studioGradientIntensity();
+  const chroma = thumbnail
+    ? clamp(Math.max(state.primary.C * 0.85, 0.065), 0.065, 0.15)
+    : studioGradientChroma();
+  const { offsets:[offsetA, offsetB], positions } = studioGradientRule(mode);
+  const thumbnailProfiles = {
+    monochrome: { lightness:[0.64, 0.76, 0.89], chroma:[1, 0.62, 0.2] },
+    analogous: { lightness:[0.68, 0.73, 0.78], chroma:[1, 0.96, 0.88] },
+    complementary: { lightness:[0.68, 0.72, 0.77], chroma:[1, 0.98, 0.9] },
+    triadic: { lightness:[0.68, 0.72, 0.76], chroma:[1, 0.96, 0.94] }
+  };
+  const profile = thumbnailProfiles[mode] || thumbnailProfiles.analogous;
+  const lightness1 = thumbnail ? profile.lightness[0] : clamp(state.primary.L + 0.18, 0.72, 0.82);
+  const lightness2 = thumbnail ? profile.lightness[1] : clamp(lightness1 + 0.055, 0.76, 0.88);
+  const lightness3 = thumbnail ? profile.lightness[2] : clamp(lightness1 + 0.095, 0.8, 0.92);
+  const chroma1 = chroma * (thumbnail ? profile.chroma[0] : 1);
+  const chroma2 = chroma * (thumbnail ? profile.chroma[1] : 0.92);
+  const chroma3 = chroma * (thumbnail ? profile.chroma[2] : 0.82);
+  const baseLightness = clamp(0.982 - intensity * 0.034 + state.primary.L * 0.012, 0.948, 0.988);
+  const baseChroma = clamp(chroma * (0.04 + intensity * 0.14), 0.002, 0.04);
+  target.style.setProperty('--brand-hue', state.primary.H.toFixed(1));
+  target.style.setProperty('--brand-chroma', state.primary.C.toFixed(4));
   target.style.setProperty('--studio-gradient-chroma', chroma.toFixed(3));
-  target.style.setProperty('--studio-gradient-color-1', `oklch(0.91 ${chroma.toFixed(3)} ${state.primary.H})`);
-  target.style.setProperty('--studio-gradient-color-2', `oklch(0.93 ${(chroma * 0.88).toFixed(3)} ${state.primary.H + offsetA})`);
-  target.style.setProperty('--studio-gradient-color-3', `oklch(0.95 ${(chroma * 0.76).toFixed(3)} ${state.primary.H + offsetB})`);
-  target.style.setProperty('--studio-ui-gradient-weight-1', `${Math.round(strength * 26)}%`);
-  target.style.setProperty('--studio-ui-gradient-weight-2', `${Math.round(strength * 21)}%`);
-  target.style.setProperty('--studio-ui-gradient-weight-3', `${Math.round(strength * 17)}%`);
+  target.style.setProperty('--studio-gradient-color-1', `oklch(${lightness1.toFixed(3)} ${chroma1.toFixed(3)} ${state.primary.H})`);
+  target.style.setProperty('--studio-gradient-color-2', `oklch(${lightness2.toFixed(3)} ${chroma2.toFixed(3)} ${state.primary.H + offsetA})`);
+  target.style.setProperty('--studio-gradient-color-3', `oklch(${lightness3.toFixed(3)} ${chroma3.toFixed(3)} ${state.primary.H + offsetB})`);
+  target.style.setProperty('--studio-ui-gradient-weight-1', `${thumbnail ? 96 : Math.round(4 + intensity * 72)}%`);
+  target.style.setProperty('--studio-ui-gradient-weight-2', `${thumbnail ? 90 : Math.round(3 + intensity * 63)}%`);
+  target.style.setProperty('--studio-ui-gradient-weight-3', `${thumbnail ? 84 : Math.round(2 + intensity * 54)}%`);
+  target.style.setProperty('--studio-gradient-base-lightness', baseLightness.toFixed(3));
+  target.style.setProperty('--studio-gradient-base-chroma', baseChroma.toFixed(3));
+  target.style.setProperty('--studio-gradient-pos-1', positions[0]);
+  target.style.setProperty('--studio-gradient-pos-2', positions[1]);
+  target.style.setProperty('--studio-gradient-pos-3', positions[2]);
 }
 
 function syncStudioGradientThumbs() {
-  const chroma = studioGradientChroma().toFixed(3);
-  const thumbChroma = clamp(state.primary.C * 0.82, 0.085, 0.18).toFixed(3);
-  const opacity = String(studioState.gradientStrength / 100);
-  const depth = String(studioState.gradientDepth / 100);
+  const opacity = String(studioGradientIntensity());
   $$('.studio-gradient-option').forEach(option => {
     const thumb = option.querySelector('.studio-gradient-thumb');
     if (!thumb) return;
     const mode = option.dataset.gradientMode || 'analogous';
-    const [offsetA, offsetB] = {
-      monochrome: [0, 0], analogous: [48, -46],
-      complementary: [180, 140], triadic: [120, 240]
-    }[mode] || [48, -46];
+    const [offsetA, offsetB] = studioGradientOffsets(mode);
     thumb.style.setProperty('--brand-hue', state.primary.H);
-    thumb.style.setProperty('--studio-gradient-chroma', chroma);
-    thumb.style.setProperty('--studio-gradient-thumb-chroma', thumbChroma);
+    syncStudioGradientVariables(thumb, mode, { thumbnail:true });
     thumb.style.setProperty('--studio-gradient-hue-2', `calc(var(--brand-hue, 285.8) + ${offsetA})`);
     thumb.style.setProperty('--studio-gradient-hue-3', `calc(var(--brand-hue, 285.8) + ${offsetB})`);
     thumb.style.setProperty('--studio-gradient-opacity', opacity);
-    thumb.style.setProperty('--studio-gradient-depth', depth);
     thumb.style.setProperty('--studio-gradient-noise-opacity', gradientNoiseOpacity());
   });
 }
@@ -6571,7 +6546,7 @@ $('#density').addEventListener('input', e => {
 });
 $('#radius').addEventListener('input', e => {
   state.radiusIdx = parseFloat(e.target.value);
-  $('#radius-val').textContent = radiusMdPx(state.radiusIdx);
+  $('#radius-val').textContent = fmtScale(state.radiusIdx);
   scheduleGenerate();  // 任何模式下都实时同步密度/圆角/阴影到 CSS
 });
 
@@ -6619,8 +6594,7 @@ function applyStudioAppearance() {
     syncStudioGradientVariables(panel);
     panel.style.setProperty('--studio-gradient-hue-2', `calc(var(--brand-hue, 285.8) + ${offsets[0]})`);
     panel.style.setProperty('--studio-gradient-hue-3', `calc(var(--brand-hue, 285.8) + ${offsets[1]})`);
-    panel.style.setProperty('--studio-gradient-opacity', String(studioState.gradientStrength / 100));
-    panel.style.setProperty('--studio-gradient-depth', String(studioState.gradientDepth / 100));
+    panel.style.setProperty('--studio-gradient-opacity', String(studioGradientIntensity()));
   }
   const frame = document.getElementById('agent-runtime-frame');
   if (frame?.contentDocument?.documentElement) {
@@ -6637,6 +6611,58 @@ function applyStudioAppearance() {
   };
   frame?.style.setProperty('--studio-iframe-bg', bgTokens[studioState.bgToken] || bgTokens.surface);
   syncAgentRuntimeTheme();
+  syncAgentRuntimeResponsive();
+}
+
+let studioGradientPreviewRAF = null;
+function scheduleStudioGradientLivePreview() {
+  if (studioGradientPreviewRAF !== null) return;
+  studioGradientPreviewRAF = requestAnimationFrame(() => {
+    studioGradientPreviewRAF = null;
+    const demo = document.querySelector('.agent-demo');
+    const panel = document.querySelector('.panel-preview');
+    const runtimeRoot = document.getElementById('agent-runtime-frame')?.contentDocument?.documentElement;
+    syncStudioGradientVariables(demo);
+    syncStudioGradientThumbs();
+    syncStudioGradientVariables(panel);
+    panel?.style.setProperty('--studio-gradient-opacity', String(studioGradientIntensity()));
+    syncStudioGradientVariables(runtimeRoot);
+  });
+}
+
+let observedAgentSidebar = null;
+let agentSidebarResizeObserver = null;
+
+function syncAgentRuntimeResponsive() {
+  const frame = document.getElementById('agent-runtime-frame');
+  const doc = frame?.contentDocument;
+  const root = doc?.documentElement;
+  const shell = doc?.querySelector('.app-shell');
+  const sidebar = doc?.querySelector('.agent-sidebar');
+  if (!frame || !root || !shell || !sidebar) return;
+
+  root.dataset.sidebarVisible = String(studioState.sidebarVisible);
+  root.dataset.sidebarPosition = studioState.sidebarPosition;
+
+  if (observedAgentSidebar !== sidebar && 'ResizeObserver' in window) {
+    agentSidebarResizeObserver?.disconnect();
+    observedAgentSidebar = sidebar;
+    agentSidebarResizeObserver = new ResizeObserver(() => syncAgentRuntimeResponsive());
+    agentSidebarResizeObserver.observe(sidebar);
+  }
+
+  shell.style.setProperty('--app-sidebar-width-expanded', studioState.sidebarWidth + 'px');
+  if (!studioState.sidebarVisible) {
+    shell.style.gridTemplateColumns = 'minmax(0, 1fr)';
+    return;
+  }
+
+  const collapsed = shell.classList.contains('sidebar-collapsed') || sidebar.collapsed === true || sidebar.hasAttribute('collapsed');
+  const currentWidth = collapsed ? 54 : studioState.sidebarWidth;
+  const sidebarTrack = currentWidth + 'px';
+  shell.style.gridTemplateColumns = studioState.sidebarPosition === 'right'
+    ? `minmax(0, 1fr) ${sidebarTrack}`
+    : `${sidebarTrack} minmax(0, 1fr)`;
 }
 
 function syncAgentRuntimeTheme() {
@@ -6676,7 +6702,6 @@ function syncAgentRuntimeTheme() {
       bgToken: studioState.bgToken,
       gradientMode: studioState.gradientMode,
       gradientStrength: studioState.gradientStrength,
-      gradientDepth: studioState.gradientDepth,
       gradientNoise: studioState.gradientNoise,
       fontCn: studioState.fontCn,
       fontEn: studioState.fontEn,
@@ -6693,6 +6718,9 @@ function syncAgentRuntimeTheme() {
   syncAgentRuntimeBrand();
   window.setTimeout(syncAgentRuntimeBrand, 80);
   window.setTimeout(syncAgentRuntimeBrand, 220);
+  syncAgentRuntimeResponsive();
+  window.setTimeout(syncAgentRuntimeResponsive, 80);
+  window.setTimeout(syncAgentRuntimeResponsive, 220);
 }
 
 function syncAgentRuntimeBrand() {
@@ -6774,9 +6802,15 @@ document.getElementById('agent-runtime-frame')?.addEventListener('load', event =
   root.style.setProperty('--font-en', fontEn);
   root.style.setProperty('--font-sans', `${fontEn}, ${fontCn}`);
   injectThemeTokensToAgentRuntime();
+  syncAgentRuntimeResponsive();
   window.setTimeout(syncAgentRuntimeTheme, 120);
+  window.setTimeout(syncAgentRuntimeResponsive, 160);
   window.setTimeout(syncAgentRuntimeBrand, 240);
 });
+const agentRuntimeFrame = document.getElementById('agent-runtime-frame');
+if (agentRuntimeFrame && 'ResizeObserver' in window) {
+  new ResizeObserver(syncAgentRuntimeResponsive).observe(agentRuntimeFrame);
+}
 window.addEventListener('message', event => {
   if (event.data?.type === 'vedesign-agent-runtime-ready') {
     agentRuntimeReady = true;
@@ -6791,7 +6825,7 @@ window.setTimeout(() => {
 function syncStudioBackgroundControls() {
   const gradient = studioState.background === 'gradient';
   const image = studioState.background === 'image';
-  ['#studio-gradient-mode-row','#studio-gradient-strength-row','#studio-gradient-depth-row','#studio-gradient-noise-row'].forEach(sel => {
+  ['#studio-gradient-mode-row','#studio-gradient-strength-row','#studio-gradient-noise-row'].forEach(sel => {
     const el = $(sel); if (el) el.style.display = gradient ? '' : 'none';
   });
   const imageConfig = $('#studio-image-config'); if (imageConfig) imageConfig.style.display = image ? '' : 'none';
@@ -6907,15 +6941,48 @@ syncStudioBackgroundControls();
 syncStudioImageLibrarySelection();
 hydrateBackgroundImage(DEFAULT_BACKGROUND_IMAGE_PATH);
 
-$('#studio-bg-token')?.addEventListener('change', e => { studioState.bgToken = e.target.value; applyStudioAppearance(); });
+const studioBgTokenSelect = $('#studio-bg-token-select');
+function syncStudioBgTokenSelect() {
+  if (!studioBgTokenSelect) return;
+  const options = Array.from(studioBgTokenSelect.querySelectorAll('.ved-select-option'));
+  const selected = options.find(option => option.dataset.value === studioState.bgToken) || options[0];
+  studioBgTokenSelect.dataset.value = selected.dataset.value;
+  $('#studio-bg-token').value = selected.dataset.value;
+  $('#studio-bg-token-label').textContent = selected.dataset.label;
+  $('#studio-bg-token-swatch').style.background = selected.dataset.color;
+  options.forEach(option => {
+    const active = option === selected;
+    option.classList.toggle('is-active', active);
+    option.setAttribute('aria-selected', String(active));
+  });
+}
+if (studioBgTokenSelect) {
+  const trigger = studioBgTokenSelect.querySelector('.ved-select-trigger');
+  const close = () => { studioBgTokenSelect.classList.remove('is-open'); trigger.setAttribute('aria-expanded', 'false'); };
+  trigger.addEventListener('click', event => {
+    event.stopPropagation();
+    const open = studioBgTokenSelect.classList.toggle('is-open');
+    trigger.setAttribute('aria-expanded', String(open));
+  });
+  studioBgTokenSelect.querySelectorAll('.ved-select-option').forEach(option => option.addEventListener('click', event => {
+    event.stopPropagation(); studioState.bgToken = option.dataset.value; syncStudioBgTokenSelect(); applyStudioAppearance(); close();
+  }));
+  document.addEventListener('click', event => { if (!studioBgTokenSelect.contains(event.target)) close(); });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') close(); });
+  syncStudioBgTokenSelect();
+}
 $$('.studio-gradient-option').forEach(button => button.addEventListener('click', () => {
   studioState.gradientMode = button.dataset.gradientMode || 'analogous';
   syncStudioBackgroundControls();
   applyStudioAppearance();
   if (state.currentTheme) renderPalettes(state.currentTheme);
 }));
-$('#studio-gradient-strength')?.addEventListener('input', e => { studioState.gradientStrength = Number(e.target.value); $('#studio-gradient-val').textContent = studioState.gradientStrength + '%'; applyStudioAppearance(); });
-$('#studio-gradient-depth')?.addEventListener('input', e => { studioState.gradientDepth = Number(e.target.value); $('#studio-gradient-depth-val').textContent = studioState.gradientDepth + '%'; applyStudioAppearance(); });
+$('#studio-gradient-strength')?.addEventListener('input', e => {
+  studioState.gradientStrength = Number(e.target.value);
+  $('#studio-gradient-val').textContent = studioState.gradientStrength + '%';
+  scheduleStudioGradientLivePreview();
+});
+$('#studio-gradient-strength')?.addEventListener('change', () => applyStudioAppearance());
 $('#studio-gradient-noise')?.addEventListener('input', e => {
   studioState.gradientNoise = Number(e.target.value);
   $('#studio-gradient-noise-val').textContent = studioState.gradientNoise + '%';
@@ -6954,7 +7021,7 @@ function syncSlidersToSkill() {
   $('#density').value = state.density;
   $('#radius').value  = state.radiusIdx;
   $('#density-val').textContent = fmtScale(state.density);
-  $('#radius-val').textContent  = radiusMdPx(state.radiusIdx);
+  $('#radius-val').textContent  = fmtScale(state.radiusIdx);
   // shadow 滑杆已隐藏，但兼容性保留
   const sEl = $('#shadow'); if (sEl) sEl.value = state.shadowIdx;
   const svEl = $('#shadow-val'); if (svEl) svEl.textContent = fmtScale(state.shadowIdx);
@@ -7152,7 +7219,7 @@ function applyPresetToState(p) {
   $('#density').value = state.density;
   $('#density-val').textContent = fmtScale(state.density);
   $('#radius').value = state.radiusIdx;
-  $('#radius-val').textContent = radiusMdPx(state.radiusIdx);
+  $('#radius-val').textContent = fmtScale(state.radiusIdx);
   // shadow 滑杆已移除，state.shadowIdx 仍参与渲染（默认 1.0），preset 也会写入
   const sEl = $('#shadow'); if (sEl) sEl.value = state.shadowIdx;
   const svEl = $('#shadow-val'); if (svEl) svEl.textContent = fmtScale(state.shadowIdx);
@@ -8634,25 +8701,16 @@ function renderChat() {
     typing.className = 'ved-message msg assistant';
     typing.innerHTML = `
       <div class="ved-message-bubble msg-bubble">
-        <section class="ve-thinking ve-thinking-deep" data-loading="true" data-expanded="true" data-auto-scroll="true" aria-live="polite">
-          <button class="ve-thinking-header" type="button" aria-expanded="true" aria-controls="chat-thinking-body">
+        <section class="ve-thinking" data-loading="true" data-expanded="true" aria-live="polite">
+          <div class="ve-thinking-header">
             <span class="ve-thinking-icon" aria-hidden="true"></span>
-            <span class="ve-thinking-title">深度思考中</span>
-            <span class="ve-thinking-extra">生成中</span>
-            <svg class="ve-thinking-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <div class="ve-thinking-body" id="chat-thinking-body">正在拆解需求、分析主题方向，并规划可执行的生成步骤。只展示可公开的过程摘要，不包含系统提示或内部调试信息。</div>
+            <span class="ve-thinking-title">正在思考</span>
+          </div>
+          <div class="ve-thinking-body">正在理解你的需求，整理可公开的主题方向与生成步骤。</div>
         </section>
       </div>
     `;
     thread.appendChild(typing);
-    const thinking = typing.querySelector('.ve-thinking');
-    const thinkingHeader = typing.querySelector('.ve-thinking-header');
-    thinkingHeader?.addEventListener('click', () => {
-      const expanded = thinking?.dataset.expanded !== 'false';
-      thinking.dataset.expanded = String(!expanded);
-      thinkingHeader.setAttribute('aria-expanded', String(!expanded));
-    });
   }
 
   thread.scrollTop = thread.scrollHeight;
@@ -9641,7 +9699,7 @@ function getProjectConfig(imagePath = '') {
       radius: state.radiusIdx, density: state.density,
       background: studioState.background, backgroundToken: studioState.bgToken,
       gradientMode: studioState.gradientMode, gradientStrength: studioState.gradientStrength,
-      gradientDepth: studioState.gradientDepth, gradientNoise: studioState.gradientNoise, backgroundBlur: studioState.blur,
+      gradientNoise: studioState.gradientNoise, backgroundBlur: studioState.blur,
       fontCn: studioState.fontCn, fontEn: studioState.fontEn,
       backgroundImage: imagePath, imageTone: studioState.imageTone,
       sidebarTransparent: studioState.background === 'image' || studioState.sidebarTransparent

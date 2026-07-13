@@ -1,6 +1,5 @@
 .DS_Store
 node_modules/
-dist/
 .env
 .env.local
 *.log
@@ -12,9 +11,15 @@ dist/
 .claude/
 .trae/
 
+# Build / temporary files
+dist/
+tmp/
+.tmp/
+
 # Backup files
 *.bak
 
 # Local exports
 vedesign-themes-local-*.zip
 *.skill.zip
+output/

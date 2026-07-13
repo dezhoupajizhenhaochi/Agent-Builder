@@ -4,28 +4,85 @@ html[data-embed="true"] .app-shell {
   font-family: var(--font-en), var(--font-cn), sans-serif;
 }
 
+/* Studio product controls are driven by the left configuration panel through
+   postMessage. Keep the runtime layout responsive to those real states. */
+html[data-embed="true"] .app-shell {
+  --app-sidebar-width-expanded: var(--studio-sidebar-width, 220px);
+  grid-template-columns: var(--studio-sidebar-width, 220px) minmax(0, 1fr);
+}
+
+html[data-embed="true"][data-sidebar-visible="false"] .app-shell {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+html[data-embed="true"][data-sidebar-visible="false"] .agent-sidebar {
+  display: none !important;
+}
+
+html[data-embed="true"][data-sidebar-position="right"] .app-shell {
+  grid-template-columns: minmax(0, 1fr) var(--studio-sidebar-width, 220px);
+}
+
+html[data-embed="true"][data-sidebar-position="right"] .agent-sidebar {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+html[data-embed="true"][data-sidebar-position="right"] .app-main {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+html[data-embed="true"][data-studio-welcome-suggestions="false"] .prompt-chip-row,
+html[data-embed="true"][data-studio-welcome-tasks="false"] .gallery-section {
+  display: none !important;
+}
+
+/* Solid backgrounds need a stronger selected state because the sidebar and
+   active item otherwise sit on nearly identical neutral surfaces. */
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar,
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item {
+  --ve-sidebar-item-hover-surface: var(--color-bg-muted);
+  --ve-sidebar-item-selected-background: var(--color-bg-muted);
+  --ve-sidebar-item-selected-text-color: var(--color-text-primary);
+  --ve-sidebar-item-icon-color: var(--color-icon-primary);
+}
+
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[active],
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[selected],
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[aria-current="page"] {
+  color: var(--color-text-primary);
+  --ve-sidebar-item-icon-color: var(--color-icon-primary);
+}
+
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[active]::part(container),
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[selected]::part(container),
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[aria-current="page"]::part(container),
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[active]::part(item),
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[selected]::part(item),
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[aria-current="page"]::part(item) {
+  background: var(--color-bg-muted);
+  box-shadow: none;
+}
+
 /* Studio gradient mode replaces the whole Agent shell background; the outer preview stays white. */
 html[data-embed="true"][data-background-style="gradient"] .app-shell {
   background:
-    radial-gradient(ellipse 118% 92% at 50% 50%, transparent 46%, rgb(16 16 24 / calc(var(--studio-gradient-depth, .36) * .05)) 100%),
-    linear-gradient(135deg, rgb(255 255 255 / calc((1 - var(--studio-gradient-depth, .36)) * .28)) 0%, transparent 44%, rgb(16 16 24 / calc(var(--studio-gradient-depth, .36) * .1)) 100%),
-    radial-gradient(ellipse 76% 62% at 0% 0%, color-mix(in srgb, var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1, 22%), transparent), transparent 72%),
-    radial-gradient(ellipse 68% 56% at 100% 4%, color-mix(in srgb, var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2, 18%), transparent), transparent 74%),
-    radial-gradient(ellipse 58% 48% at 14% 100%, color-mix(in srgb, var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3, 15%), transparent), transparent 74%),
-    #fbfdff;
+    radial-gradient(ellipse 54% 46% at 72% 30%, rgb(255 255 255 / .24) 0%, transparent 72%),
+    radial-gradient(ellipse 96% 84% at var(--studio-gradient-pos-1, -10% -8%), color-mix(in oklch, var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1, 67%), transparent), transparent 72%),
+    radial-gradient(ellipse 90% 78% at var(--studio-gradient-pos-2, 108% 8%), color-mix(in oklch, var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2, 58%), transparent), transparent 74%),
+    radial-gradient(ellipse 84% 72% at var(--studio-gradient-pos-3, 18% 112%), color-mix(in oklch, var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3, 49%), transparent), transparent 74%),
+    oklch(var(--studio-gradient-base-lightness, .948) var(--studio-gradient-base-chroma, .022) var(--brand-hue, 285.8));
 }
 
 /* Dark mode keeps the same dynamic hue system, but moves every stop onto a
    dark semantic surface so transparent sidebars retain readable contrast. */
 html.dark[data-embed="true"][data-background-style="gradient"] .app-shell {
   background:
-    radial-gradient(ellipse 118% 92% at 50% 50%, transparent 36%, rgb(0 0 0 / calc(var(--studio-gradient-depth, .36) * .38)) 100%),
-    linear-gradient(135deg, rgb(255 255 255 / .04) 0%, transparent 46%, rgb(0 0 0 / calc(var(--studio-gradient-depth, .36) * .32)) 100%),
     radial-gradient(ellipse 76% 62% at 0% 0%, color-mix(in oklab, var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1, 20%), transparent), transparent 70%),
     radial-gradient(ellipse 68% 56% at 100% 4%, color-mix(in oklab, var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2, 16%), transparent), transparent 72%),
     radial-gradient(ellipse 58% 48% at 14% 100%, color-mix(in oklab, var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3, 13%), transparent), transparent 72%),
     var(--color-bg-surface);
-  background-blend-mode: screen, normal, normal, normal, normal;
 }
 
 html[data-embed="true"][data-background-style="image"] .app-shell {
@@ -63,11 +120,9 @@ html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="t
   z-index: 0;
   pointer-events: none;
   opacity: var(--studio-gradient-noise-opacity, 0);
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.08' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.72'/%3E%3C/svg%3E"),
-    radial-gradient(circle at center, rgb(255 255 255 / 18%) 0 1px, transparent 1.4px);
-  background-size: 140px 140px, 10px 10px;
-  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='.68'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  mix-blend-mode: soft-light;
 }
 
 html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .agent-sidebar,
@@ -77,6 +132,107 @@ html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="t
 }
 
 html.dark[data-embed="true"] .ve-input {
-  --ve-input-bg: var(--color-bg-base);
+  --ve-input-bg: var(--color-bg-surface);
   --ve-input-border-color: var(--color-border-default);
+}
+
+/* Skill detail modal follows vedesign-agent-ui2: lg detail modal, token-based
+   three-section layout, and a focused detail-style mask. */
+html[data-embed="true"] .capability-modal {
+  --ve-modal-panel-background: var(--color-bg-overlay);
+  --ve-modal-panel-radius: var(--radius-2xl);
+  --ve-modal-panel-shadow: var(--shadow-md);
+  --ve-modal-title-font-size: var(--text-body);
+  --ve-modal-title-font-weight: var(--font-weight-semibold);
+  --ve-modal-body-font-size: var(--text-body);
+  --ve-modal-body-line-height: 22px;
+  --ve-modal-footer-gap: var(--space-xxs);
+  --ve-modal-button-height: 36px;
+  --ve-modal-button-radius: var(--radius-md);
+}
+
+html[data-embed="true"] .capability-modal::part(overlay) {
+  padding: 40px !important;
+  background: rgb(0 0 0 / 50%) !important;
+}
+
+html[data-embed="true"] .capability-modal::part(panel) {
+  display: flex !important;
+  overflow: hidden !important;
+  width: min(1080px, calc(100vw - 80px)) !important;
+  max-width: calc(100vw - 80px) !important;
+  max-height: calc(100vh - 80px) !important;
+  flex-direction: column !important;
+  border: 0 !important;
+  border-radius: var(--radius-2xl) !important;
+  background: var(--color-bg-overlay) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+html[data-embed="true"] .capability-modal::part(header) {
+  position: absolute !important;
+  z-index: 2 !important;
+  top: var(--space-l) !important;
+  right: var(--space-l) !important;
+  min-height: 32px !important;
+  padding: 0 !important;
+}
+
+html[data-embed="true"] .capability-modal::part(title) {
+  display: none !important;
+}
+
+html[data-embed="true"] .capability-modal::part(body) {
+  min-height: 0 !important;
+  padding: var(--space-l) var(--space-l) 0 !important;
+  overflow: auto !important;
+}
+
+html[data-embed="true"] .capability-modal::part(footer) {
+  flex: none !important;
+  padding: var(--space-s) var(--space-l) var(--space-l) !important;
+  border-top: 0 !important;
+  background: var(--color-bg-overlay) !important;
+}
+
+html[data-embed="true"] .capability-modal .modal-detail-body {
+  display: grid;
+  max-height: none;
+  gap: var(--space-m);
+  overflow: visible;
+}
+
+html[data-embed="true"] .capability-modal .modal-hero {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--space-s);
+  padding: 0 44px var(--space-m) 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+html[data-embed="true"] .capability-modal .modal-hero h3 {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 20px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 28px;
+}
+
+html[data-embed="true"] .capability-modal .modal-hero p {
+  margin: 4px 0 var(--space-xs);
+  color: var(--color-text-tertiary);
+  font-size: var(--text-body);
+  line-height: 22px;
+}
+
+html[data-embed="true"] .capability-modal .modal-detail-body > ve-markdown,
+html[data-embed="true"] .capability-modal .modal-detail-body > .ve-markdown {
+  display: block;
+  padding: var(--space-m);
+  border: var(--stroke-weight-base) solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-surface);
 }

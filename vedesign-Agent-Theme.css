@@ -448,63 +448,90 @@
   /* ==================================================
    * Semantic Tokens — Background（浅色模式）
    * ================================================== */
-  --color-bg-base:      var(--color-white);         /* 页面根背景 */
-  --color-bg-surface:   var(--color-gray-50);        /* 侧边栏、卡片 */
-  --color-bg-overlay:   var(--color-white);          /* 浮层、Modal */
-  --color-bg-muted:     var(--color-gray-100);       /* 选中态、Avatar */
-  --color-bg-control:   var(--color-gray-50);        /* 输入框、选择器 */
-  --color-bg-inverse:   var(--color-gray-950);       /* Tooltip */
-  --color-bg-primary:   var(--color-primary-600);    /* 主按钮 */
-  --color-bg-secondary: var(--color-primary-100);    /* 次按钮 */
+  --color-bg-base:      var(--color-white);         /* 页面根背景、应用主画布等基础容器场景、input组件等基础组件背景 */
+  --color-bg-surface:   var(--color-gray-50);        /* sidebar、对话气泡、表格行hover、Skeleton、日志/工具调用面板等承载型背景 */
+  --color-bg-overlay:   var(--color-white);          /* header、Popover、Dropdown、Modal、Drawer、命令面板等浮层容器 */
+  --color-bg-muted:     var(--color-gray-200);       /* sidebar选中、Avatar、表头 等弱强调背景 */
+  --color-bg-control:   var(--color-white);          /* 控制按钮、输入框、选择器等交互控件的背景 */
+  --color-bg-inverse:   var(--color-gray-950);       /* 需要与浅色容器形成反差的反色背景，如 Tooltip */
+  --color-bg-primary:   var(--color-primary-600);    /* 主按钮、关键确认操作等背景色 */
+  --color-bg-secondary: var(--color-primary-50);     /* 次按钮、模版示例背景、低强调交互控件的默认背景 */
 
   /* ==================================================
    * Semantic Tokens — Text & Icon（浅色模式）
    * ================================================== */
-  --color-text-primary:    var(--color-gray-950);
-  --color-text-secondary:  var(--color-gray-700);
-  --color-text-tertiary:   var(--color-gray-500);
-  --color-text-disable:    var(--color-gray-400);
-  --color-text-foreground: var(--color-white);
-  --color-text-accent:     var(--color-primary-600);
+  --color-text-primary:    var(--color-gray-950);     /* 标题、正文、段落、列表项、浅色按钮等主要文字 */
+  --color-text-secondary:  var(--color-gray-800);     /* 描述和辅助信息 */
+  --color-text-tertiary:   var(--color-gray-600);     /* Input/Composer 占位、Sidebar 分组标题、Stepper 待办态等弱提示 */
+  --color-text-disable:    var(--color-primary-400);  /* 禁用按钮、禁用输入、禁用菜单等不可操作状态 */
+  --color-text-foreground: var(--color-white);        /* Tooltip、button等深色背景组件中的反色文字 */
+  --color-text-accent:     var(--color-primary-600);  /* 链接颜色 */
 
-  --color-icon-primary:    var(--color-gray-900);
-  --color-icon-secondary:  var(--color-gray-600);
-  --color-icon-disable:    var(--color-gray-400);
-  --color-icon-foreground: var(--color-white);
-  --color-icon-accent:     var(--color-primary-600);
+  --color-icon-primary:    var(--color-text-secondary);    /* 主要 icon：导航图标、操作图标等，与辅助文字同层级 */
+  --color-icon-secondary:  var(--color-text-tertiary);     /* 辅助 icon：占位图标、弱提示图标等，与弱提示文字同层级 */
+  --color-icon-disable:    var(--color-text-disable);      /* 禁用 icon */
+  --color-icon-foreground: var(--color-text-foreground);   /* 深色背景上的反色 icon */
+  --color-icon-accent:     var(--color-text-accent);        /* 强调/可交互 icon */
 
   /* ==================================================
    * Semantic Tokens — Border（浅色模式）
    * ================================================== */
-  --color-border-default:            var(--color-gray-200);
-  --color-border-strong:             var(--color-gray-300);
-  --color-border-interactive:        var(--color-gray-400);
-  --color-border-interactive-active: var(--color-primary-500);
+  --color-border-default:            var(--color-gray-300);  /* 结构分隔 */
+  --color-border-strong:             var(--color-gray-400);  /* 增强识别 */
+  --color-border-interactive:        var(--color-primary-600);        /* 可交互组件 hover 描边 */
+  --color-border-interactive-active: var(--color-primary-700); /* 可交互组件 active 描边 */
 
   /* ==================================================
-   * Status Feedback Tokens
+   * Status Feedback Tokens - Text
    * ================================================== */
-  --color-text-success: var(--color-success-900);
-  --color-bg-success:   var(--color-success-50);
-  --color-text-warning: var(--color-warning-900);
-  --color-bg-warning:   var(--color-warning-50);
-  --color-text-danger:  var(--color-danger-900);
-  --color-bg-danger:    var(--color-danger-50);
-  --color-text-info:    var(--color-info-900);
-  --color-bg-info:      var(--color-info-50);
+  --color-text-success: var(--color-success-700);        /* 成功态标签文本、日志成功信息、任务完成状态 */
+  --color-text-warning: var(--color-warning-700);        /* 警告标签、风险提示文案、需关注状态说明 */
+  --color-text-danger:  var(--color-danger-700);         /* 错误态文本、异常日志、删除/停止等危险操作提示 */
+  --color-text-info:    var(--color-info-700);           /* 系统消息、说明性提示、信息通知 */
 
   /* ==================================================
-   * Recipe Tokens — 交互态混色参数
+   * Status Feedback Tokens - Background
    * ================================================== */
-  --state-hover-solid-ratio:    90%;
-  --state-hover-solid-mix:      var(--color-white);
-  --state-pressed-solid-ratio:  80%;
-  --state-pressed-solid-mix:    var(--color-white);
-  --state-hover-subtle-ratio:   90%;
-  --state-hover-subtle-mix:     var(--color-primary-600);
-  --state-pressed-subtle-ratio: 80%;
-  --state-pressed-subtle-mix:   var(--color-primary-600);
-  --state-disabled-ratio:       40%;
+  --color-bg-success:               var(--color-success-600);         /* 主按钮成功态背景色 */
+  --color-bg-warning:               var(--color-warning-600);         /* 主按钮警告态背景色 */
+  --color-bg-danger:                var(--color-danger-600);          /* 主按钮危险态背景色 */
+  --color-bg-info:                  var(--color-info-600);            /* 主按钮信息态背景色 */
+  --color-bg-success-secondary:     var(--color-success-100);         /* 次级按钮成功态背景色、成功态 Tag、Alert、Toast、完成反馈容器 */
+  --color-bg-warning-secondary:     var(--color-warning-100);         /* 次级按钮警告态背景色、警告态 Tag、Toast、待处理容器 */
+  --color-bg-danger-secondary:      var(--color-danger-100);          /* 次级按钮危险态背景色、危险态通知、失败反馈容器 */
+  --color-bg-info-secondary:        var(--color-info-100);            /* 次级按钮信息态背景色、信息通知容器 */
+
+  /* ==================================================
+   * Status Feedback Tokens - Border
+   * ================================================== */
+  --color-border-success:           var(--color-success-300);         /* 主按钮成功态边框色 */
+  --color-border-warning:           var(--color-warning-300);         /* 主按钮警告态边框色 */
+  --color-border-danger:            var(--color-danger-300);          /* 主按钮危险态边框色 */
+  --color-border-info:              var(--color-info-300);            /* 主按钮信息态边框色 */
+
+  /* ==================================================
+   * Interaction State Rules (Recipe Tokens)
+   * 配方型 Token：只存储混合参数，由组件层负责 color-mix 计算
+   * ================================================== */
+  --state-hover-solid-ratio:    90%;   /* 深色按钮hover */
+  --state-hover-solid-mix:      var(--color-white);  /* 深色按钮hover */
+  --state-pressed-solid-ratio:  95%;   /* 深色按钮press */
+  --state-pressed-solid-mix:    var(--color-gray-900);  /* 深色按钮press */
+
+  --state-hover-subtle-ratio:   97%;   /* 浅色按钮hover */
+  --state-hover-subtle-mix:     var(--color-gray-900);  /* 浅色按钮hover */
+  --state-pressed-subtle-ratio: 95%;   /* 浅色按钮press */
+  --state-pressed-subtle-mix:   var(--color-gray-900);  /* 浅色按钮press */
+
+  --state-disabled-ratio:       50%;   /* disabled状态 */
+
+  /* ==================================================
+   * Height Tokens
+   * 组件高度规格：小尺寸输入框、按钮等
+   * ================================================== */
+  --height-small: 28px;   /* 小尺寸：小按钮、紧凑输入框 */
+  --height-default: 32px; /* 默认尺寸：标准输入框、默认按钮 */
+  --height-large: 36px;   /* 大尺寸：默认按钮、选择器 */
 
   /* ==================================================
    * Spacing（宽松，density_scale ≈ 1.2）
@@ -541,7 +568,7 @@
    * Typography — 字体族
    * ================================================== */
   --font-cn:   'PingFang SC', -apple-system, 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
-  --font-en:   'SF Pro Display', 'Geist', 'Helvetica Neue', Arial, sans-serif;
+  --font-en:   'SF Pro Display', 'SF Pro Icons', 'Geist', 'Geist Fallback', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-mono: 'Geist Mono', 'SF Mono', 'Fira Code', ui-monospace, monospace;
   --font-sans: var(--font-cn);
 
@@ -651,54 +678,84 @@
   --color-info-900: var(--color-blue-dark-900);
   --color-info-950: var(--color-blue-dark-950);
 
-  /* Background（暗色模式）*/
-  --color-bg-base:      var(--color-gray-dark-50);
-  --color-bg-surface:   var(--color-gray-dark-100);
-  --color-bg-overlay:   var(--color-gray-dark-200);
-  --color-bg-muted:     var(--color-gray-dark-100);
-  --color-bg-control:   var(--color-gray-dark-100);
-  --color-bg-inverse:   var(--color-gray-dark-950);
-  --color-bg-primary:   var(--color-primary-dark-600);
-  --color-bg-secondary: var(--color-primary-dark-100);
+  /* Semantic Tokens — Background（暗色模式）*/
+  --color-bg-base:      var(--color-gray-dark-50);    /* 页面根背景、应用主画布等基础容器场景、input组件等基础组件背景 */
+  --color-bg-surface:   var(--color-gray-dark-100);  /* sidebar、对话气泡、表格行hover、Skeleton、日志/工具调用面板等承载型背景 */
+  --color-bg-overlay:   var(--color-gray-dark-200);  /* header、Popover、Dropdown、Modal、Drawer、命令面板等浮层容器 */
+  --color-bg-muted:     var(--color-gray-dark-200);  /* sidebar选中、Avatar、表头 等弱强调背景 */
+  --color-bg-control:   var(--color-gray-dark-200);  /* 输入框、Select 等输入容器背景 */
+  --color-bg-inverse:   var(--color-gray-dark-950);  /* 需要与暗色容器形成反差的反色背景，如 Tooltip */
+  --color-bg-primary:   var(--color-primary-dark-600);    /* 主按钮、关键确认操作等背景色 */
+  --color-bg-secondary: var(--color-gray-dark-200);       /* 次按钮、模版示例背景、低强调交互控件的默认背景 */
 
-  /* Text & Icon（暗色模式）*/
-  --color-text-primary:    var(--color-gray-dark-950);
-  --color-text-secondary:  var(--color-gray-dark-700);
-  --color-text-tertiary:   var(--color-gray-dark-500);
-  --color-text-disable:    var(--color-gray-dark-400);
-  --color-text-foreground: var(--color-white);
-  --color-text-accent:     var(--color-primary-dark-600);
+  /* Semantic Tokens — Text & Icon（暗色模式）*/
+  --color-text-primary:    var(--color-gray-dark-950);   /* 标题、正文等主要文字 — 最浅色 */
+  --color-text-secondary:  var(--color-gray-dark-800);   /* 描述和辅助信息 */
+  --color-text-tertiary:   var(--color-gray-dark-600);   /* 占位、分组标题等弱提示 */
+  --color-text-disable:    var(--color-primary-dark-400);  /* 禁用态文字 */
+  --color-text-foreground: var(--color-gray-dark-50);    /* 浅色按钮上的深色文字 */
+  --color-text-accent:     var(--color-primary-dark-600);  /* 链接颜色 */
 
-  --color-icon-primary:    var(--color-gray-dark-900);
-  --color-icon-secondary:  var(--color-gray-dark-600);
-  --color-icon-disable:    var(--color-gray-dark-400);
-  --color-icon-foreground: var(--color-white);
-  --color-icon-accent:     var(--color-primary-dark-600);
+  --color-icon-primary:    var(--color-text-secondary);    /* 主要 icon：导航图标、操作图标等 */
+  --color-icon-secondary:  var(--color-text-tertiary);     /* 辅助 icon：占位图标、弱提示图标等 */
+  --color-icon-disable:    var(--color-text-disable);      /* 禁用 icon */
+  --color-icon-foreground: var(--color-text-foreground);   /* 深色背景上的反色 icon */
+  --color-icon-accent:     var(--color-text-accent);        /* 强调/可交互 icon */
 
-  /* Border（暗色模式）*/
-  --color-border-default:            var(--color-gray-dark-200);
-  --color-border-strong:             var(--color-gray-dark-300);
-  --color-border-interactive:        var(--color-gray-dark-400);
-  --color-border-interactive-active: var(--color-primary-dark-500);
+  /* Semantic Tokens — Border（暗色模式）*/
+  --color-border-default:            var(--color-gray-dark-300);  /* 结构分隔 */
+  --color-border-strong:             var(--color-gray-dark-400);  /* 增强识别 */
+  --color-border-interactive:        var(--color-primary-dark-500);        /* hover 描边 */
+  --color-border-interactive-active: var(--color-primary-dark-700); /* active 描边 */
 
-  /* Status Feedback（暗色模式）*/
-  --color-text-success: var(--color-success-900);
-  --color-bg-success:   var(--color-success-50);
-  --color-text-warning: var(--color-warning-900);
-  --color-bg-warning:   var(--color-warning-50);
-  --color-text-danger:  var(--color-danger-900);
-  --color-bg-danger:    var(--color-danger-50);
-  --color-text-info:    var(--color-info-900);
-  --color-bg-info:      var(--color-info-50);
+  /* ==================================================
+   * Interaction State Rules（暗色模式）
+   * ================================================== */
+  --state-hover-solid-ratio:    90%;   /* 浅色按钮 hover */
+  --state-hover-solid-mix:      var(--color-gray-dark-50);     /* 混入深色 */
+  --state-pressed-solid-ratio:  95%;   /* 浅色按钮 press */
+  --state-pressed-solid-mix:    var(--color-gray-dark-50);   /* 混入深色 */
 
-  /* Recipe（暗色模式）*/
-  --state-hover-solid-mix:        var(--color-gray-dark-50);
-  --state-pressed-solid-mix:      var(--color-gray-dark-50);
-  --state-hover-subtle-mix:       var(--color-primary-dark-600);
-  --state-pressed-subtle-mix:     var(--color-primary-dark-600);
+  --state-hover-subtle-ratio:   97%;   /* 深色表面 hover */
+  --state-hover-subtle-mix:     var(--color-gray-dark-950);   /* 混入浅色 */
+  --state-pressed-subtle-ratio: 95%;   /* 深色表面 press */
+  --state-pressed-subtle-mix:   var(--color-gray-dark-950); /* 混入浅色 */
 
-  /* Shadow（暗色模式，透明度翻倍）*/
-  --shadow-sm: 0 1px 3px -1px rgba(0,0,0,.16), 0 1px 8px 0 rgba(0,0,0,.10);
-  --shadow-md: 0 2px 4px -2px rgba(0,0,0,.10), 0 4px 26px -1px rgba(0,0,0,.10);
-  --shadow-lg: 0 8px 10px -2px rgba(0,0,0,.10), 0 20px 25px -3px rgba(0,0,0,.10);
+  --state-disabled-ratio:       50%;   /* disabled 状态 */
+
+  /* ==================================================
+   * Status Feedback Tokens - Text（暗色模式）
+   * ================================================== */
+  --color-text-success: var(--color-success-700);         /* 成功态标签文本、日志成功信息、任务完成状态 */
+  --color-text-warning: var(--color-warning-700);         /* 警告标签、风险提示文案、需关注状态说明 */
+  --color-text-danger:  var(--color-danger-700);          /* 错误态文本、异常日志、删除/停止等危险操作提示 */
+  --color-text-info:    var(--color-info-700);            /* 系统消息、说明性提示、信息通知 */
+
+  /* ==================================================
+   * Status Feedback Tokens - Background（暗色模式）
+   * ================================================== */
+  --color-bg-success:               var(--color-success-600);            /* 主按钮成功态背景色 */
+  --color-bg-warning:               var(--color-warning-600);            /* 主按钮警告态背景色 */
+  --color-bg-danger:                var(--color-danger-600);             /* 主按钮危险态背景色 */
+  --color-bg-info:                  var(--color-info-600);               /* 主按钮信息态背景色 */
+  --color-bg-success-secondary:     var(--color-success-100);            /* 次级按钮成功态背景色、成功态 Tag、Alert、Toast、完成反馈容器 */
+  --color-bg-warning-secondary:     var(--color-warning-100);            /* 次级按钮警告态背景色、警告态 Tag、Toast、待处理容器 */
+  --color-bg-danger-secondary:      var(--color-danger-100);             /* 次级按钮危险态背景色、危险态通知、失败反馈容器 */
+  --color-bg-info-secondary:        var(--color-info-100);               /* 次级按钮信息态背景色、信息通知容器 */
+
+  /* ==================================================
+   * Status Feedback Tokens - Border（暗色模式）
+   * ================================================== */
+  --color-border-success:           var(--color-success-300);            /* 主按钮成功态边框色 */
+  --color-border-warning:           var(--color-warning-300);            /* 主按钮警告态边框色 */
+  --color-border-danger:            var(--color-danger-300);             /* 主按钮危险态边框色 */
+  --color-border-info:              var(--color-info-300);               /* 主按钮信息态边框色 */
+
+  /* Shadow（暗色模式，透明度翻倍补偿暗色背景）*/
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.2),
+               0 1px 2px -1px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.2),
+               0 4px 6px -4px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.2),
+               0 8px 10px -6px rgba(0, 0, 0, 0.2);
 }
