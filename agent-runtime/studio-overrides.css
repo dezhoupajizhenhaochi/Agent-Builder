@@ -11,15 +11,22 @@ html[data-embed="true"] .app-shell {
   grid-template-columns: var(--studio-sidebar-current-width, var(--studio-sidebar-width, 220px)) minmax(0, 1fr);
 }
 
-/* The embedded Agent is one application shell. Remove the runtime's legacy
-   inset main card so the sidebar and workspace share the shell boundary. */
+/* Keep the runtime's original inset around the workspace while the sidebar
+   remains flush with the left edge of the shared application shell. */
 html[data-embed="true"] .app-main {
-  padding: 0;
+  padding: 8px 8px 8px 0;
 }
 
 html[data-embed="true"] .main-panel {
-  height: 100vh;
-  border-radius: 0;
+  height: calc(100vh - 16px);
+  border-radius: var(--panel-radius);
+}
+
+/* Search stays focused on existing resources. New conversations are created
+   from the primary sidebar entry, so the duplicate search shortcut is hidden
+   immediately before the runtime observer removes it from the DOM. */
+html[data-embed="true"] .search-new-chat {
+  display: none !important;
 }
 
 /* Message content and the chat composer share one responsive measure. */
