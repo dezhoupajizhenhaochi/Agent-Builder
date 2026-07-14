@@ -3225,6 +3225,7 @@
   .studio-switch input { accent-color:var(--app-accent); }
   .studio-hint { display:none; }
   .studio-bg-tabs { display:grid; grid-template-columns:repeat(3,1fr); gap:3px; margin-top:12px; padding:3px; border-radius:8px; background:var(--app-muted); }
+  .studio-content-frame-tabs { grid-template-columns:repeat(2,1fr); }
   .studio-bg-tabs button { height:30px; border-radius:6px; color:var(--app-text-secondary); font-size:12px; }
   .studio-bg-tabs button.active { color:var(--app-text); background:var(--app-surface); box-shadow:0 1px 3px rgba(0,0,0,.08); }
   .color-swatch-large { position:relative; cursor:pointer; }
@@ -3890,7 +3891,7 @@
               <div class="accordion-body">
                 <div class="slider-row">
                   <div class="slider-row-head value-only"><span id="radius-val">1.00×</span></div>
-                  <input type="range" id="radius" min="0" max="2" value="0.4" step="0.05">
+                  <input type="range" id="radius" min="0" max="2" value="1" step="0.05">
                 </div>
               </div>
             </details>
@@ -5611,14 +5612,17 @@ function buildTheme(opts) {
 
 const MOOD_GAMUT = Object.freeze({ hueCold: 290, hueWarm: 15, chromaMin: 0.04, chromaMax: 0.28 });
 
+const DEFAULT_PRIMARY_HEX = '#1664ff';
+const DEFAULT_RADIUS_SCALE = 1.0;
+
 const state = {
   // 默认进「手动调试」
   mode: 'reference',
   // 矢量缩放：值为浮点比例（1.0 = 标准基线），可平滑控制整套 token 体系
   density: 1.0,
-  radiusIdx: 0.4,
+  radiusIdx: DEFAULT_RADIUS_SCALE,
   shadowIdx: 0,
-  primary: hexToOklch('#1664ff'),
+  primary: hexToOklch(DEFAULT_PRIMARY_HEX),
   themeMode: 'light',
   currentTab: 'colors',
   currentTheme: null,
@@ -5646,6 +5650,7 @@ const studioState = {
   sidebarTransparent: false,
   sidebarVisible: true, sidebarWidth: 220, sidebarPosition: 'left',
   sidebarBg: 'surface', sidebarIcons: true,
+  contentFrame: 'inset',
   bgToken: 'surface', gradientMode: 'complementary', gradientStrength: 50, gradientNoise: 50,
   fontCn: 'pingfang', fontEn: 'inter',
   compact: false, wide: false, reasoning: true, sources: true,
@@ -6411,9 +6416,9 @@ if (presetSelect) {
     const hex = option.dataset.value;
     if (!hex) return;
     const stylePreset = {
-      primary: hexToOklch(hex),
+      primary: hexToOklch(DEFAULT_PRIMARY_HEX),
       density: Number.parseInt(option.dataset.density ?? '1', 10),
-      radius: Number.parseFloat(option.dataset.radius ?? '1'),
+      radius: DEFAULT_RADIUS_SCALE,
       shadow: Number.parseInt(option.dataset.shadow ?? '1', 10)
     };
     presetSelect.dataset.value = hex;
@@ -6425,7 +6430,6 @@ if (presetSelect) {
       item.setAttribute('aria-selected', String(active));
     });
     applyPresetToState(stylePreset);
-    syncColorFromHex(hex, 'preset');
     closePresetSelect();
   };
   presetSelectTrigger?.addEventListener('click', event => {
@@ -6484,9 +6488,9 @@ if (themeGalleryHost && productPresetSection) {
       resetProductPresetCards();
       card.classList.add('active');
       applyPresetToState({
-        primary: hexToOklch(hex),
+        primary: hexToOklch(DEFAULT_PRIMARY_HEX),
         density: Number.parseInt(card.dataset.density ?? '1', 10),
-        radius: Number.parseFloat(card.dataset.radius ?? '1'),
+        radius: DEFAULT_RADIUS_SCALE,
         shadow: Number.parseInt(card.dataset.shadow ?? '1', 10)
       });
       showToast(`已应用「${card.querySelector('.product-preset-name')?.textContent || '常用'}」主题`);
@@ -6790,6 +6794,7 @@ function applyStudioAppearance() {
   demo.style.setProperty('--studio-sidebar-width', studioState.sidebarWidth + 'px');
   demo.dataset.sidebarVisible = String(studioState.sidebarVisible);
   demo.dataset.sidebarPosition = studioState.sidebarPosition;
+  demo.dataset.contentFrame = studioState.contentFrame;
   demo.dataset.sidebarBg = studioState.sidebarBg;
   demo.dataset.sidebarIcons = String(studioState.sidebarIcons);
   if (studioState.background === 'image' && studioState.imageDataUrl) {
@@ -6820,6 +6825,7 @@ function applyStudioAppearance() {
   const frame = document.getElementById('agent-runtime-frame');
   if (frame?.contentDocument?.documentElement) {
     const root = frame.contentDocument.documentElement;
+    root.dataset.contentFrame = studioState.contentFrame;
     syncAgentRuntimeNoise();
     syncAgentRuntimeGradientVariables();
     root.style.setProperty('--font-cn', fontCn);
@@ -6876,6 +6882,7 @@ function syncAgentRuntimeResponsive() {
 
   root.dataset.sidebarVisible = String(studioState.sidebarVisible);
   root.dataset.sidebarPosition = studioState.sidebarPosition;
+  root.dataset.contentFrame = studioState.contentFrame;
   root.style.setProperty('--studio-sidebar-width', studioState.sidebarWidth + 'px');
 
   if (observedAgentSidebar !== sidebar) {
@@ -6970,6 +6977,7 @@ function syncAgentRuntimeTheme() {
       sidebarVisible: studioState.sidebarVisible,
       sidebarWidth: studioState.sidebarWidth,
       sidebarPosition: studioState.sidebarPosition,
+      contentFrame: studioState.contentFrame,
       sidebarBg: studioState.sidebarBg,
       sidebarIcons: studioState.sidebarIcons,
       bgToken: studioState.bgToken,
@@ -7212,6 +7220,21 @@ $$('#studio-background-tabs button').forEach(button => button.addEventListener('
   studioState.background = button.dataset.background;
   syncStudioBackgroundControls(); applyStudioAppearance();
 }));
+
+function syncContentFrameControls() {
+  $$('#studio-content-frame-tabs button').forEach(button => {
+    const active = button.dataset.contentFrame === studioState.contentFrame;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-checked', String(active));
+  });
+}
+
+$$('#studio-content-frame-tabs button').forEach(button => button.addEventListener('click', () => {
+  studioState.contentFrame = button.dataset.contentFrame === 'flush' ? 'flush' : 'inset';
+  syncContentFrameControls();
+  applyStudioAppearance();
+}));
+syncContentFrameControls();
 
 function syncStudioImageLibrarySelection() {
   $$('.studio-image-option').forEach(button => {
@@ -10169,6 +10192,7 @@ function getProjectConfig(imagePath = '') {
       gradientMode: studioState.gradientMode, gradientStrength: studioState.gradientStrength,
       gradientNoise: studioState.gradientNoise, backgroundBlur: studioState.blur,
       fontCn: studioState.fontCn, fontEn: studioState.fontEn,
+      contentFrame: studioState.contentFrame,
       backgroundImage: imagePath, imageTone: studioState.imageTone,
       sidebarTransparent: studioState.background === 'image' || studioState.sidebarTransparent
     },
@@ -10213,7 +10237,7 @@ export default function App() {
 function generatedProjectCss(config) {
   const imageBlur = config.appearance.background === 'image' ? config.appearance.backgroundBlur : 0;
   return `${state.currentCSS || ''}
-*{box-sizing:border-box}html,body,#root{margin:0;min-width:320px;min-height:100%;font-family:Inter,system-ui,sans-serif}.agent-shell{display:grid;grid-template-columns:240px 1fr;min-height:100vh;background:var(--color-bg-surface);overflow:hidden}.agent-shell.bg-gradient{background:radial-gradient(circle at 0 0,var(--color-primary-100),transparent 52%),radial-gradient(circle at 100% 100%,var(--color-primary-50),transparent 56%),var(--color-bg-surface)}.agent-shell.bg-image{background-size:cover;background-position:center}.sidebar{display:flex;flex-direction:column;padding:20px 14px;background:${config.appearance.sidebarTransparent ? 'transparent' : 'var(--color-bg-surface)'};backdrop-filter:blur(${imageBlur}px)}.sidebar header{display:flex;align-items:center;gap:10px;padding:0 8px 22px;font-size:20px}.sidebar nav{display:grid;gap:4px}.sidebar button{border:0;background:transparent;text-align:left;padding:11px 12px;border-radius:10px;color:var(--color-text-primary);font-size:14px}.sidebar button.active{background:var(--color-bg-secondary)}.side-label{margin:24px 12px 6px;color:var(--color-text-tertiary);font-size:12px}.sidebar footer{margin-top:auto;padding:12px}.image-dark .sidebar{color:#fff}.image-dark .sidebar button,.image-dark .side-label{color:rgba(255,255,255,.86)}.image-dark .sidebar button.active{background:rgba(255,255,255,.16)}.workspace{margin:10px;background:var(--color-bg-base);border:1px solid var(--color-border-default);border-radius:20px;min-width:0}.welcome{max-width:820px;margin:0 auto;padding:20vh 28px 40px;text-align:center}.welcome h1{font-size:34px}.composer{margin-top:32px;padding:22px;text-align:left;border:1px solid var(--color-border-default);border-radius:20px;background:var(--color-bg-base);box-shadow:var(--shadow-md);color:var(--color-text-tertiary)}.composer>div{display:flex;align-items:center;gap:18px;margin-top:54px}.composer button{border:0;background:transparent;font-size:18px}.composer .send{margin-left:auto;width:38px;height:38px;border-radius:50%;background:var(--color-bg-primary);color:var(--color-text-foreground)}.prompts{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:22px}.prompts button{padding:9px 16px;border:1px solid var(--color-border-default);border-radius:999px;background:var(--color-bg-base)}
+*{box-sizing:border-box}html,body,#root{margin:0;min-width:320px;min-height:100%;font-family:Inter,system-ui,sans-serif}.agent-shell{display:grid;grid-template-columns:240px 1fr;min-height:100vh;background:var(--color-bg-surface);overflow:hidden}.agent-shell.bg-gradient{background:radial-gradient(circle at 0 0,var(--color-primary-100),transparent 52%),radial-gradient(circle at 100% 100%,var(--color-primary-50),transparent 56%),var(--color-bg-surface)}.agent-shell.bg-image{background-size:cover;background-position:center}.sidebar{display:flex;flex-direction:column;padding:20px 14px;background:${config.appearance.sidebarTransparent ? 'transparent' : 'var(--color-bg-surface)'};backdrop-filter:blur(${imageBlur}px)}.sidebar header{display:flex;align-items:center;gap:10px;padding:0 8px 22px;font-size:20px}.sidebar nav{display:grid;gap:4px}.sidebar button{border:0;background:transparent;text-align:left;padding:11px 12px;border-radius:10px;color:var(--color-text-primary);font-size:14px}.sidebar button.active{background:var(--color-bg-secondary)}.side-label{margin:24px 12px 6px;color:var(--color-text-tertiary);font-size:12px}.sidebar footer{margin-top:auto;padding:12px}.image-dark .sidebar{color:#fff}.image-dark .sidebar button,.image-dark .side-label{color:rgba(255,255,255,.86)}.image-dark .sidebar button.active{background:rgba(255,255,255,.16)}.workspace{margin:${config.appearance.contentFrame === 'flush' ? '0' : '10px'};background:var(--color-bg-base);border:1px solid var(--color-border-default);border-radius:${config.appearance.contentFrame === 'flush' ? '0' : '20px'};min-width:0}.welcome{max-width:820px;margin:0 auto;padding:20vh 28px 40px;text-align:center}.welcome h1{font-size:34px}.composer{margin-top:32px;padding:22px;text-align:left;border:1px solid var(--color-border-default);border-radius:20px;background:var(--color-bg-base);box-shadow:var(--shadow-md);color:var(--color-text-tertiary)}.composer>div{display:flex;align-items:center;gap:18px;margin-top:54px}.composer button{border:0;background:transparent;font-size:18px}.composer .send{margin-left:auto;width:38px;height:38px;border-radius:50%;background:var(--color-bg-primary);color:var(--color-text-foreground)}.prompts{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:22px}.prompts button{padding:9px 16px;border:1px solid var(--color-border-default);border-radius:999px;background:var(--color-bg-base)}
 `;
 }
 

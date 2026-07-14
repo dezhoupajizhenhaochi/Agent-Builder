@@ -22,6 +22,19 @@ html[data-embed="true"] .main-panel {
   border-radius: var(--panel-radius);
 }
 
+html[data-embed="true"][data-sidebar-position="right"] .app-main {
+  padding: 8px 0 8px 8px;
+}
+
+html[data-embed="true"][data-content-frame="flush"] .app-main {
+  padding: 0;
+}
+
+html[data-embed="true"][data-content-frame="flush"] .main-panel {
+  height: 100vh;
+  border-radius: 0;
+}
+
 /* Search stays focused on existing resources. New conversations are created
    from the primary sidebar entry, so the duplicate search shortcut is hidden
    immediately before the runtime observer removes it from the DOM. */
