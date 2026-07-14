@@ -8,7 +8,18 @@ html[data-embed="true"] .app-shell {
    postMessage. Keep the runtime layout responsive to those real states. */
 html[data-embed="true"] .app-shell {
   --app-sidebar-width-expanded: var(--studio-sidebar-width, 220px);
-  grid-template-columns: var(--studio-sidebar-width, 220px) minmax(0, 1fr);
+  grid-template-columns: var(--studio-sidebar-current-width, var(--studio-sidebar-width, 220px)) minmax(0, 1fr);
+}
+
+/* The embedded Agent is one application shell. Remove the runtime's legacy
+   inset main card so the sidebar and workspace share the shell boundary. */
+html[data-embed="true"] .app-main {
+  padding: 0;
+}
+
+html[data-embed="true"] .main-panel {
+  height: 100vh;
+  border-radius: 0;
 }
 
 /* Message content and the chat composer share one responsive measure. */
@@ -25,6 +36,63 @@ html[data-embed="true"] .chat-column .bubble-list,
 html[data-embed="true"] .chat-column .assistant-stack,
 html[data-embed="true"] .chat-column .composer-zone .composer-shell {
   width: min(var(--studio-conversation-content-width), 100%);
+}
+
+/* Rich Markdown keeps code blocks horizontally scrollable, but its intrinsic
+   code width must not widen the Bubble or the conversation column. */
+html[data-embed="true"] .chat-column,
+html[data-embed="true"] .chat-column .chat-scroll,
+html[data-embed="true"] .chat-column .bubble-list,
+html[data-embed="true"] .chat-column .assistant-stack,
+html[data-embed="true"] .chat-column .assistant-bubble,
+html[data-embed="true"] .chat-column .assistant-bubble ve-markdown {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* A successful real Chat API response replaces the demo reasoning/artifact stack. */
+html[data-api-chat-ready="true"] .assistant-stack > :not(.workspace-actions) {
+  display: none !important;
+}
+
+html[data-api-chat-ready="true"] .assistant-stack:not(:has(.workspace-actions)) {
+  display: none !important;
+}
+
+html[data-embed="true"] .chat-column .assistant-bubble {
+  inline-size: 100%;
+}
+
+html[data-embed="true"] .chat-column .assistant-bubble::part(root),
+html[data-embed="true"] .chat-column .assistant-bubble::part(body),
+html[data-embed="true"] .chat-column .assistant-bubble::part(content) {
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+
+html[data-embed="true"] .chat-column .assistant-bubble ve-markdown {
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  --ve-markdown-max-width: 100%;
+}
+
+/* ChatInput ships with --ve-chat-input-shadow: var(--shadow-md). Some studio
+   presets intentionally flatten the global elevation scale, which made the
+   primary composer lose its component-level affordance. Keep the canonical
+   ChatInput elevation local so the preset can still flatten other surfaces. */
+html:not(.dark)[data-embed="true"] .agent-composer {
+  --studio-chat-input-shadow: 0 2px 4px -2px rgba(16, 16, 19, .05),
+    0 4px 26px -1px rgba(16, 16, 19, .05);
+  --ve-chat-input-shadow: var(--studio-chat-input-shadow);
+}
+
+html.dark[data-embed="true"] .agent-composer {
+  --studio-chat-input-shadow: 0 10px 15px -3px rgba(0, 0, 0, .2),
+    0 4px 6px -4px rgba(0, 0, 0, .2);
+  --ve-chat-input-shadow: var(--studio-chat-input-shadow);
 }
 
 html[data-embed="true"] .chat-column .composer-zone {
@@ -54,7 +122,7 @@ html[data-embed="true"][data-sidebar-visible="false"] .agent-sidebar {
 }
 
 html[data-embed="true"][data-sidebar-position="right"] .app-shell {
-  grid-template-columns: minmax(0, 1fr) var(--studio-sidebar-width, 220px);
+  grid-template-columns: minmax(0, 1fr) var(--studio-sidebar-current-width, var(--studio-sidebar-width, 220px));
 }
 
 html[data-embed="true"][data-sidebar-position="right"] .agent-sidebar {
@@ -69,6 +137,10 @@ html[data-embed="true"][data-sidebar-position="right"] .app-main {
 
 html[data-embed="true"][data-studio-welcome-suggestions="false"] .prompt-chip-row,
 html[data-embed="true"][data-studio-welcome-tasks="false"] .gallery-section {
+  display: none !important;
+}
+
+html[data-embed="true"][data-studio-welcome-capabilities="false"] .welcome-panel .agent-composer > [slot="left-action"] {
   display: none !important;
 }
 
@@ -93,13 +165,13 @@ html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token=
 html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token="base"] .agent-sidebar,
 html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token="base"] .agent-sidebar ve-sidebar-item {
   --ve-sidebar-item-hover-surface: var(--color-bg-surface);
-  --ve-sidebar-item-selected-background: var(--color-primary-100);
+  --ve-sidebar-item-selected-background: var(--color-bg-muted);
 }
 
 html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token="soft"] .agent-sidebar,
 html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token="soft"] .agent-sidebar ve-sidebar-item {
   --ve-sidebar-item-hover-surface: color-mix(in srgb, var(--color-primary-100) 72%, transparent);
-  --ve-sidebar-item-selected-background: var(--color-primary-200);
+  --ve-sidebar-item-selected-background: var(--color-primary-100);
 }
 
 html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token="neutral"] .agent-sidebar,
@@ -255,6 +327,23 @@ html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="t
   z-index: 1;
 }
 
+/* Keep sidebar-owned popovers above the adjacent main panel. The account menu
+   is fixed and already has its own high z-index, but it cannot escape the
+   sidebar's stacking context when the sidebar and main panel share z-index: 1. */
+html[data-embed="true"] .app-shell > .agent-sidebar {
+  position: relative;
+  z-index: 10 !important;
+}
+
+html[data-embed="true"] .app-shell > .app-main {
+  position: relative;
+  z-index: 1 !important;
+}
+
+html[data-embed="true"] .account-popover-card {
+  z-index: 100 !important;
+}
+
 html.dark[data-embed="true"] .ve-input {
   --ve-input-bg: var(--color-bg-surface);
   --ve-input-border-color: var(--color-border-default);
@@ -359,4 +448,298 @@ html[data-embed="true"] .capability-modal .modal-detail-body > .ve-markdown {
   border: var(--stroke-weight-base) solid var(--color-border-subtle);
   border-radius: var(--radius-lg);
   background: var(--color-bg-surface);
+}
+
+/* Settings / Personalization mirrors the studio's Theme Style controls. */
+html[data-embed="true"] .theme-mirror-card {
+  display: grid;
+  overflow: hidden;
+  border: var(--stroke-weight-base) solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-base);
+}
+
+html[data-embed="true"] .theme-mirror-section {
+  display: grid;
+  gap: var(--space-m);
+  padding: var(--space-l);
+  border-bottom: var(--stroke-weight-base) solid var(--color-border-subtle);
+}
+
+html[data-embed="true"] .theme-mirror-section:last-child {
+  border-bottom: 0;
+}
+
+html[data-embed="true"] .theme-mirror-heading strong,
+html[data-embed="true"] .theme-mirror-heading small {
+  display: block;
+}
+
+html[data-embed="true"] .theme-mirror-heading strong {
+  color: var(--color-text-primary);
+  font-size: var(--text-body);
+  font-weight: var(--font-weight-semibold);
+  line-height: 22px;
+}
+
+html[data-embed="true"] .theme-mirror-heading small {
+  margin-top: 2px;
+  color: var(--color-text-tertiary);
+  font-size: var(--text-caption);
+  line-height: 20px;
+}
+
+html[data-embed="true"] .theme-mirror-color-row {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  align-items: end;
+  gap: var(--space-s);
+}
+
+html[data-embed="true"] .theme-mirror-color {
+  display: block;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  border: var(--stroke-weight-base) solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  background: var(--theme-mirror-primary);
+}
+
+html[data-embed="true"] .theme-mirror-color input {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+html[data-embed="true"] .theme-mirror-hex {
+  display: grid;
+  gap: var(--space-xxs);
+}
+
+html[data-embed="true"] .theme-mirror-hex span,
+html[data-embed="true"] .theme-mirror-font-row > span {
+  color: var(--color-text-secondary);
+  font-size: var(--text-caption);
+  line-height: 20px;
+}
+
+html[data-embed="true"] .theme-mirror-hex input {
+  width: 100%;
+  height: 36px;
+  border: var(--stroke-weight-base) solid var(--color-border-default);
+  border-radius: var(--radius-sm);
+  padding: 0 var(--space-s);
+  outline: 0;
+  background: var(--color-bg-base);
+  color: var(--color-text-primary);
+}
+
+html[data-embed="true"] .theme-mirror-hex input:focus {
+  border-color: var(--color-border-interactive);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary-600) 16%, transparent);
+}
+
+html[data-embed="true"] .theme-mirror-segmented {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-xxs);
+  padding: var(--space-xxs);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-surface);
+}
+
+html[data-embed="true"] .theme-mirror-segmented button,
+html[data-embed="true"] .theme-mirror-option,
+html[data-embed="true"] .theme-mirror-choice button {
+  min-height: 34px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-secondary);
+}
+
+html[data-embed="true"] .theme-mirror-segmented button.active,
+html[data-embed="true"] .theme-mirror-option.active,
+html[data-embed="true"] .theme-mirror-choice button.active {
+  background: var(--color-bg-base);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+html[data-embed="true"] .theme-mirror-context {
+  display: grid;
+  gap: var(--space-m);
+}
+
+html[data-embed="true"] .theme-mirror-context[hidden] {
+  display: none;
+}
+
+html[data-embed="true"] .theme-mirror-options {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+html[data-embed="true"] .theme-mirror-options-four {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+html[data-embed="true"] .theme-mirror-option {
+  position: relative;
+  display: grid;
+  min-height: 72px;
+  align-items: end;
+  padding: var(--space-xs);
+  border: var(--stroke-weight-base) solid var(--color-border-default);
+  text-align: left;
+}
+
+html[data-embed="true"] .theme-mirror-option::before {
+  content: "";
+  position: absolute;
+  inset: var(--space-xs) var(--space-xs) 28px;
+  border-radius: var(--radius-xs);
+  background: var(--color-bg-surface);
+}
+
+html[data-embed="true"] .theme-mirror-option.active {
+  border-color: var(--color-border-strong);
+  box-shadow: inset 0 0 0 1px var(--color-border-strong);
+}
+
+html[data-embed="true"] .theme-mirror-option span {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--text-caption);
+}
+
+html[data-embed="true"] .theme-mirror-gradient:nth-child(1)::before {
+  background: linear-gradient(135deg, var(--color-primary-100), var(--color-primary-300));
+}
+
+html[data-embed="true"] .theme-mirror-gradient:nth-child(2)::before {
+  background: linear-gradient(135deg, var(--color-primary-50), var(--color-primary-200));
+}
+
+html[data-embed="true"] .theme-mirror-gradient:nth-child(3)::before {
+  background: linear-gradient(135deg, var(--color-primary-200), color-mix(in oklab, var(--color-primary-200), #ffd75e 58%));
+}
+
+html[data-embed="true"] .theme-mirror-gradient:nth-child(4)::before {
+  background: linear-gradient(135deg, var(--color-primary-200), #ffb2c6, #9ee7dc);
+}
+
+html[data-embed="true"] .theme-mirror-solid:nth-child(1)::before { background: var(--color-bg-surface); }
+html[data-embed="true"] .theme-mirror-solid:nth-child(2)::before { background: var(--color-bg-base); }
+html[data-embed="true"] .theme-mirror-solid:nth-child(3)::before { background: var(--color-primary-50); }
+html[data-embed="true"] .theme-mirror-solid:nth-child(4)::before { background: var(--color-gray-100); }
+
+html[data-embed="true"] .theme-mirror-range {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+html[data-embed="true"] .theme-mirror-range > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-s);
+  color: var(--color-text-secondary);
+  font-size: var(--text-caption);
+}
+
+html[data-embed="true"] .theme-mirror-range b {
+  font-weight: var(--font-weight-regular);
+}
+
+html[data-embed="true"] .theme-mirror-range output {
+  color: var(--color-text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+html[data-embed="true"] .theme-mirror-range input {
+  width: 100%;
+  accent-color: var(--color-primary-600);
+}
+
+html[data-embed="true"] .theme-mirror-images {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-xs);
+}
+
+html[data-embed="true"] .theme-mirror-images button {
+  display: grid;
+  gap: var(--space-xxs);
+  min-width: 0;
+  border: var(--stroke-weight-base) solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-xs);
+  background: var(--color-bg-base);
+  color: var(--color-text-secondary);
+  text-align: left;
+}
+
+html[data-embed="true"] .theme-mirror-images button.active {
+  border-color: var(--color-border-strong);
+  box-shadow: inset 0 0 0 1px var(--color-border-strong);
+}
+
+html[data-embed="true"] .theme-mirror-images button span {
+  display: block;
+  min-height: 52px;
+  border-radius: var(--radius-sm);
+  background-position: center;
+  background-size: cover;
+}
+
+html[data-embed="true"] .theme-mirror-images button b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--text-caption);
+  font-weight: var(--font-weight-regular);
+}
+
+html[data-embed="true"] .theme-mirror-font-row {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-m);
+}
+
+html[data-embed="true"] .theme-mirror-choice {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-xxs);
+  padding: var(--space-xxs);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-surface);
+}
+
+html[data-embed="true"] .theme-mirror-choice button {
+  overflow: hidden;
+  padding: 0 var(--space-xs);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--text-caption);
+}
+
+@media (max-width: 900px) {
+  html[data-embed="true"] .theme-mirror-options-four,
+  html[data-embed="true"] .theme-mirror-images {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  html[data-embed="true"] .theme-mirror-font-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-xs);
+  }
 }

@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Select, SelectItem } from '@ve-design/react';
+import { Bubble, BubbleList } from '@ve-design/react/bubble';
+import { Markdown } from '@ve-design/react/markdown';
+import { Select, SelectItem } from '@ve-design/react/select';
+import { Thinking } from '@ve-design/react/thinking';
 import '@ve-design/react/css/default.css';
 
 const selectConfigs = {
@@ -59,6 +62,15 @@ const selectConfigs = {
 function StudioSelect({ mount, config }) {
   const [value, setValue] = useState(config.value);
 
+  useEffect(() => {
+    const syncValue = (event) => {
+      if (event.detail?.id !== mount.id) return;
+      setValue(String(event.detail.value));
+    };
+    window.addEventListener('studio-select-sync', syncValue);
+    return () => window.removeEventListener('studio-select-sync', syncValue);
+  }, [mount]);
+
   return (
     <Select
       value={value}
@@ -85,3 +97,75 @@ Object.entries(selectConfigs).forEach(([id, config]) => {
   const mount = document.getElementById(id);
   if (mount) createRoot(mount).render(<StudioSelect mount={mount} config={config} />);
 });
+
+const thinkingRoots = new WeakMap();
+
+window.mountStudioThinking = (mount, options = {}) => {
+  if (!mount) return;
+  const root = thinkingRoots.get(mount) ?? createRoot(mount);
+  thinkingRoots.set(mount, root);
+  root.render(
+    <Thinking
+      title={options.title ?? '正在思考'}
+      loading={options.loading ?? true}
+      expanded={options.expanded ?? true}
+      maxHeight={options.maxHeight}
+    >
+      <div>{options.content ?? ''}</div>
+    </Thinking>,
+  );
+};
+
+window.unmountStudioThinking = (mount) => {
+  const root = thinkingRoots.get(mount);
+  if (!root) return;
+  root.unmount();
+  thinkingRoots.delete(mount);
+};
+
+const bubbleRoots = new WeakMap();
+
+window.mountStudioBubble = (mount, options = {}) => {
+  if (!mount) return;
+  const root = bubbleRoots.get(mount) ?? createRoot(mount);
+  const role = options.role === 'user' ? 'user' : 'assistant';
+  const bubbleStyle = role === 'user' ? {
+    '--ve-bubble-content-filled-bg': 'var(--color-bg-inverse, #18181b)',
+    '--ve-bubble-content-text-color': 'var(--color-text-foreground, #fff)',
+    '--ve-bubble-content-radius-default': 'var(--radius-xl, 16px)',
+    '--ve-bubble-content-padding-block': 'var(--space-xxs, 8px)',
+    '--ve-bubble-content-padding-inline': 'var(--space-s, 16px)',
+  } : {
+    '--ve-bubble-content-max-width': '100%',
+  };
+  bubbleRoots.set(mount, root);
+  mount.dataset.component = 've-bubble';
+  root.render(
+    <BubbleList gap="0" style={{ width: '100%' }}>
+      <Bubble
+        placement={role === 'user' ? 'end' : 'start'}
+        variant={role === 'user' ? 'filled' : 'text'}
+        style={bubbleStyle}
+      >
+        {role === 'assistant' ? (
+          <Markdown
+            content={String(options.content ?? '')}
+            size="small"
+            wrap
+            escapeRawHtml
+            openLinksInNewTab
+          />
+        ) : String(options.content ?? '')}
+      </Bubble>
+    </BubbleList>,
+  );
+};
+
+window.unmountStudioBubble = (mount) => {
+  const root = bubbleRoots.get(mount);
+  if (!root) return;
+  root.unmount();
+  bubbleRoots.delete(mount);
+};
+
+window.dispatchEvent(new CustomEvent('studio-react-ready'));

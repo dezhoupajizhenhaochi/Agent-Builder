@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Roboto:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="./studio-react/selects.css">
+<link rel="stylesheet" href="./studio-react/selects.css?v=20260714-bubble">
 <!-- JSZip: 浏览器端 zip 打包，用于「下载 Skill」按钮按 skill-creator 规范打包 .skill 包 -->
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-<script type="module" src="./studio-react/selects.js"></script>
+<script type="module" src="./studio-react/selects.js?v=20260714-bubble"></script>
 <style>
   /* ============================================
    * App Shell Tokens (stable — 不随生成主题变化)
@@ -355,7 +355,7 @@
     gap: 0;
   }
 
-  /* URL 提取子切换（网站 / Figma） */
+  /* URL 提取控件仅作为 skill 的无界面执行适配层，不进入页面布局。 */
   .url-subtabs {
     display: flex;
     gap: 4px;
@@ -385,7 +385,6 @@
     color: var(--app-text);
     box-shadow: var(--app-shadow-sm);
   }
-
   /* Header 下载按钮（CSS + Skill 共用样式：白底描边） */
   .btn-download-css {
     display: inline-flex;
@@ -564,6 +563,7 @@
     gap: var(--space-xxxs, 4px);
     max-width: 100%;
   }
+  .studio-chat-bubble-root { width: 100%; min-width: 0; }
   .ved-message-bubble,
   .msg-bubble {
     padding: var(--space-xs, 12px) var(--space-s, 16px);
@@ -600,10 +600,10 @@
   }
   .ved-message.system .ved-message-bubble,
   .msg.system .msg-bubble {
-    background: var(--color-bg-info, var(--app-muted));
-    color: var(--color-text-info, var(--app-text-secondary));
+    background: var(--color-bg-danger-secondary, #fef2f2);
+    color: var(--color-text-danger, #b91c1c);
     font-size: var(--text-caption, 12px);
-    border: var(--stroke-0_5, 0.5px) dashed var(--color-border-interactive, var(--app-border));
+    border: var(--stroke-0_5, 0.5px) solid var(--color-border-danger, #fca5a5);
     align-self: stretch;
     text-align: center;
     padding: var(--space-xxs, 8px) var(--space-xs, 12px);
@@ -626,8 +626,15 @@
     border: var(--stroke-0_5, 0.5px) solid var(--color-border-default, var(--app-border));
     border-radius: var(--radius-full, 99px);
     font-size: var(--text-caption, 12px);
+    font-family: inherit;
     color: var(--color-text-secondary, var(--app-text-secondary));
+    cursor: pointer;
+    transition: background .15s ease, border-color .15s ease, color .15s ease;
   }
+  .msg-action-chip:hover { background: var(--color-bg-secondary, var(--app-muted)); }
+  .msg-action-chip:focus-visible { outline: 2px solid var(--color-border-interactive, var(--app-border-strong)); outline-offset: 2px; }
+  .msg-action-chip:disabled { cursor: default; opacity: .72; }
+  .msg-action-chip.is-applied { color: var(--color-text-success, var(--app-text)); border-color: var(--color-border-success, var(--app-border)); }
   .msg-action-chip svg { width: 11px; height: 11px; }
   .msg-action-chip.theme { color: var(--color-text-accent, var(--app-text)); border-color: var(--color-border-interactive, var(--app-border)); background: var(--color-bg-secondary, var(--app-muted)); }
   .msg-action-chip.html  { color: var(--color-text-success, var(--app-text)); border-color: var(--color-border-success, var(--app-border)); background: var(--color-bg-success, var(--app-muted)); }
@@ -721,41 +728,8 @@
     0%, 60%, 100% { transform: translateY(0); opacity: .4; }
     30% { transform: translateY(-4px); opacity: 1; }
   }
-  .ve-thinking {
-    width: min(100%, 520px);
-    border: var(--stroke-0_5, 0.5px) solid var(--color-border-default, var(--app-border));
-    border-radius: var(--radius-xl, 16px);
-    background: var(--color-bg-base, var(--app-surface));
-    color: var(--color-text-primary, var(--app-text));
-    box-shadow: var(--shadow-sm, none);
-    overflow: hidden;
-  }
-  .ve-thinking-header {
-    min-height: 40px;
-    padding: 0 var(--space-xs, 12px);
-    display: flex;
-    align-items: center;
-    gap: var(--space-xxs, 8px);
-    font-size: var(--text-body-sm, 13px);
-    font-weight: var(--font-weight-semibold, 600);
-  }
-  .ve-thinking-icon {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 2px solid var(--color-border-default, var(--app-border));
-    border-top-color: var(--color-text-primary, var(--app-text));
-    animation: ve-thinking-spin .9s linear infinite;
-    flex-shrink: 0;
-  }
-  .ve-thinking-body {
-    padding: 0 var(--space-xs, 12px) var(--space-xs, 12px) 36px;
-    color: var(--color-text-secondary, var(--app-text-secondary));
-    font-size: var(--text-caption, 12px);
-    line-height: 1.65;
-  }
-  @keyframes ve-thinking-spin {
-    to { transform: rotate(360deg); }
+  .studio-thinking-root {
+    width: min(100%, 760px);
   }
 
   .ved-chat-empty,
@@ -825,7 +799,7 @@
 
   .chat-input-row {
     padding: var(--space-xs, 12px);
-    background: var(--color-bg-surface, var(--app-surface));
+    background: var(--color-bg-base, var(--app-surface));
   }
   .ve-chat-input {
     width: 100%;
@@ -1497,6 +1471,62 @@
     line-height: 1.2;
   }
 
+  /* 顶部「常用主题」Tab：复用现有主题数据，单列展示大预览卡片。 */
+  #panel-themes > .panel-body { padding: 16px; scrollbar-width: none; }
+  #panel-themes > .panel-body::-webkit-scrollbar { display: none; }
+  #panel-themes #section-presets { display: block !important; padding: 0; border: 0; }
+  #panel-themes #section-presets > .label { display: none; }
+  #panel-themes .product-presets-grid { grid-template-columns: 1fr; gap: 14px; }
+  #panel-themes .product-preset-card {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0;
+    padding: 0 16px 15px;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+  #panel-themes .product-preset-card::before {
+    content: '';
+    grid-column: 1 / -1;
+    height: 142px;
+    margin: 0 -16px 14px;
+    border-bottom: 1px solid var(--app-border);
+    background:
+      linear-gradient(var(--preset-color), var(--preset-color)) 30% 27% / 14% 5% no-repeat,
+      linear-gradient(color-mix(in srgb, var(--preset-color) 55%, white), color-mix(in srgb, var(--preset-color) 55%, white)) 52% 27% / 14% 5% no-repeat,
+      linear-gradient(color-mix(in srgb, var(--preset-color) 25%, white), color-mix(in srgb, var(--preset-color) 25%, white)) 74% 27% / 14% 5% no-repeat,
+      linear-gradient(150deg, transparent 45%, var(--preset-color) 46% 49%, transparent 50%) 62% 69% / 52% 38% no-repeat,
+      linear-gradient(#fff, #fff) 72% 23% / 64% 68% no-repeat,
+      linear-gradient(color-mix(in srgb, var(--preset-color) 74%, #101114), color-mix(in srgb, var(--preset-color) 74%, #101114)) 0 0 / 22% 100% no-repeat,
+      color-mix(in srgb, var(--preset-color) 8%, #f5f6f8);
+  }
+  #panel-themes .product-preset-card.is-dark-preview::before {
+    background-color: #111216;
+    filter: brightness(.72);
+  }
+  #panel-themes .product-preset-info { grid-column: 1; gap: 4px; }
+  #panel-themes .product-preset-name { font-size: 15px; font-weight: 600; }
+  #panel-themes .product-preset-hex { font-size: 11px; }
+  #panel-themes .product-preset-swatch {
+    grid-column: 2;
+    grid-row: 2;
+    width: 20px;
+    height: 20px;
+    margin: 2px 0 0 26px;
+    border: 2px solid var(--app-surface);
+    border-radius: 50%;
+    box-shadow: -8px 0 0 color-mix(in srgb, var(--preset-color) 68%, white), -16px 0 0 color-mix(in srgb, var(--preset-color) 35%, white);
+  }
+  #panel-themes .product-preset-card::after {
+    content: '点击应用主题，并同步更新右侧预览。';
+    grid-column: 1 / -1;
+    margin-top: 9px;
+    color: var(--app-text-secondary);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  #panel-themes .product-preset-card.active { box-shadow: 0 0 0 1px var(--preset-color); }
+
   /* OKLCH sliders */
   .oklch-sliders {
     margin-top: 14px;
@@ -2075,6 +2105,12 @@
     background: var(--color-primary-200);
     color: var(--color-text-primary);
     font-weight: var(--font-weight-semibold);
+  }
+  .agent-demo[data-background="solid"][data-bg-token="base"] .ved-nav-item.active {
+    background: var(--color-bg-muted);
+  }
+  .agent-demo[data-background="solid"][data-bg-token="soft"] .ved-nav-item.active {
+    background: var(--color-primary-100);
   }
   html.dark .ved-sidebar {
     background: var(--color-gray-dark-50);
@@ -3141,6 +3177,7 @@
   #color-input { pointer-events:none; opacity:0; }
   .primary-color-popover { display:none; position:absolute; left:18px; right:18px; z-index:80; margin-top:8px; padding:14px; border:1px solid var(--app-border-strong); border-radius:12px; background:var(--app-surface); box-shadow:0 18px 48px rgba(24,24,27,.18),0 3px 10px rgba(24,24,27,.08); }
   #section-reference { position:relative; }
+  #theme-style-group { border-top:0; padding-top:0; margin-top:0 !important; }
   .primary-color-popover.show { display:block; }
   .primary-color-popover-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; font-size:12px; font-weight:600; }
   .primary-color-popover-close { width:24px; height:24px; border:0; border-radius:6px; background:transparent; color:var(--app-text-secondary); cursor:pointer; }
@@ -3388,6 +3425,7 @@
   .agent-demo[data-wide="true"] .ved-welcome { max-width:880px; }
   .agent-demo[data-welcome-suggestions="false"] .ved-pills { display:none; }
   .agent-demo[data-welcome-tasks="false"] .ved-image-tasks { display:none; }
+  .agent-demo[data-welcome-capabilities="false"] .ved-composer-toolbar > .ved-toolbar-group:first-child { display:none; }
   .agent-demo[data-composer-style="floating"] .ved-composer { border-radius:999px; }
   .agent-runtime-page { min-height:100%; padding:var(--space-xl); color:var(--color-text-primary); }
   .agent-runtime-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:var(--space-l); }
@@ -3470,18 +3508,24 @@
         <input type="radio" name="mode" id="mode-reference" value="reference" checked>
         <label for="mode-reference">手动调试</label>
         <input type="radio" name="mode" id="mode-agent" value="agent">
-        <label for="mode-agent">AI 对话</label>
-        <input type="radio" name="mode" id="mode-url" value="url">
-        <label for="mode-url">URL 提取</label>
+        <label for="mode-agent">智能生成</label>
+        <input type="radio" name="mode" id="mode-themes" value="themes">
+        <label for="mode-themes">常用主题</label>
       </div>
     </div>
+
+    <!-- ===== Left: Common themes ===== -->
+    <aside class="panel panel-input" id="panel-themes" style="display:none;">
+      <div class="panel-header"><div class="panel-title">常用主题</div></div>
+      <div class="panel-body" id="theme-gallery-host"></div>
+    </aside>
 
     <!-- ===== Left: Chat (Agent mode) ===== -->
     <aside class="panel panel-input" id="panel-chat" style="display:none;">
       <div class="panel-header">
-        <div class="panel-title">对话记录</div>
+        <div class="panel-title">智能生成</div>
         <button class="btn-sm" id="btn-new-chat" title="新会话">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9"/><path d="M21 3v6h-6"/></svg>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           新会话
         </button>
       </div>
@@ -3491,7 +3535,7 @@
 
       <div class="chat-input-row">
         <div class="ve-chat-input" id="chat-input-box" data-size="default">
-          <textarea class="ve-chat-input-editor chat-input" id="chat-input" placeholder="有问题，尽管问。输入 / 可唤起技能或模板…" rows="3"></textarea>
+          <textarea class="ve-chat-input-editor chat-input" id="chat-input" placeholder="描述想要的主题，或粘贴网站 / Figma URL…" rows="3"></textarea>
           <div class="ve-chat-input-footer">
             <div class="ve-chat-input-actions" data-slot="leftAction">
               <button class="ve-chat-input-action" data-type="icon" title="添加附件或能力" type="button">
@@ -3519,94 +3563,55 @@
         <div class="product-presets-grid" id="product-presets">
           <button class="product-preset-card" data-hex="#1664FF" data-density="1" data-radius="0" data-shadow="0" type="button">
             <span class="product-preset-swatch" style="background:#1664FF;"></span>
-            <span class="product-preset-info">
-              <span class="product-preset-name">火山引擎</span>
-              <span class="product-preset-hex">#1664FF</span>
-            </span>
+            <span class="product-preset-info"><span class="product-preset-name">火山引擎</span><span class="product-preset-hex">#1664FF</span></span>
           </button>
           <button class="product-preset-card" data-hex="#1F1F23" data-density="0" data-radius="0" data-shadow="1" type="button">
             <span class="product-preset-swatch" style="background:#1F1F23;"></span>
-            <span class="product-preset-info">
-              <span class="product-preset-name">安全 Agent</span>
-              <span class="product-preset-hex">#1F1F23</span>
-            </span>
+            <span class="product-preset-info"><span class="product-preset-name">安全 Agent</span><span class="product-preset-hex">#1F1F23</span></span>
           </button>
           <button class="product-preset-card" data-hex="#1F1F23" data-density="0" data-radius="0" data-shadow="0" type="button">
             <span class="product-preset-swatch" style="background:#1F1F23;"></span>
-            <span class="product-preset-info">
-              <span class="product-preset-name">Arkclaw</span>
-              <span class="product-preset-hex">#1F1F23</span>
-            </span>
+            <span class="product-preset-info"><span class="product-preset-name">Arkclaw</span><span class="product-preset-hex">#1F1F23</span></span>
           </button>
           <button class="product-preset-card" data-hex="#5252FF" data-density="1" data-radius="1" data-shadow="0" type="button">
             <span class="product-preset-swatch" style="background:#5252FF;"></span>
-            <span class="product-preset-info">
-              <span class="product-preset-name">火山方舟</span>
-              <span class="product-preset-hex">#5252FF</span>
-            </span>
+            <span class="product-preset-info"><span class="product-preset-name">火山方舟</span><span class="product-preset-hex">#5252FF</span></span>
           </button>
           <button class="product-preset-card" data-hex="#18181B" data-density="1" data-radius="1" data-shadow="1" type="button">
             <span class="product-preset-swatch" style="background:#18181B;"></span>
-            <span class="product-preset-info">
-              <span class="product-preset-name">Default</span>
-              <span class="product-preset-hex">#18181B</span>
-            </span>
+            <span class="product-preset-info"><span class="product-preset-name">Default</span><span class="product-preset-hex">#18181B</span></span>
           </button>
           <button class="product-preset-card" data-hex="#10A37F" data-density="1" data-radius="2" data-shadow="0" type="button">
             <span class="product-preset-swatch" style="background:#10A37F;"></span>
-            <span class="product-preset-info">
-              <span class="product-preset-name">ChatGPT</span>
-              <span class="product-preset-hex">#10A37F</span>
-            </span>
+            <span class="product-preset-info"><span class="product-preset-name">ChatGPT</span><span class="product-preset-hex">#10A37F</span></span>
           </button>
           <button class="product-preset-card" data-hex="#D97757" data-density="2" data-radius="1.2" data-shadow="0" type="button">
             <span class="product-preset-swatch" style="background:#D97757;"></span>
-            <span class="product-preset-info">
-              <span class="product-preset-name">Claude</span>
-              <span class="product-preset-hex">#D97757</span>
-            </span>
+            <span class="product-preset-info"><span class="product-preset-name">Claude</span><span class="product-preset-hex">#D97757</span></span>
           </button>
           <button class="product-preset-card" data-hex="#20808D" data-density="1" data-radius="1" data-shadow="0" type="button">
             <span class="product-preset-swatch" style="background:#20808D;"></span>
-            <span class="product-preset-info">
-              <span class="product-preset-name">Perplexity</span>
-              <span class="product-preset-hex">#20808D</span>
-            </span>
+            <span class="product-preset-info"><span class="product-preset-name">Perplexity</span><span class="product-preset-hex">#20808D</span></span>
           </button>
           <button class="product-preset-card" data-hex="#111111" data-density="0" data-radius="0" data-shadow="0" type="button">
             <span class="product-preset-swatch" style="background:#111111;"></span>
-            <span class="product-preset-info">
-              <span class="product-preset-name">Minimal</span>
-              <span class="product-preset-hex">#111111</span>
-            </span>
+            <span class="product-preset-info"><span class="product-preset-name">Minimal</span><span class="product-preset-hex">#111111</span></span>
           </button>
           <button class="product-preset-card" data-hex="#8E75FF" data-density="1" data-radius="2" data-shadow="1" type="button">
             <span class="product-preset-swatch" style="background:#8E75FF;"></span>
-            <span class="product-preset-info">
-              <span class="product-preset-name">Gemini</span>
-              <span class="product-preset-hex">#8E75FF</span>
-            </span>
+            <span class="product-preset-info"><span class="product-preset-name">Gemini</span><span class="product-preset-hex">#8E75FF</span></span>
           </button>
           <button class="product-preset-card" data-hex="#1778F2" data-density="1" data-radius="1" data-shadow="1" type="button">
             <span class="product-preset-swatch" style="background:#1778F2;"></span>
-            <span class="product-preset-info">
-              <span class="product-preset-name">Copilot</span>
-              <span class="product-preset-hex">#1778F2</span>
-            </span>
+            <span class="product-preset-info"><span class="product-preset-name">Copilot</span><span class="product-preset-hex">#1778F2</span></span>
           </button>
           <button class="product-preset-card" data-hex="#611F69" data-density="1" data-radius="2" data-shadow="0" type="button">
             <span class="product-preset-swatch" style="background:#611F69;"></span>
-            <span class="product-preset-info">
-              <span class="product-preset-name">Slack</span>
-              <span class="product-preset-hex">#611F69</span>
-            </span>
+            <span class="product-preset-info"><span class="product-preset-name">Slack</span><span class="product-preset-hex">#611F69</span></span>
           </button>
           <button class="product-preset-card" data-hex="#0F1115" data-density="0" data-radius="1" data-shadow="0" type="button">
             <span class="product-preset-swatch" style="background:#0F1115;"></span>
-            <span class="product-preset-info">
-              <span class="product-preset-name">Grok</span>
-              <span class="product-preset-hex">#0F1115</span>
-            </span>
+            <span class="product-preset-info"><span class="product-preset-name">Grok</span><span class="product-preset-hex">#0F1115</span></span>
           </button>
         </div>
       </div>
@@ -3637,7 +3642,7 @@
       <div class="input-section" id="section-reference" style="display:none;">
 
         <!-- 常用模板 -->
-        <details class="accordion group-accordion" open>
+        <details class="accordion group-accordion" style="display:none;" open>
           <summary>常用模板</summary>
           <div class="accordion-body">
 
@@ -3739,7 +3744,7 @@
         </details>
 
         <!-- 主题风格 -->
-        <details class="accordion group-accordion" open>
+        <details class="accordion group-accordion" id="theme-style-group" open>
           <summary>主题风格</summary>
           <div class="accordion-body" id="theme-style-body">
 
@@ -3757,7 +3762,7 @@
                   <input type="hidden" id="studio-bg-token" value="surface">
                   <div class="studio-gradient-options studio-solid-options" role="radiogroup" aria-label="选择界面背景色">
                     <button class="studio-gradient-option studio-bg-token-option active" role="radio" aria-checked="true" type="button" data-bg-token="surface" title="BG Surface"><span class="studio-solid-thumb"></span><span class="studio-gradient-name">页面底色</span></button>
-                    <button class="studio-gradient-option studio-bg-token-option" role="radio" aria-checked="false" type="button" data-bg-token="base" title="BG Base"><span class="studio-solid-thumb"></span><span class="studio-gradient-name">内容底色</span></button>
+                    <button class="studio-gradient-option studio-bg-token-option" role="radio" aria-checked="false" type="button" data-bg-token="base" title="BG Base"><span class="studio-solid-thumb"></span><span class="studio-gradient-name">白色底色</span></button>
                     <button class="studio-gradient-option studio-bg-token-option" role="radio" aria-checked="false" type="button" data-bg-token="soft" title="Primary 50"><span class="studio-solid-thumb"></span><span class="studio-gradient-name">品牌柔光</span></button>
                     <button class="studio-gradient-option studio-bg-token-option" role="radio" aria-checked="false" type="button" data-bg-token="neutral" title="Gray 100"><span class="studio-solid-thumb"></span><span class="studio-gradient-name">中性衬底</span></button>
                   </div>
@@ -3898,11 +3903,9 @@
               <summary>欢迎页</summary>
               <div class="accordion-body">
                 <label class="studio-field"><span>欢迎标题</span><input class="text-input" id="studio-welcome-title" value="今天想设计点什么？" style="width:176px;height:32px;font-size:12px;"></label>
+                <label class="studio-field"><span>输入框能力</span><span class="studio-switch"><input type="checkbox" id="studio-welcome-capabilities" checked> 显示</span></label>
                 <label class="studio-field"><span>快捷推荐</span><span class="studio-switch"><input type="checkbox" id="studio-welcome-suggestions" checked> 显示</span></label>
                 <label class="studio-field"><span>任务卡片</span><span class="studio-switch"><input type="checkbox" id="studio-welcome-tasks" checked> 显示</span></label>
-                <label class="studio-field"><span>Composer 风格</span>
-                  <span class="studio-select" id="studio-composer-style"></span>
-                </label>
                 <div class="studio-hint">控制用户进入 Agent 后的第一屏内容与行动入口。</div>
               </div>
             </details>
@@ -3940,8 +3943,8 @@
         </details>
       </div>
 
-      <!-- URL 提取（网站 + Figma 合并） -->
-      <div class="input-section" id="section-url" style="display:none;">
+      <!-- source-theme-extractor skill 的无界面执行适配层。保留既有提取器 DOM 契约，不作为独立模块展示。 -->
+      <div class="input-section" id="section-url" style="display:none!important;" hidden aria-hidden="true">
         <!-- 子切换：网站 / Figma -->
         <div class="url-subtabs" id="url-subtabs">
           <button class="url-subtab active" data-sub="web">网站</button>
@@ -5574,14 +5577,14 @@ function getRuntimeBackgroundImageUrl() {
 
 const studioState = {
   brandName: 'Agent', logoDataUrl: '',
-  background: 'image', imageDataUrl: DEFAULT_BACKGROUND_IMAGE_PATH, imageTone: 'light', blur: 18, sidebarOpacity: 100,
+  background: 'gradient', imageDataUrl: DEFAULT_BACKGROUND_IMAGE_PATH, imageTone: 'light', blur: 18, sidebarOpacity: 100,
   sidebarTransparent: false,
   sidebarVisible: true, sidebarWidth: 220, sidebarPosition: 'left',
   sidebarBg: 'surface', sidebarIcons: true,
   bgToken: 'surface', gradientMode: 'complementary', gradientStrength: 50, gradientNoise: 50,
   fontCn: 'pingfang', fontEn: 'inter',
   compact: false, wide: false, reasoning: true, sources: true,
-  welcomeTitle: '今天想设计点什么？', welcomeSuggestions: true, welcomeTasks: true,
+  welcomeTitle: '今天想设计点什么？', welcomeCapabilities: true, welcomeSuggestions: true, welcomeTasks: true,
   composerStyle: 'outlined', messageActions: true,
   artifactLayout: 'split', artifactView: 'preview', artifactCode: true, artifactActions: true,
   page: 'welcome'
@@ -5619,8 +5622,6 @@ function applyManualMode(mode) {
   $('#section-semantic').style.display  = mode === 'semantic'  ? 'block' : 'none';
   // 「情绪」tab 已合并进「手动调试」，section-mood 不再独立
   $('#section-reference').style.display = mode === 'reference' ? 'block' : 'none';
-  const secUrl = $('#section-url');
-  if (secUrl) secUrl.style.display = mode === 'url' ? 'block' : 'none';
   // 手动调试模式走「实时渲染」路径，切换时同步当前 primary
   if (mode === 'reference') {
     const { L, C, H } = state.primary;
@@ -5632,6 +5633,11 @@ $$('input[name="mode"]').forEach(r => r.addEventListener('change', e => {
   const mode = e.target.value;
   if (mode === 'agent') {
     switchTopMode('agent');
+    return;
+  }
+  if (mode === 'themes') {
+    switchTopMode('themes');
+    applyManualMode('presets');
     return;
   }
   switchTopMode('manual');
@@ -6342,7 +6348,7 @@ if (presetSelect) {
     const stylePreset = {
       primary: hexToOklch(hex),
       density: Number.parseInt(option.dataset.density ?? '1', 10),
-      radius: Number.parseInt(option.dataset.radius ?? '1', 10),
+      radius: Number.parseFloat(option.dataset.radius ?? '1'),
       shadow: Number.parseInt(option.dataset.shadow ?? '1', 10)
     };
     presetSelect.dataset.value = hex;
@@ -6376,10 +6382,39 @@ if (presetSelect) {
     if (event.key === 'Escape') closePresetSelect();
   });
 }
+
+// 将已有的主题数据移入顶部 Tab，并为卡片接入现有主题应用链路。
+const themeGalleryHost = $('#theme-gallery-host');
+const productPresetSection = $('#section-presets');
+const productPresetCards = Array.from($$('.product-preset-card'));
+let resetProductPresetCards = () => {};
+if (themeGalleryHost && productPresetSection) {
+  themeGalleryHost.appendChild(productPresetSection);
+  productPresetSection.style.display = 'block';
+  resetProductPresetCards = () => productPresetCards.forEach(card => card.classList.remove('active'));
+  productPresetCards.forEach((card, index) => {
+    const hex = card.dataset.hex;
+    card.style.setProperty('--preset-color', hex);
+    card.classList.toggle('is-dark-preview', ['#1F1F23', '#18181B', '#111111', '#0F1115'].includes(hex));
+    card.classList.toggle('active', index === 0);
+    card.addEventListener('click', () => {
+      resetProductPresetCards();
+      card.classList.add('active');
+      applyPresetToState({
+        primary: hexToOklch(hex),
+        density: Number.parseInt(card.dataset.density ?? '1', 10),
+        radius: Number.parseFloat(card.dataset.radius ?? '1'),
+        shadow: Number.parseInt(card.dataset.shadow ?? '1', 10)
+      });
+      showToast(`已应用「${card.querySelector('.product-preset-name')?.textContent || '常用'}」主题`);
+    });
+  });
+}
 // 当用户手动改色（拾色器/滑杆/hex 框）时，重置下拉选择
 ['color-input', 'hex-input', 'lch-l', 'lch-c', 'lch-h', 'lch-l-num', 'lch-c-num', 'lch-h-num'].forEach(id => {
   document.getElementById(id)?.addEventListener('input', () => {
     resetPresetSelect();
+    resetProductPresetCards();
   });
 });
 
@@ -6536,7 +6571,11 @@ const gradientNoiseOpacity = () => {
 const studioGradientIntensity = () => Math.pow(clamp(studioState.gradientStrength / 100, 0, 1), 1.6);
 const studioGradientChroma = () => {
   const intensity = studioGradientIntensity();
-  return clamp(state.primary.C * (0.01 + intensity * 1.05), 0.001, 0.22);
+  const derivedChroma = state.primary.C * (0.01 + intensity * 1.05);
+  const darkNeutralFloor = state.primary.L < 0.42 && state.primary.C < 0.04
+    ? 0.04 + intensity * 0.08
+    : 0;
+  return clamp(Math.max(derivedChroma, darkNeutralFloor), 0.001, 0.22);
 };
 
 function studioGradientRule(mode = studioState.gradientMode) {
@@ -6652,6 +6691,7 @@ function applyStudioAppearance() {
   if (!demo) return;
   const panel = document.querySelector('.panel-preview');
   demo.dataset.background = studioState.background;
+  demo.dataset.bgToken = studioState.bgToken;
   demo.dataset.gradientNoise = String(studioState.gradientNoise > 0);
   demo.style.setProperty('--studio-gradient-noise-opacity', gradientNoiseOpacity());
   syncStudioGradientVariables(demo);
@@ -6660,6 +6700,7 @@ function applyStudioAppearance() {
   demo.dataset.wide = String(studioState.wide);
   demo.dataset.welcomeSuggestions = String(studioState.welcomeSuggestions);
   demo.dataset.welcomeTasks = String(studioState.welcomeTasks);
+  demo.dataset.welcomeCapabilities = String(studioState.welcomeCapabilities);
   demo.dataset.composerStyle = studioState.composerStyle;
   demo.style.setProperty('--studio-blur', studioState.blur + 'px');
   demo.style.setProperty('--studio-sidebar-percent', studioState.sidebarOpacity + '%');
@@ -6729,6 +6770,7 @@ function scheduleStudioGradientLivePreview() {
 
 let observedAgentSidebar = null;
 let agentSidebarResizeObserver = null;
+let agentSidebarMutationObserver = null;
 let agentSidebarToggleHandler = null;
 let agentRuntimeAutoCollapsed = null;
 let agentRuntimeSidebarCollapsed = null;
@@ -6755,6 +6797,7 @@ function syncAgentRuntimeResponsive() {
 
   if (observedAgentSidebar !== sidebar) {
     agentSidebarResizeObserver?.disconnect();
+    agentSidebarMutationObserver?.disconnect();
     if (observedAgentSidebar && agentSidebarToggleHandler) {
       observedAgentSidebar.removeEventListener('ve-sidebar-toggle', agentSidebarToggleHandler);
     }
@@ -6767,6 +6810,20 @@ function syncAgentRuntimeResponsive() {
       syncAgentRuntimeResponsive();
     };
     sidebar.addEventListener('ve-sidebar-toggle', agentSidebarToggleHandler);
+    agentSidebarMutationObserver = new MutationObserver(() => {
+      requestAnimationFrame(() => {
+        if (observedAgentSidebar !== sidebar) return;
+        const sidebarCollapsed = sidebar.collapsed === true || sidebar.hasAttribute('collapsed');
+        if (sidebarCollapsed !== agentRuntimeSidebarCollapsed) {
+          setAgentRuntimeSidebarCollapsed(sidebar, shell, agentRuntimeSidebarCollapsed);
+        }
+        syncAgentRuntimeResponsive();
+      });
+    });
+    agentSidebarMutationObserver.observe(sidebar, {
+      attributes: true,
+      attributeFilter: ['collapsed']
+    });
     if ('ResizeObserver' in window) {
       agentSidebarResizeObserver = new ResizeObserver(() => syncAgentRuntimeResponsive());
       agentSidebarResizeObserver.observe(sidebar);
@@ -6798,6 +6855,8 @@ function syncAgentRuntimeResponsive() {
 function syncAgentRuntimeTheme() {
   const frame = document.getElementById('agent-runtime-frame');
   if (!frame?.contentWindow) return;
+  const runtimeRoot = frame.contentDocument?.documentElement;
+  if (runtimeRoot) runtimeRoot.dataset.studioWelcomeCapabilities = String(studioState.welcomeCapabilities);
   frame.contentWindow.postMessage({
     type: 'vedesign-studio-theme',
     theme: state.themeMode,
@@ -6813,6 +6872,7 @@ function syncAgentRuntimeTheme() {
       logoDataUrl: studioState.logoDataUrl,
       compact: studioState.compact, wide: studioState.wide,
       welcomeTitle: studioState.welcomeTitle,
+      welcomeCapabilities: studioState.welcomeCapabilities,
       welcomeSuggestions: studioState.welcomeSuggestions,
       welcomeTasks: studioState.welcomeTasks,
       composerStyle: studioState.composerStyle,
@@ -6946,7 +7006,61 @@ window.addEventListener('message', event => {
     agentRuntimeReady = true;
     injectThemeTokensToAgentRuntime();
     syncAgentRuntimeTheme();
+    return;
   }
+  if (event.data?.type === 'vedesign-studio-theme-mirror-ready' && event.source === agentRuntimeFrame?.contentWindow) {
+    syncAgentRuntimeTheme();
+    return;
+  }
+  if (event.data?.type !== 'vedesign-studio-theme-update' || event.source !== agentRuntimeFrame?.contentWindow) return;
+
+  const { key, value } = event.data;
+  const setRangeValue = (selector, nextValue) => {
+    const control = $(selector);
+    if (!control) return;
+    control.value = String(nextValue);
+    control.dispatchEvent(new Event('input', { bubbles: true }));
+  };
+
+  if (key === 'primaryHex' && /^#[0-9a-f]{6}$/i.test(String(value))) {
+    syncColorFromHex(String(value), 'settings-mirror');
+  } else if (key === 'background') {
+    $(`#studio-background-tabs [data-background="${String(value)}"]`)?.click();
+  } else if (key === 'bgToken') {
+    $(`.studio-bg-token-option[data-bg-token="${String(value)}"]`)?.click();
+  } else if (key === 'gradientMode') {
+    $(`.studio-gradient-option[data-gradient-mode="${String(value)}"]`)?.click();
+  } else if (key === 'gradientStrength') {
+    setRangeValue('#studio-gradient-strength', Number(value));
+  } else if (key === 'gradientNoise') {
+    setRangeValue('#studio-gradient-noise', Number(value));
+  } else if (key === 'backgroundBlur') {
+    setRangeValue('#studio-blur', Number(value));
+  } else if (key === 'radius') {
+    setRangeValue('#radius', Number(value));
+  } else if (key === 'density') {
+    setRangeValue('#density', Number(value));
+  } else if (key === 'fontCn' && studioFontStacks.cn[String(value)]) {
+    studioState.fontCn = String(value);
+    window.dispatchEvent(new CustomEvent('studio-select-sync', { detail: { id: 'studio-font-cn', value: studioState.fontCn } }));
+    applyStudioAppearance();
+  } else if (key === 'fontEn' && studioFontStacks.en[String(value)]) {
+    studioState.fontEn = String(value);
+    window.dispatchEvent(new CustomEvent('studio-select-sync', { detail: { id: 'studio-font-en', value: studioState.fontEn } }));
+    applyStudioAppearance();
+  } else if (key === 'imagePreset') {
+    const image = BACKGROUND_IMAGE_LIBRARY.find(item => item.path === String(value));
+    if (image) {
+      studioState.background = 'image';
+      studioState.imageDataUrl = image.path;
+      studioState.imageTone = image.tone;
+      $$('.studio-image-option').forEach(button => button.classList.toggle('active', button.dataset.imagePath === image.path));
+      hydrateBackgroundImage(image.path);
+    }
+  }
+
+  syncStudioBackgroundControls();
+  applyStudioAppearance();
 });
 window.setTimeout(() => {
   if (!agentRuntimeReady) showBundledAgentFallback();
@@ -7112,9 +7226,9 @@ bindStudioSelect('#studio-content-width', value => { studioState.wide = value ==
 $('#studio-reasoning')?.addEventListener('change', e => { studioState.reasoning = e.target.checked; syncAgentRuntimeTheme(); if (studioState.page === 'chat') renderAgentRuntimePage('chat'); });
 $('#studio-sources')?.addEventListener('change', e => { studioState.sources = e.target.checked; syncAgentRuntimeTheme(); if (studioState.page === 'chat') renderAgentRuntimePage('chat'); });
 $('#studio-welcome-title')?.addEventListener('input', e => { studioState.welcomeTitle = e.target.value || '今天想设计点什么？'; applyStudioAppearance(); });
+$('#studio-welcome-capabilities')?.addEventListener('change', e => { studioState.welcomeCapabilities = e.target.checked; applyStudioAppearance(); });
 $('#studio-welcome-suggestions')?.addEventListener('change', e => { studioState.welcomeSuggestions = e.target.checked; applyStudioAppearance(); });
 $('#studio-welcome-tasks')?.addEventListener('change', e => { studioState.welcomeTasks = e.target.checked; applyStudioAppearance(); });
-bindStudioSelect('#studio-composer-style', value => { studioState.composerStyle = value; applyStudioAppearance(); });
 $('#studio-message-actions')?.addEventListener('change', e => { studioState.messageActions = e.target.checked; syncAgentRuntimeTheme(); });
 bindStudioSelect('#studio-artifact-layout', value => { studioState.artifactLayout = value; syncAgentRuntimeTheme(); });
 bindStudioSelect('#studio-artifact-view', value => { studioState.artifactView = value; syncAgentRuntimeTheme(); });
@@ -8567,7 +8681,8 @@ const chatState = {
   mode: 'manual',                 // 'agent' | 'manual' — 默认进手动调节
   messages: [],                   // [{role:'user'|'assistant', content, actions?}]
   htmlArtifacts: [],              // [{id, name, html, createdAt}]
-  busy: false
+  busy: false,
+  pendingSourceSkill: null        // Figma 等待当前会话的一次性授权，不持久化
 };
 
 // Chat-mode system prompt — 内置 vedesign-agent-theme 语义生成协议
@@ -8682,6 +8797,7 @@ function saveChatState() {
 
 function clearChat() {
   chatState.messages = [];
+  chatState.pendingSourceSkill = null;
   saveChatState();
   renderChat();
 }
@@ -8745,6 +8861,12 @@ function renderThemeMoodBoard(action) {
 
 function renderChat() {
   const thread = $('#chat-thread');
+  thread.querySelectorAll('.studio-chat-bubble-root').forEach(mount => {
+    window.unmountStudioBubble?.(mount);
+  });
+  thread.querySelectorAll('.studio-thinking-root').forEach(mount => {
+    window.unmountStudioThinking?.(mount);
+  });
   thread.innerHTML = '';
 
   if (!chatState.messages.length) {
@@ -8778,10 +8900,24 @@ function renderChat() {
   chatState.messages.forEach(m => {
     const div = document.createElement('div');
     div.className = 'ved-message msg ' + m.role;
-    const bubble = document.createElement('div');
-    bubble.className = 'ved-message-bubble msg-bubble';
-    bubble.textContent = m.content;
-    div.appendChild(bubble);
+    if (m.role === 'system') {
+      const error = document.createElement('div');
+      error.className = 'ved-message-bubble msg-bubble';
+      error.textContent = m.content;
+      div.appendChild(error);
+    } else {
+      const bubbleMount = document.createElement('div');
+      bubbleMount.className = 'studio-chat-bubble-root';
+      div.appendChild(bubbleMount);
+      if (window.mountStudioBubble) {
+        window.mountStudioBubble(bubbleMount, { role: m.role, content: m.content });
+      } else {
+        const fallback = document.createElement('div');
+        fallback.className = 'ved-message-bubble msg-bubble';
+        fallback.textContent = m.content;
+        bubbleMount.appendChild(fallback);
+      }
+    }
 
     const themeAction = m.actions?.find(a => a.type === 'apply_theme' && (a.analysis_report || a.mood_board));
     if (themeAction) {
@@ -8795,12 +8931,32 @@ function renderChat() {
       const actionsDiv = document.createElement('div');
       actionsDiv.className = 'ved-message-actions msg-actions';
       m.actions.forEach(a => {
-        const chip = document.createElement('span');
+        const chip = document.createElement('button');
+        chip.type = 'button';
         chip.className = 'ved-action-chip msg-action-chip ' + (a.type === 'apply_theme' ? 'theme' : a.type === 'add_html' ? 'html' : 'skill');
         const label = a.type === 'apply_theme' ? '应用主题'
                     : a.type === 'add_html'   ? `${a.name || 'HTML 演示'}`
                     : '修改 Skill';
         chip.textContent = label;
+        chip.addEventListener('click', () => {
+          chip.disabled = true;
+          const completed = dispatchActions([a]);
+          if (a.type === 'apply_theme' && completed > 0) {
+            chip.classList.add('is-applied');
+            chip.textContent = '已应用';
+            showToast('主题已应用到右侧预览');
+            window.setTimeout(() => {
+              chip.disabled = false;
+              chip.classList.remove('is-applied');
+              chip.textContent = '重新应用主题';
+            }, 1200);
+          } else if (a.type === 'apply_theme') {
+            chip.disabled = false;
+            showToast('主题数据不完整，无法应用');
+          } else {
+            chip.disabled = false;
+          }
+        });
         actionsDiv.appendChild(chip);
       });
       div.appendChild(actionsDiv);
@@ -8811,23 +8967,26 @@ function renderChat() {
   if (chatState.busy) {
     const typing = document.createElement('div');
     typing.className = 'ved-message msg assistant';
-    typing.innerHTML = `
-      <div class="ved-message-bubble msg-bubble">
-        <section class="ve-thinking" data-loading="true" data-expanded="true" aria-live="polite">
-          <div class="ve-thinking-header">
-            <span class="ve-thinking-icon" aria-hidden="true"></span>
-            <span class="ve-thinking-title">正在思考</span>
-          </div>
-          <div class="ve-thinking-body">正在理解你的需求，整理可公开的主题方向与生成步骤。</div>
-        </section>
-      </div>
-    `;
+    const bubble = document.createElement('div');
+    bubble.className = 'ved-message-bubble msg-bubble';
+    const thinkingMount = document.createElement('div');
+    thinkingMount.className = 'studio-thinking-root';
+    bubble.appendChild(thinkingMount);
+    typing.appendChild(bubble);
     thread.appendChild(typing);
+    window.mountStudioThinking?.(thinkingMount, {
+      title: '正在思考',
+      loading: true,
+      expanded: true,
+      content: '正在理解你的需求，整理可公开的主题方向与生成步骤。'
+    });
   }
 
   thread.scrollTop = thread.scrollHeight;
   syncChatInputState();
 }
+
+window.addEventListener('studio-react-ready', () => renderChat());
 
 // ===== Multi-turn AI call =====
 async function callAIChat(history) {
@@ -8874,6 +9033,7 @@ async function callAIChat(history) {
 
 // ===== Action dispatcher =====
 function dispatchActions(actions) {
+  let completed = 0;
   for (const a of actions) {
     try {
       if (a.type === 'apply_theme') {
@@ -8890,6 +9050,7 @@ function dispatchActions(actions) {
         applyPresetToState(preset);
         showRationale(a.rationale || '');
         renderTheme(state.primary, `Agent 应用：${a.rationale || ''}`);
+        completed += 1;
       } else if (a.type === 'add_html') {
         if (typeof a.html !== 'string' || !a.html.trim()) continue;
         const artifact = {
@@ -8905,6 +9066,7 @@ function dispatchActions(actions) {
           const url = URL.createObjectURL(blob);
           window.open(url, '_blank');
           showToast(`📄 ${artifact.name} 已在新窗口打开`);
+          completed += 1;
         } catch (err) {
           console.error('open html failed', err);
         }
@@ -8914,12 +9076,14 @@ function dispatchActions(actions) {
         try { localStorage.setItem(SKILL_STORAGE_KEY, JSON.stringify(currentSkill)); } catch {}
         applySkill();
         renderSkillView();
+        completed += 1;
       }
     } catch (err) {
       console.error('action failed:', a.type, err);
     }
   }
   saveChatState();
+  return completed;
 }
 
 function deepMerge(target, patch) {
@@ -8936,10 +9100,118 @@ function deepMerge(target, patch) {
   return target;
 }
 
+function extractSourceUrl(text) {
+  const value = String(text || '').trim();
+  const explicit = value.match(/(?:https?:\/\/|www\.)[^\s<>'"，。；]+/i)?.[0];
+  const naked = value.match(/(?:^|\s)([\w.-]+\.[a-z]{2,}(?:\/[\w\-./?%&=+#]*)?)/i)?.[1];
+  return (explicit || naked || '').replace(/[),.;!?]+$/, '');
+}
+
+function isFigmaSourceUrl(url) {
+  return /(?:^|\.)figma\.com\//i.test(String(url || '').replace(/^https?:\/\//i, ''));
+}
+
+const sourceThemeExtractorSkill = {
+  id: 'source-theme-extractor',
+  name: '链接主题提取',
+  match(text) {
+    return extractSourceUrl(text);
+  },
+  async execute({ url, figmaToken = '' }) {
+    const isFigma = isFigmaSourceUrl(url);
+    if (isFigma) {
+      const token = figmaToken || sessionStorage.getItem('figma_pat') || '';
+      if (!token) return { status: 'needs_authorization', isFigma };
+      $('#figma-url-input').value = url;
+      $('#figma-pat').value = token;
+    } else {
+      $('#url-input').value = url;
+    }
+
+    const status = isFigma ? $('#figma-extract-status') : $('#url-extract-status');
+    try {
+      if (isFigma) await extractThemeFromFigma();
+      else await extractThemeFromUrl();
+    } catch (error) {
+      status.textContent = '× 提取失败：' + (error?.message || String(error));
+    }
+
+    const detail = status?.textContent?.trim() || '提取任务已结束。';
+    return {
+      status: detail.startsWith('✓') ? 'completed' : 'failed',
+      isFigma,
+      detail
+    };
+  }
+};
+
+async function runSourceThemeSkill(url, input, { figmaToken = '', appendUserMessage = true } = {}) {
+  if (appendUserMessage) chatState.messages.push({ role: 'user', content: input.value.trim() });
+  input.value = '';
+  input.dispatchEvent(new Event('input'));
+
+  const result = await sourceThemeExtractorSkill.execute({ url, figmaToken });
+  if (result.status === 'needs_authorization') {
+    chatState.pendingSourceSkill = { skillId: sourceThemeExtractorSkill.id, url };
+    chatState.messages.push({
+      role: 'assistant',
+      content: '已调用「链接主题提取」Skill 并识别为 Figma 文件。请在输入框粘贴 Figma Personal Access Token（figd_…）；Token 仅用于本次会话，不会写入消息记录或长期存储。'
+    });
+    renderChat();
+    saveChatState();
+    return true;
+  }
+
+  chatState.pendingSourceSkill = null;
+  chatState.messages.push({
+    role: result.status === 'completed' ? 'assistant' : 'system',
+    content: result.status === 'completed'
+      ? `「${sourceThemeExtractorSkill.name}」Skill 执行完成，${result.isFigma ? 'Figma' : '网站'}主题已应用到右侧预览。`
+      : result.detail
+  });
+  renderChat();
+  saveChatState();
+  return true;
+}
+
+async function handleSourceUrlFromChat(text, input) {
+  const url = sourceThemeExtractorSkill.match(text);
+  if (!url) return false;
+  chatState.busy = true;
+  renderChat();
+  try {
+    return await runSourceThemeSkill(url, input);
+  } finally {
+    chatState.busy = false;
+    renderChat();
+  }
+}
+
+async function handlePendingSourceAuthorization(text, input) {
+  const pending = chatState.pendingSourceSkill;
+  if (!pending || pending.skillId !== sourceThemeExtractorSkill.id) return false;
+  if (!/^figd_[A-Za-z0-9_-]+$/.test(text)) return false;
+
+  try { sessionStorage.setItem('figma_pat', text); } catch {}
+  chatState.busy = true;
+  renderChat();
+  try {
+    return await runSourceThemeSkill(pending.url, input, {
+      figmaToken: text,
+      appendUserMessage: false
+    });
+  } finally {
+    chatState.busy = false;
+    renderChat();
+  }
+}
+
 async function sendChatMessage() {
   const input = $('#chat-input');
   const text = input.value.trim();
   if (!text || chatState.busy) return;
+  if (await handlePendingSourceAuthorization(text, input)) return;
+  if (await handleSourceUrlFromChat(text, input)) return;
   if (!aiSettings.apiKey) {
     showToast('请先配置 API Key');
     $('#btn-ai-settings').click();
@@ -9510,6 +9782,7 @@ function switchTopMode(mode) {
   $$('#mode-tabs button').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
   $('#panel-chat').style.display = mode === 'agent' ? 'flex' : 'none';
   $('#panel-manual').style.display = mode === 'manual' ? 'flex' : 'none';
+  $('#panel-themes').style.display = mode === 'themes' ? 'flex' : 'none';
   // 新会话按钮只在 Agent 模式有意义
   const btnNew = $('#btn-new-chat');
   if (btnNew) btnNew.style.display = mode === 'agent' ? 'inline-flex' : 'none';
@@ -9816,7 +10089,7 @@ function getProjectConfig(imagePath = '') {
       backgroundImage: imagePath, imageTone: studioState.imageTone,
       sidebarTransparent: studioState.background === 'image' || studioState.sidebarTransparent
     },
-    welcome: { title: studioState.welcomeTitle, suggestions: studioState.welcomeSuggestions, tasks: studioState.welcomeTasks, composerStyle: studioState.composerStyle },
+    welcome: { title: studioState.welcomeTitle, capabilities: studioState.welcomeCapabilities, suggestions: studioState.welcomeSuggestions, tasks: studioState.welcomeTasks, composerStyle: studioState.composerStyle },
     chat: { reasoning: studioState.reasoning, sources: studioState.sources, messageActions: studioState.messageActions },
     artifact: { layout: studioState.artifactLayout, view: studioState.artifactView, code: studioState.artifactCode, actions: studioState.artifactActions }
   };
@@ -9846,7 +10119,7 @@ export default function App() {
     </aside>
     <section className="workspace">
       <div className="welcome"><h1>{config.welcome.title}</h1>
-        <div className="composer"><span>有问题，尽管问</span><div><button>+</button><span>Doubao Pro</span><button className="send">↑</button></div></div>
+        <div className="composer"><span>有问题，尽管问</span><div>{config.welcome.capabilities && <><button>+</button><span>Doubao Pro</span><span>深度思考</span></>}<button className="send">↑</button></div></div>
         {config.welcome.suggestions && <div className="prompts">{prompts.map(x => <button key={x}>{x}</button>)}</div>}
       </div>
     </section>
