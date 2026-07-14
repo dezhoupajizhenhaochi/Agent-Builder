@@ -1,0 +1,36 @@
+agent-runtime/studio-overrides.css
+  s_4b4c892b6ca4cd::t_871659b078bffa 25-37
+index.html
+  s_9dd770e2d0cac5::t_002f099cec5f98 3228,3894,5615-5617,5623,5625,5653,6419,6421,6491,6493,6797,6828,6885,6980,7224-7238,10195,10240
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "9f6a78303db668edbe865ff373c7f2e9fbcd0338",
+  "prompts": {},
+  "humans": {
+    "h_bce47d088b4035": {
+      "author": "dezhoupajizhenhaochi <ahai981118536@126.com>"
+    }
+  },
+  "sessions": {
+    "s_4b4c892b6ca4cd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f54cd-3e1a-7cc2-a320-39a4a875b711",
+        "model": "unknown"
+      },
+      "human_author": "dezhoupajizhenhaochi <ahai981118536@126.com>"
+    },
+    "s_9dd770e2d0cac5": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f5b5c-8cf4-7f81-b358-fd83cd99c105",
+        "model": "unknown"
+      },
+      "human_author": "dezhoupajizhenhaochi <ahai981118536@126.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
