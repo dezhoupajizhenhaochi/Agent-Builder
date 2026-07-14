@@ -6,8 +6,8 @@
 #
 # 工作流：
 #   - 执行本地校验
-#   - 拷贝 index.html 到 dist/
-#   - base64 编码 + 调 Vercel REST API
+#   - 构建并同步完整站点到 dist/
+#   - base64 编码全部静态文件 + 调 Vercel REST API
 #   - 轮询直到 READY
 #   - 输出最终 URL
 
@@ -23,19 +23,16 @@ if [ -z "${VERCEL_TOKEN:-}" ]; then
   exit 1
 fi
 
-mkdir -p dist/asset
-cp index.html dist/index.html
-cp -R asset/. dist/asset/
+npm run sync:dist
 echo "📦 index.html 大小: $(du -h dist/index.html | cut -f1)"
 
 echo "🚀 提交部署到 Vercel..."
 python3 - <<PY > /tmp/.vercel_resp.json
 import base64, json, os, urllib.request, ssl
 ctx = ssl.create_default_context()
-with open("dist/index.html", "rb") as f:
-    index_b64 = base64.b64encode(f.read()).decode()
-files = [{"file": "index.html", "data": index_b64, "encoding": "base64"}]
-for root, _, names in os.walk("dist/asset"):
+files = []
+for root, dirs, names in os.walk("dist"):
+    dirs[:] = [name for name in dirs if name != ".vercel"]
     for name in names:
         path = os.path.join(root, name)
         with open(path, "rb") as f:
@@ -67,9 +64,9 @@ if ! [ -s /tmp/.vercel_resp.json ]; then
     -H "Content-Type: application/json" \
     --data-binary @<(python3 -c "
 import base64, json, os
-index_b64 = base64.b64encode(open('dist/index.html','rb').read()).decode()
-files = [{'file':'index.html','data':index_b64,'encoding':'base64'}]
-for root, _, names in os.walk('dist/asset'):
+files = []
+for root, dirs, names in os.walk('dist'):
+    dirs[:] = [name for name in dirs if name != '.vercel']
     for name in names:
         path = os.path.join(root, name)
         files.append({'file':path.removeprefix('dist/'),'data':base64.b64encode(open(path,'rb').read()).decode(),'encoding':'base64'})
