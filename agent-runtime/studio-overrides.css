@@ -50,15 +50,6 @@ html[data-embed="true"] .chat-column .assistant-bubble ve-markdown {
   max-width: 100%;
 }
 
-/* A successful real Chat API response replaces the demo reasoning/artifact stack. */
-html[data-api-chat-ready="true"] .assistant-stack > :not(.workspace-actions) {
-  display: none !important;
-}
-
-html[data-api-chat-ready="true"] .assistant-stack:not(:has(.workspace-actions)) {
-  display: none !important;
-}
-
 html[data-embed="true"] .chat-column .assistant-bubble {
   inline-size: 100%;
 }
@@ -103,6 +94,13 @@ html[data-embed="true"] .agent-sidebar {
   width: var(--studio-sidebar-current-width, var(--studio-sidebar-width, 220px)) !important;
   min-width: var(--studio-sidebar-current-width, var(--studio-sidebar-width, 220px)) !important;
   max-width: var(--studio-sidebar-current-width, var(--studio-sidebar-width, 220px)) !important;
+}
+
+/* History is a dense text list, so it should not inherit the taller primary
+   navigation row. Keep its selected and overflow actions unchanged. */
+html[data-embed="true"] .agent-sidebar ve-sidebar-item[type="history"] {
+  --ve-sidebar-item-height: 32px;
+  --ve-sidebar-item-padding-block: var(--space-xxxs);
 }
 
 /* The account row belongs to the sidebar canvas; remove the component's

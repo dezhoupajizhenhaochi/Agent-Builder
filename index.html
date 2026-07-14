@@ -1485,25 +1485,79 @@
     overflow: hidden;
     border-radius: 12px;
   }
-  #panel-themes .product-preset-card::before {
-    content: '';
+  #panel-themes .theme-card-preview {
     grid-column: 1 / -1;
     height: 142px;
     margin: 0 -16px 14px;
     border-bottom: 1px solid var(--app-border);
+    display: grid;
+    grid-template-columns: 23% minmax(0, 1fr);
+    padding: 7px;
+    overflow: hidden;
     background:
-      linear-gradient(var(--preset-color), var(--preset-color)) 30% 27% / 14% 5% no-repeat,
-      linear-gradient(color-mix(in srgb, var(--preset-color) 55%, white), color-mix(in srgb, var(--preset-color) 55%, white)) 52% 27% / 14% 5% no-repeat,
-      linear-gradient(color-mix(in srgb, var(--preset-color) 25%, white), color-mix(in srgb, var(--preset-color) 25%, white)) 74% 27% / 14% 5% no-repeat,
-      linear-gradient(150deg, transparent 45%, var(--preset-color) 46% 49%, transparent 50%) 62% 69% / 52% 38% no-repeat,
-      linear-gradient(#fff, #fff) 72% 23% / 64% 68% no-repeat,
-      linear-gradient(color-mix(in srgb, var(--preset-color) 74%, #101114), color-mix(in srgb, var(--preset-color) 74%, #101114)) 0 0 / 22% 100% no-repeat,
-      color-mix(in srgb, var(--preset-color) 8%, #f5f6f8);
+      radial-gradient(circle at 14% 8%, color-mix(in srgb, var(--preset-color) 24%, transparent), transparent 43%),
+      color-mix(in srgb, var(--preset-color) 8%, #f5f7fb);
+    pointer-events: none;
   }
-  #panel-themes .product-preset-card.is-dark-preview::before {
-    background-color: #111216;
-    filter: brightness(.72);
+  #panel-themes .theme-card-preview-sidebar {
+    padding: 7px 5px;
+    border-radius: 7px 0 0 7px;
+    background: color-mix(in srgb, var(--preset-color) 26%, #edf2f8);
   }
+  #panel-themes .theme-card-preview-brand,
+  #panel-themes .theme-card-preview-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  #panel-themes .theme-card-preview-brand { margin-bottom: 10px; }
+  #panel-themes .theme-card-preview-logo { width: 8px; height: 8px; border-radius: 2px; background: var(--preset-color); transform: rotate(18deg); }
+  #panel-themes .theme-card-preview-line { height: 3px; border-radius: 99px; background: color-mix(in srgb, var(--preset-color) 42%, #526071); }
+  #panel-themes .theme-card-preview-brand .theme-card-preview-line { width: 27px; }
+  #panel-themes .theme-card-preview-nav {
+    height: 15px;
+    margin-bottom: 3px;
+    padding: 0 4px;
+    border-radius: 4px;
+  }
+  #panel-themes .theme-card-preview-nav.active { background: color-mix(in srgb, white 64%, transparent); }
+  #panel-themes .theme-card-preview-nav::before { content: ''; width: 5px; height: 5px; border: 1px solid currentColor; border-radius: 2px; opacity: .65; }
+  #panel-themes .theme-card-preview-nav .theme-card-preview-line { width: 24px; opacity: .64; }
+  #panel-themes .theme-card-preview-main {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+    padding: 22px 12px 8px;
+    border: 1px solid color-mix(in srgb, var(--preset-color) 12%, #dfe3ea);
+    border-radius: 0 8px 8px 0;
+    background: rgba(255,255,255,.94);
+  }
+  #panel-themes .theme-card-preview-title { margin-bottom: 10px; color: #18181b; font-size: 7px; font-weight: 700; line-height: 1; }
+  #panel-themes .theme-card-preview-composer {
+    width: min(78%, 180px);
+    height: 34px;
+    padding: 6px;
+    border: 1px solid color-mix(in srgb, var(--preset-color) 18%, #d7dbe2);
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 3px 8px rgba(15,23,42,.06);
+  }
+  #panel-themes .theme-card-preview-composer::before { content: ''; display: block; width: 42%; height: 3px; border-radius: 99px; background: #d9dde4; }
+  #panel-themes .theme-card-preview-composer::after { content: ''; display: block; width: 8px; height: 8px; margin: 11px 0 0 auto; border-radius: 50%; background: var(--preset-color); }
+  #panel-themes .theme-card-preview-chips { display: flex; gap: 4px; margin-top: 7px; }
+  #panel-themes .theme-card-preview-chips i { width: 25px; height: 8px; border: 1px solid #dfe3e8; border-radius: 99px; background: #fff; }
+  #panel-themes .theme-card-preview-tasks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; width: 88%; margin-top: 8px; }
+  #panel-themes .theme-card-preview-tasks i { height: 16px; border-radius: 4px; background: linear-gradient(135deg, color-mix(in srgb, var(--preset-color) 52%, white), color-mix(in srgb, var(--preset-color) 10%, #eef2f7)); }
+  #panel-themes .product-preset-card.is-dark-preview .theme-card-preview { background: color-mix(in srgb, var(--preset-color) 72%, #0f1115); }
+  #panel-themes .product-preset-card.is-dark-preview .theme-card-preview-sidebar { background: color-mix(in srgb, var(--preset-color) 76%, #090a0d); color: #c9cbd1; }
+  #panel-themes .product-preset-card.is-dark-preview .theme-card-preview-nav.active { background: rgba(255,255,255,.12); }
+  #panel-themes .product-preset-card.is-dark-preview .theme-card-preview-main { border-color: #303238; background: #18191d; }
+  #panel-themes .product-preset-card.is-dark-preview .theme-card-preview-title { color: #f4f4f5; }
+  #panel-themes .product-preset-card.is-dark-preview .theme-card-preview-composer { border-color: #3a3c43; background: #22242a; box-shadow: none; }
+  #panel-themes .product-preset-card.is-dark-preview .theme-card-preview-composer::before { background: #5a5d66; }
+  #panel-themes .product-preset-card.is-dark-preview .theme-card-preview-chips i { border-color: #383a41; background: #22242a; }
   #panel-themes .product-preset-info { grid-column: 1; gap: 4px; }
   #panel-themes .product-preset-name { font-size: 15px; font-weight: 600; }
   #panel-themes .product-preset-hex { font-size: 11px; }
@@ -3508,7 +3562,7 @@
         <input type="radio" name="mode" id="mode-reference" value="reference" checked>
         <label for="mode-reference">手动调试</label>
         <input type="radio" name="mode" id="mode-agent" value="agent">
-        <label for="mode-agent">智能生成</label>
+        <label for="mode-agent">对话生成</label>
         <input type="radio" name="mode" id="mode-themes" value="themes">
         <label for="mode-themes">常用主题</label>
       </div>
@@ -3523,7 +3577,7 @@
     <!-- ===== Left: Chat (Agent mode) ===== -->
     <aside class="panel panel-input" id="panel-chat" style="display:none;">
       <div class="panel-header">
-        <div class="panel-title">智能生成</div>
+        <div class="panel-title">对话生成</div>
         <button class="btn-sm" id="btn-new-chat" title="新会话">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           新会话
@@ -6394,6 +6448,24 @@ if (themeGalleryHost && productPresetSection) {
   resetProductPresetCards = () => productPresetCards.forEach(card => card.classList.remove('active'));
   productPresetCards.forEach((card, index) => {
     const hex = card.dataset.hex;
+    const preview = document.createElement('span');
+    preview.className = 'theme-card-preview';
+    preview.setAttribute('aria-hidden', 'true');
+    preview.innerHTML = `
+      <span class="theme-card-preview-sidebar">
+        <span class="theme-card-preview-brand"><i class="theme-card-preview-logo"></i><i class="theme-card-preview-line"></i></span>
+        <span class="theme-card-preview-nav active"><i class="theme-card-preview-line"></i></span>
+        <span class="theme-card-preview-nav"><i class="theme-card-preview-line"></i></span>
+        <span class="theme-card-preview-nav"><i class="theme-card-preview-line"></i></span>
+        <span class="theme-card-preview-nav"><i class="theme-card-preview-line"></i></span>
+      </span>
+      <span class="theme-card-preview-main">
+        <span class="theme-card-preview-title">今天想设计点什么？</span>
+        <span class="theme-card-preview-composer"></span>
+        <span class="theme-card-preview-chips"><i></i><i></i><i></i><i></i></span>
+        <span class="theme-card-preview-tasks"><i></i><i></i><i></i></span>
+      </span>`;
+    card.prepend(preview);
     card.style.setProperty('--preset-color', hex);
     card.classList.toggle('is-dark-preview', ['#1F1F23', '#18181B', '#111111', '#0F1115'].includes(hex));
     card.classList.toggle('active', index === 0);
