@@ -4,7 +4,25 @@ import { Bubble, BubbleList } from '@ve-design/react/bubble';
 import { Markdown } from '@ve-design/react/markdown';
 import { Select, SelectItem } from '@ve-design/react/select';
 import { Thinking } from '@ve-design/react/thinking';
+import { ThoughtChain, ThoughtChainItem } from '@ve-design/react/thought-chain';
+import { ArtifactCard } from '@ve-design/react/artifact-card';
+import { Button } from '@ve-design/react/button';
+import {
+  IconAtom,
+  IconSearch,
+  IconTool,
+  IconFileCheck,
+  IconDownload,
+  IconOpenNewWindow,
+} from '@ve-design/react/icons';
 import '@ve-design/react/css/default.css';
+
+const THOUGHT_KIND_ICONS = {
+  think: IconAtom,
+  search: IconSearch,
+  tool: IconTool,
+  result: IconFileCheck,
+};
 
 const selectConfigs = {
   'studio-font-cn': {
@@ -166,6 +184,133 @@ window.unmountStudioBubble = (mount) => {
   if (!root) return;
   root.unmount();
   bubbleRoots.delete(mount);
+};
+
+// ===== ThoughtChain（工具调用 / 推理 / 结果的多阶段执行摘要）=====
+const thoughtChainRoots = new WeakMap();
+
+function StudioThoughtChain({ mount, initial }) {
+  const [state, setState] = useState(initial);
+
+  useEffect(() => {
+    const sync = (event) => {
+      if (event.detail?.id !== mount.id) return;
+      setState({ ...event.detail.data });
+    };
+    window.addEventListener('studio-thought-chain-sync', sync);
+    return () => window.removeEventListener('studio-thought-chain-sync', sync);
+  }, [mount]);
+
+  const steps = Array.isArray(state?.steps) ? state.steps : [];
+  return (
+    <ThoughtChain title={state?.title || 'Agent 执行过程'}>
+      {steps.map((step) => {
+        const Icon = THOUGHT_KIND_ICONS[step.kind];
+        return (
+          <ThoughtChainItem
+            key={step.id}
+            itemKey={step.id}
+            title={step.title}
+            status={step.status || 'default'}
+            icon={Icon ? <Icon /> : undefined}
+            maxHeight={step.maxHeight}
+            overflow={step.maxHeight ? 'scroll' : undefined}
+          >
+            <Markdown content={String(step.content ?? '')} size="small" wrap openLinksInNewTab />
+          </ThoughtChainItem>
+        );
+      })}
+    </ThoughtChain>
+  );
+}
+
+window.mountStudioThoughtChain = (mount, data = {}) => {
+  if (!mount) return;
+  const root = thoughtChainRoots.get(mount) ?? createRoot(mount);
+  thoughtChainRoots.set(mount, root);
+  mount.dataset.component = 've-thought-chain';
+  root.render(<StudioThoughtChain mount={mount} initial={data} />);
+};
+
+window.updateStudioThoughtChain = (mount, data = {}) => {
+  if (!mount) return;
+  window.dispatchEvent(new CustomEvent('studio-thought-chain-sync', {
+    detail: { id: mount.id, data },
+  }));
+};
+
+window.unmountStudioThoughtChain = (mount) => {
+  const root = thoughtChainRoots.get(mount);
+  if (!root) return;
+  root.unmount();
+  thoughtChainRoots.delete(mount);
+};
+
+// ===== ArtifactCard（生成产物：HTML / 代码 / 文档等）=====
+const artifactRoots = new WeakMap();
+
+window.mountStudioArtifact = (mount, options = {}) => {
+  if (!mount) return;
+  const root = artifactRoots.get(mount) ?? createRoot(mount);
+  artifactRoots.set(mount, root);
+  mount.dataset.component = 've-artifact-card';
+  const emit = (action) => mount.dispatchEvent(new CustomEvent('studio-artifact-action', {
+    bubbles: true,
+    detail: { action, id: options.id },
+  }));
+  root.render(
+    <ArtifactCard
+      type={options.type || 'html'}
+      title={options.title || '产物'}
+      description={options.description}
+      byte={typeof options.byte === 'number' ? options.byte : undefined}
+      src={options.src}
+      onCardClick={() => emit('open')}
+      actions={(
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+          <Button type="text" aria-label="新窗口打开" onClick={() => emit('open')}>
+            <IconOpenNewWindow size={16} />
+          </Button>
+          <Button type="text" aria-label="下载" onClick={() => emit('download')}>
+            <IconDownload size={16} />
+          </Button>
+        </span>
+      )}
+    />,
+  );
+};
+
+window.unmountStudioArtifact = (mount) => {
+  const root = artifactRoots.get(mount);
+  if (!root) return;
+  root.unmount();
+  artifactRoots.delete(mount);
+};
+
+// ===== Markdown（产物预览抽屉的「预览」tab 渲染）=====
+const markdownRoots = new WeakMap();
+
+window.mountStudioMarkdown = (mount, options = {}) => {
+  if (!mount) return;
+  const root = markdownRoots.get(mount) ?? createRoot(mount);
+  markdownRoots.set(mount, root);
+  mount.dataset.component = 've-markdown';
+  root.render(
+    <Markdown
+      content={String(options.content ?? '')}
+      size={options.size || 'medium'}
+      wrap
+      escapeRawHtml
+      openLinksInNewTab
+    />,
+  );
+};
+
+window.unmountStudioMarkdown = (mount) => {
+  const root = markdownRoots.get(mount);
+  if (!root) return;
+  root.unmount();
+  markdownRoots.delete(mount);
 };
 
 window.dispatchEvent(new CustomEvent('studio-react-ready'));

@@ -158,6 +158,13 @@ html[data-embed="true"][data-studio-welcome-tasks="false"] .gallery-section {
   display: none !important;
 }
 
+/* 欢迎页标题上方留白区固定最小高度，保证首屏视觉呼吸感 */
+html[data-embed="true"] .welcome-core > h1:first-child::before {
+  content: "";
+  display: block;
+  min-height: 140px;
+}
+
 html[data-embed="true"][data-studio-welcome-capabilities="false"] .welcome-panel .agent-composer > [slot="left-action"] {
   display: none !important;
 }
@@ -274,6 +281,9 @@ html.dark .connector-row > ve-button[type="secondary"] {
 html.dark .source-list {
   --color-bg-secondary: oklch(0.27 0.006 286.3) !important;
 }
+
+/* 数据交互开关的引导卡（.studio-data-guide）由父页面注入时自带内联样式，
+   不在此处定义，避免依赖可能被缓存的样式表。 */
 
 html[data-embed="true"][data-background-style="gradient"] .app-shell {
   background:
@@ -733,6 +743,10 @@ html[data-embed="true"] .theme-mirror-font-row {
   gap: var(--space-m);
 }
 
+html[data-embed="true"] .chat-column .user-bubble {
+  --ve-bubble-content-radius-round: var(--radius-xl);
+}
+
 html[data-embed="true"] .theme-mirror-choice {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -760,4 +774,45 @@ html[data-embed="true"] .theme-mirror-choice button {
     grid-template-columns: 1fr;
     gap: var(--space-xs);
   }
+}
+
+/* 语音输入录音态反馈 */
+ve-chat-input-action[aria-label="语音输入"] {
+  position: relative;
+  border-radius: var(--radius-full, 999px);
+  transition: color var(--motion-base, 0.2s) var(--ease-standard, ease);
+}
+
+ve-chat-input-action[aria-label="语音输入"][data-listening="true"] {
+  color: var(--color-primary-600);
+}
+
+ve-chat-input-action[aria-label="语音输入"][data-listening="true"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-primary-600) 45%, transparent);
+  animation: studio-voice-pulse 1.4s var(--ease-standard, ease-out) infinite;
+  pointer-events: none;
+}
+
+@keyframes studio-voice-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-primary-600) 45%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 8px color-mix(in srgb, var(--color-primary-600) 0%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-primary-600) 0%, transparent);
+  }
+}
+
+/* Header 工具图标（分享 / 更多等）属于中性 UI，text 型 ve-button 默认走
+   accent 蓝，这里改回深色主文本色。 */
+html[data-embed="true"] .icon-button {
+  --ve-button-text-text: var(--color-text-primary);
+  --ve-button-current-text: var(--color-text-primary);
+  --ve-button-current-text-hover: var(--color-text-primary);
 }

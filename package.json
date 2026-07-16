@@ -6,10 +6,11 @@
   "scripts": {
     "check": "python3 scripts/check-project.py",
     "dev": "python3 -m http.server 4173",
+    "runtime:manifest": "python3 scripts/gen-runtime-manifest.py",
     "studio:build": "vite build --config studio-react-src/vite.config.js",
     "shader:dev": "vite --config fluid-gradient-demo/vite.config.js",
     "shader:build": "vite build --config fluid-gradient-demo/vite.config.js",
-    "sync:dist": "npm run studio:build && mkdir -p dist/agent-runtime dist/asset dist/studio-react && cp index.html dist/index.html && cp -R agent-runtime/. dist/agent-runtime/ && cp -R asset/. dist/asset/ && cp -R studio-react/. dist/studio-react/"
+    "sync:dist": "npm run runtime:manifest && npm run studio:build && mkdir -p dist/agent-runtime dist/asset dist/studio-react && cp index.html dist/index.html && cp -R agent-runtime/. dist/agent-runtime/ && cp -R asset/. dist/asset/ && cp -R studio-react/. dist/studio-react/"
   },
   "dependencies": {
     "@react-three/fiber": "^9.6.1",

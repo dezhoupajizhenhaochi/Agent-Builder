@@ -204,8 +204,7 @@
     });
     mountMirror();
   });
-
-  const observer = new MutationObserver(mountMirror);
+  const observer = new MutationObserver(() => { mountMirror(); });
   const start = () => {
     observer.observe(document.getElementById('root') || document.body, { childList: true, subtree: true });
     mountMirror();
