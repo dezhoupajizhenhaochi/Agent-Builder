@@ -1,0 +1,26 @@
+deploy.sh
+  s_6739c4c31bfab4::t_a5a9a31c1e0633 26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "a82738e88511c2bb1345ff246673e152cefbcea8",
+  "prompts": {},
+  "humans": {
+    "h_bce47d088b4035": {
+      "author": "dezhoupajizhenhaochi <ahai981118536@126.com>"
+    }
+  },
+  "sessions": {
+    "s_6739c4c31bfab4": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6a533ae2147f04909585f199",
+        "model": "gpt-5.5__dev"
+      },
+      "human_author": null
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}

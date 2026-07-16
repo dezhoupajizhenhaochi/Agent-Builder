@@ -1,0 +1,26 @@
+index.html
+  s_73cf814ccdc3b2::t_8ee974f3cb18e4 3119,3121-3123,3127-3128,3132,3865
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "7625957ae57e7f8d14d755167434bb5a30f6ff74",
+  "prompts": {},
+  "humans": {
+    "h_bce47d088b4035": {
+      "author": "dezhoupajizhenhaochi <ahai981118536@126.com>"
+    }
+  },
+  "sessions": {
+    "s_73cf814ccdc3b2": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f54dd-224b-7863-9a2b-bf92b1c379e9",
+        "model": "unknown"
+      },
+      "human_author": "dezhoupajizhenhaochi <ahai981118536@126.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
