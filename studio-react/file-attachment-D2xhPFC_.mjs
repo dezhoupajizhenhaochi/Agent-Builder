@@ -1,0 +1,10 @@
+import { a as e } from "./23467-C3MSgesJ.mjs";
+import { t } from "./20787-C-8lRQWl.mjs";
+//#region node_modules/@ve-design/web/dist/icons/file-attachment.js
+var n = {
+	name: "file-attachment",
+	svg: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"none\" viewBox=\"0 0 24 24\"><path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M7 10.2V5.25a1.35 1.35 0 1 1 2.7 0v4.95a2.7 2.7 0 1 1-5.4 0V6.6M12.85 3h2.43c1.512 0 2.268 0 2.846.294a2.7 2.7 0 0 1 1.18 1.18c.294.578.294 1.334.294 2.846v9.36c0 1.512 0 2.268-.294 2.846a2.7 2.7 0 0 1-1.18 1.18C17.548 21 16.792 21 15.28 21H9.52c-1.512 0-2.268 0-2.846-.294a2.7 2.7 0 0 1-1.18-1.18C5.2 18.948 5.2 18.192 5.2 16.68v-.63\"/></svg>\n"
+};
+t(), e(n);
+//#endregion
+export { n as fileAttachmentIcon };

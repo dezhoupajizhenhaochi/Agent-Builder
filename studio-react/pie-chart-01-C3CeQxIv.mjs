@@ -1,0 +1,10 @@
+import { s as e } from "./23467-xLG5Nc5B.mjs";
+import { t } from "./20787-Dhb05CfP.mjs";
+//#region node_modules/@ve-design/web/dist/icons/pie-chart-01.js
+var n = {
+	name: "pie-chart-01",
+	svg: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"none\" viewBox=\"0 0 24 24\"><path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M20.302 15.497a9.005 9.005 0 0 1-14.628 2.897 9.007 9.007 0 0 1 2.73-14.66m11.924 4.812c.36.87.582 1.791.657 2.727.018.232.028.347-.018.451a.47.47 0 0 1-.198.215c-.1.054-.226.054-.476.054h-7.565c-.253 0-.379 0-.475-.05a.45.45 0 0 1-.197-.196c-.049-.096-.049-.222-.049-.474V3.707c0-.25 0-.375.054-.476a.47.47 0 0 1 .215-.198c.104-.046.22-.036.45-.018a9 9 0 0 1 7.602 5.531\"/></svg>\n"
+};
+t(), e(n);
+//#endregion
+export { n as pieChart01Icon };

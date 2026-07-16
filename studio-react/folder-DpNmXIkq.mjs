@@ -1,0 +1,10 @@
+import { a as e } from "./23467-EcngkUU8.mjs";
+import { t } from "./20787-z_vwp3YU.mjs";
+//#region node_modules/@ve-design/web/dist/icons/folder.js
+var n = {
+	name: "folder",
+	svg: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"none\" viewBox=\"0 0 24 24\"><path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"m12.9 7.556-1.004-1.984c-.289-.57-.433-.856-.649-1.064a1.8 1.8 0 0 0-.672-.41C10.289 4 9.966 4 9.32 4H5.88c-1.008 0-1.512 0-1.897.194-.339.17-.614.442-.787.777C3 5.35 3 5.849 3 6.844v.712m0 0h13.68c1.512 0 2.268 0 2.846.29.508.256.92.664 1.18 1.166.294.57.294 1.317.294 2.81v3.911c0 1.494 0 2.24-.294 2.811-.26.502-.672.91-1.18 1.165-.578.291-1.334.291-2.846.291H7.32c-1.512 0-2.268 0-2.846-.29a2.7 2.7 0 0 1-1.18-1.166C3 17.974 3 17.227 3 15.734z\"/></svg>\n"
+};
+t(), e(n);
+//#endregion
+export { n as folderIcon };

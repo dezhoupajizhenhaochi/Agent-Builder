@@ -1,0 +1,818 @@
+/* Studio typography uses the selected Latin font first, then the selected CJK font. */
+html[data-embed="true"] body,
+html[data-embed="true"] .app-shell {
+  font-family: var(--font-en), var(--font-cn), sans-serif;
+}
+
+/* Studio product controls are driven by the left configuration panel through
+   postMessage. Keep the runtime layout responsive to those real states. */
+html[data-embed="true"] .app-shell {
+  --app-sidebar-width-expanded: var(--studio-sidebar-width, 220px);
+  grid-template-columns: var(--studio-sidebar-current-width, var(--studio-sidebar-width, 220px)) minmax(0, 1fr);
+}
+
+/* Keep the runtime's original inset around the workspace while the sidebar
+   remains flush with the left edge of the shared application shell. */
+html[data-embed="true"] .app-main {
+  padding: 8px 8px 8px 0;
+}
+
+html[data-embed="true"] .main-panel {
+  height: calc(100vh - 16px);
+  border-radius: var(--panel-radius);
+}
+
+html[data-embed="true"][data-sidebar-position="right"] .app-main {
+  padding: 8px 0 8px 8px;
+}
+
+html[data-embed="true"][data-content-frame="flush"] .app-main {
+  padding: 0;
+}
+
+html[data-embed="true"][data-content-frame="flush"] .main-panel {
+  height: 100vh;
+  border-radius: 0;
+}
+
+/* Search stays focused on existing resources. New conversations are created
+   from the primary sidebar entry, so the duplicate search shortcut is hidden
+   immediately before the runtime observer removes it from the DOM. */
+html[data-embed="true"] .search-new-chat {
+  display: none !important;
+}
+
+/* Message content and the chat composer share one responsive measure. */
+html[data-embed="true"] .chat-column {
+  --studio-conversation-content-width: 800px;
+}
+
+html[data-embed="true"] .studio-wide .chat-column,
+html[data-embed="true"] .chat-column.studio-wide {
+  --studio-conversation-content-width: 1040px;
+}
+
+html[data-embed="true"] .chat-column .bubble-list,
+html[data-embed="true"] .chat-column .assistant-stack,
+html[data-embed="true"] .chat-column .composer-zone .composer-shell {
+  width: min(var(--studio-conversation-content-width), 100%);
+}
+
+/* Rich Markdown keeps code blocks horizontally scrollable, but its intrinsic
+   code width must not widen the Bubble or the conversation column. */
+html[data-embed="true"] .chat-column,
+html[data-embed="true"] .chat-column .chat-scroll,
+html[data-embed="true"] .chat-column .bubble-list,
+html[data-embed="true"] .chat-column .assistant-stack,
+html[data-embed="true"] .chat-column .assistant-bubble,
+html[data-embed="true"] .chat-column .assistant-bubble ve-markdown {
+  min-width: 0;
+  max-width: 100%;
+}
+
+html[data-embed="true"] .chat-column .assistant-bubble {
+  inline-size: 100%;
+}
+
+html[data-embed="true"] .chat-column .assistant-bubble::part(root),
+html[data-embed="true"] .chat-column .assistant-bubble::part(body),
+html[data-embed="true"] .chat-column .assistant-bubble::part(content) {
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+
+html[data-embed="true"] .chat-column .assistant-bubble ve-markdown {
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  --ve-markdown-max-width: 100%;
+}
+
+/* ChatInput ships with --ve-chat-input-shadow: var(--shadow-md). Some studio
+   presets intentionally flatten the global elevation scale, which made the
+   primary composer lose its component-level affordance. Keep the canonical
+   ChatInput elevation local so the preset can still flatten other surfaces. */
+html:not(.dark)[data-embed="true"] .agent-composer {
+  --studio-chat-input-shadow: 0 2px 4px -2px rgba(16, 16, 19, .05),
+    0 4px 26px -1px rgba(16, 16, 19, .05);
+  --ve-chat-input-shadow: var(--studio-chat-input-shadow);
+}
+
+html.dark[data-embed="true"] .agent-composer {
+  --studio-chat-input-shadow: 0 10px 15px -3px rgba(0, 0, 0, .2),
+    0 4px 6px -4px rgba(0, 0, 0, .2);
+  --ve-chat-input-shadow: var(--studio-chat-input-shadow);
+}
+
+html[data-embed="true"] .chat-column .composer-zone {
+  padding-inline: 32px;
+}
+
+html[data-embed="true"] .agent-sidebar {
+  width: var(--studio-sidebar-current-width, var(--studio-sidebar-width, 220px)) !important;
+  min-width: var(--studio-sidebar-current-width, var(--studio-sidebar-width, 220px)) !important;
+  max-width: var(--studio-sidebar-current-width, var(--studio-sidebar-width, 220px)) !important;
+}
+
+/* History is a dense text list, so it should not inherit the taller primary
+   navigation row. Keep its selected and overflow actions unchanged. */
+html[data-embed="true"] .agent-sidebar ve-sidebar-item[type="history"] {
+  --ve-sidebar-item-height: 32px;
+  --ve-sidebar-item-padding-block: var(--space-xxxs);
+}
+
+/* The account row belongs to the sidebar canvas; remove the component's
+   separate footer surface while retaining the user-entry hover feedback. */
+html[data-embed="true"] .agent-sidebar::part(footer) {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+html[data-embed="true"][data-sidebar-visible="false"] .app-shell {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+html[data-embed="true"][data-sidebar-visible="false"] .agent-sidebar {
+  display: none !important;
+}
+
+html[data-embed="true"][data-sidebar-position="right"] .app-shell {
+  grid-template-columns: minmax(0, 1fr) var(--studio-sidebar-current-width, var(--studio-sidebar-width, 220px));
+}
+
+html[data-embed="true"][data-sidebar-position="right"] .agent-sidebar {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+html[data-embed="true"][data-sidebar-position="right"] .app-main {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+html[data-embed="true"][data-studio-welcome-suggestions="false"] .prompt-chip-row,
+html[data-embed="true"][data-studio-welcome-tasks="false"] .gallery-section {
+  display: none !important;
+}
+
+/* 欢迎页标题上方留白区固定最小高度，保证首屏视觉呼吸感 */
+html[data-embed="true"] .welcome-core > h1:first-child::before {
+  content: "";
+  display: block;
+  min-height: 140px;
+}
+
+html[data-embed="true"][data-studio-welcome-capabilities="false"] .welcome-panel .agent-composer > [slot="left-action"] {
+  display: none !important;
+}
+
+/* Solid backgrounds need a stronger selected state because the sidebar and
+   active item otherwise sit on nearly identical neutral surfaces. */
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar,
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item {
+  --ve-sidebar-item-selected-text-color: var(--color-text-primary);
+  --ve-sidebar-item-icon-color: var(--color-icon-primary);
+  --ve-sidebar-focus-ring-color: var(--color-border-interactive);
+  --ve-sidebar-item-disabled-opacity: .38;
+}
+
+/* Each solid canvas gets its own interaction recipe instead of reusing one
+   neutral state across backgrounds with different visual weight. */
+html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token="surface"] .agent-sidebar,
+html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token="surface"] .agent-sidebar ve-sidebar-item {
+  --ve-sidebar-item-hover-surface: color-mix(in srgb, var(--color-bg-base) 58%, transparent);
+  --ve-sidebar-item-selected-background: var(--color-bg-base);
+}
+
+html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token="base"] .agent-sidebar,
+html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token="base"] .agent-sidebar ve-sidebar-item {
+  --ve-sidebar-item-hover-surface: var(--color-bg-surface);
+  --ve-sidebar-item-selected-background: var(--color-bg-muted);
+}
+
+html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token="soft"] .agent-sidebar,
+html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token="soft"] .agent-sidebar ve-sidebar-item {
+  --ve-sidebar-item-hover-surface: color-mix(in srgb, var(--color-primary-100) 72%, transparent);
+  --ve-sidebar-item-selected-background: var(--color-primary-100);
+}
+
+html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token="neutral"] .agent-sidebar,
+html:not(.dark)[data-embed="true"][data-background-style="solid"][data-bg-token="neutral"] .agent-sidebar ve-sidebar-item {
+  --ve-sidebar-item-hover-surface: color-mix(in srgb, var(--color-bg-base) 58%, transparent);
+  --ve-sidebar-item-selected-background: var(--color-bg-base);
+}
+
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[active],
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[selected],
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[aria-current="page"] {
+  color: var(--color-text-primary);
+  --ve-sidebar-item-icon-color: var(--color-icon-primary);
+}
+
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[active]::part(container),
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[selected]::part(container),
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[aria-current="page"]::part(container),
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[active]::part(item),
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[selected]::part(item),
+html:not(.dark)[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item[aria-current="page"]::part(item) {
+  background: var(--ve-sidebar-item-selected-background);
+  box-shadow: none;
+}
+
+/* Transparent sidebars use a restrained glass state so labels remain legible
+   without placing an opaque card over the selected background. */
+html:not(.dark)[data-embed="true"][data-background-style="gradient"] .agent-sidebar,
+html:not(.dark)[data-embed="true"][data-background-style="gradient"] .agent-sidebar ve-sidebar-item,
+html:not(.dark)[data-embed="true"][data-background-style="image"][data-image-tone="light"] .agent-sidebar,
+html:not(.dark)[data-embed="true"][data-background-style="image"][data-image-tone="light"] .agent-sidebar ve-sidebar-item {
+  --ve-sidebar-item-hover-surface: rgb(255 255 255 / 42%);
+  --ve-sidebar-item-selected-background: rgb(255 255 255 / 76%);
+  --ve-sidebar-item-selected-text-color: var(--color-text-primary);
+  --ve-sidebar-focus-ring-color: var(--color-border-interactive);
+  --ve-sidebar-item-disabled-opacity: .38;
+}
+
+html[data-embed="true"][data-background-style="image"][data-image-tone="dark"] .agent-sidebar,
+html[data-embed="true"][data-background-style="image"][data-image-tone="dark"] .agent-sidebar ve-sidebar-item {
+  --ve-sidebar-item-hover-surface: rgb(255 255 255 / 10%);
+  --ve-sidebar-item-selected-background: rgb(255 255 255 / 18%);
+  --ve-sidebar-focus-ring-color: rgb(255 255 255 / 72%);
+  --ve-sidebar-item-disabled-opacity: .42;
+}
+
+html.dark[data-embed="true"][data-background-style="solid"] .agent-sidebar,
+html.dark[data-embed="true"][data-background-style="solid"] .agent-sidebar ve-sidebar-item {
+  --ve-sidebar-item-hover-surface: var(--color-gray-dark-100);
+  --ve-sidebar-item-selected-background: var(--color-gray-dark-200);
+  --ve-sidebar-focus-ring-color: var(--color-border-interactive);
+}
+
+html.dark[data-embed="true"][data-background-style="solid"][data-bg-token="soft"] .agent-sidebar,
+html.dark[data-embed="true"][data-background-style="solid"][data-bg-token="soft"] .agent-sidebar ve-sidebar-item {
+  --ve-sidebar-item-hover-surface: var(--color-primary-dark-100);
+  --ve-sidebar-item-selected-background: var(--color-primary-dark-200);
+}
+
+/* Studio gradient mode replaces the whole Agent shell background; the outer preview stays white. */
+html[data-embed="true"] {
+  /* Secondary actions and metadata badges are neutral UI, not brand emphasis. */
+  --color-bg-secondary: oklch(0.965 0.003 286.3) !important;
+}
+
+html.dark[data-embed="true"] {
+  --color-bg-secondary: oklch(0.27 0.006 286.3) !important;
+}
+
+.connector-row > ve-button[type="secondary"] {
+  --ve-button-background-secondary: oklch(0.965 0.003 286.3);
+}
+
+.source-list {
+  --color-bg-secondary: oklch(0.965 0.003 286.3) !important;
+}
+
+html.dark .connector-row > ve-button[type="secondary"] {
+  --ve-button-background-secondary: oklch(0.27 0.006 286.3);
+}
+
+html.dark .source-list {
+  --color-bg-secondary: oklch(0.27 0.006 286.3) !important;
+}
+
+/* 数据交互开关的引导卡（.studio-data-guide）由父页面注入时自带内联样式，
+   不在此处定义，避免依赖可能被缓存的样式表。 */
+
+html[data-embed="true"][data-background-style="gradient"] .app-shell {
+  background:
+    radial-gradient(ellipse 74% 116% at 0% 0%, color-mix(in oklch, var(--studio-gradient-color-1) 44%, transparent) 0%, color-mix(in oklch, var(--studio-gradient-color-1) 18%, transparent) 54%, transparent 82%),
+    radial-gradient(ellipse 105% 82% at var(--studio-gradient-pos-1, 22% 18%), color-mix(in oklch, var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1, 67%), transparent) 0%, color-mix(in oklch, var(--studio-gradient-color-1) var(--studio-gradient-tail-1, 32%), transparent) 48%, transparent 78%),
+    radial-gradient(ellipse 94% 78% at var(--studio-gradient-pos-2, 88% 22%), color-mix(in oklch, var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2, 58%), transparent) 0%, color-mix(in oklch, var(--studio-gradient-color-2) var(--studio-gradient-tail-2, 26%), transparent) 52%, transparent 80%),
+    radial-gradient(ellipse 110% 88% at var(--studio-gradient-pos-3, 28% 92%), color-mix(in oklch, var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3, 49%), transparent) 0%, color-mix(in oklch, var(--studio-gradient-color-3) var(--studio-gradient-tail-3, 24%), transparent) 52%, transparent 82%),
+    oklch(var(--studio-gradient-base-lightness, .972) var(--studio-gradient-base-chroma, .022) var(--brand-hue, 285.8));
+}
+
+/* Dark mode keeps the same dynamic hue system, but moves every stop onto a
+   dark semantic surface so transparent sidebars retain readable contrast. */
+html.dark[data-embed="true"][data-background-style="gradient"] .app-shell {
+  background:
+    radial-gradient(ellipse 76% 62% at var(--studio-gradient-pos-1, 22% 18%), color-mix(in oklab, var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1, 20%), transparent), transparent 70%),
+    radial-gradient(ellipse 68% 56% at var(--studio-gradient-pos-2, 88% 22%), color-mix(in oklab, var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2, 16%), transparent), transparent 72%),
+    radial-gradient(ellipse 58% 48% at var(--studio-gradient-pos-3, 28% 92%), color-mix(in oklab, var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3, 13%), transparent), transparent 72%),
+    var(--color-bg-surface);
+}
+
+html[data-embed="true"][data-background-style="image"] .app-shell {
+  background:
+    linear-gradient(rgb(7 13 24 / 12%), rgb(7 13 24 / 12%)),
+    var(--studio-background-image),
+    var(--color-bg-surface);
+  background-position: center;
+  background-size: cover;
+}
+
+html[data-embed="true"]:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar {
+  --ve-sidebar-background: transparent;
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+html[data-embed="true"]:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar::part(container),
+html[data-embed="true"]:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar::part(content),
+html[data-embed="true"]:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar::part(body),
+html[data-embed="true"]:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar::part(footer) {
+  background: transparent;
+}
+
+html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .app-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .app-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--studio-gradient-noise-opacity, 0);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.62' numOctaves='3' seed='23' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  mix-blend-mode: soft-light;
+  filter: contrast(145%) saturate(190%);
+}
+
+html.dark[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .app-shell::before {
+  mix-blend-mode: screen;
+}
+
+html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .agent-sidebar,
+html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .main-panel {
+  position: relative;
+  z-index: 1;
+}
+
+/* Keep sidebar-owned popovers above the adjacent main panel. The account menu
+   is fixed and already has its own high z-index, but it cannot escape the
+   sidebar's stacking context when the sidebar and main panel share z-index: 1. */
+html[data-embed="true"] .app-shell > .agent-sidebar {
+  position: relative;
+  z-index: 10 !important;
+}
+
+html[data-embed="true"] .app-shell > .app-main {
+  position: relative;
+  z-index: 1 !important;
+}
+
+html[data-embed="true"] .account-popover-card {
+  z-index: 100 !important;
+}
+
+html.dark[data-embed="true"] .ve-input {
+  --ve-input-bg: var(--color-bg-surface);
+  --ve-input-border-color: var(--color-border-default);
+}
+
+/* Skill detail modal follows vedesign-agent-ui2: lg detail modal, token-based
+   three-section layout, and a focused detail-style mask. */
+html[data-embed="true"] .capability-modal {
+  --ve-modal-panel-background: var(--color-bg-overlay);
+  --ve-modal-panel-radius: var(--radius-2xl);
+  --ve-modal-panel-shadow: var(--shadow-md);
+  --ve-modal-title-font-size: var(--text-body);
+  --ve-modal-title-font-weight: var(--font-weight-semibold);
+  --ve-modal-body-font-size: var(--text-body);
+  --ve-modal-body-line-height: 22px;
+  --ve-modal-footer-gap: var(--space-xxs);
+  --ve-modal-button-height: 36px;
+  --ve-modal-button-radius: var(--radius-md);
+}
+
+html[data-embed="true"] .capability-modal::part(overlay) {
+  padding: 40px !important;
+  background: rgb(0 0 0 / 50%) !important;
+}
+
+html[data-embed="true"] .capability-modal::part(panel) {
+  display: flex !important;
+  overflow: hidden !important;
+  width: min(1080px, calc(100vw - 80px)) !important;
+  max-width: calc(100vw - 80px) !important;
+  max-height: calc(100vh - 80px) !important;
+  flex-direction: column !important;
+  border: 0 !important;
+  border-radius: var(--radius-2xl) !important;
+  background: var(--color-bg-overlay) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+html[data-embed="true"] .capability-modal::part(header) {
+  position: absolute !important;
+  z-index: 2 !important;
+  top: var(--space-l) !important;
+  right: var(--space-l) !important;
+  min-height: 32px !important;
+  padding: 0 !important;
+}
+
+html[data-embed="true"] .capability-modal::part(title) {
+  display: none !important;
+}
+
+html[data-embed="true"] .capability-modal::part(body) {
+  min-height: 0 !important;
+  padding: var(--space-l) var(--space-l) 0 !important;
+  overflow: auto !important;
+}
+
+html[data-embed="true"] .capability-modal::part(footer) {
+  flex: none !important;
+  padding: var(--space-s) var(--space-l) var(--space-l) !important;
+  border-top: 0 !important;
+  background: var(--color-bg-overlay) !important;
+}
+
+html[data-embed="true"] .capability-modal .modal-detail-body {
+  display: grid;
+  max-height: none;
+  gap: var(--space-m);
+  overflow: visible;
+}
+
+html[data-embed="true"] .capability-modal .modal-hero {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--space-s);
+  padding: 0 44px var(--space-m) 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+html[data-embed="true"] .capability-modal .modal-hero h3 {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 20px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 28px;
+}
+
+html[data-embed="true"] .capability-modal .modal-hero p {
+  margin: 4px 0 var(--space-xs);
+  color: var(--color-text-tertiary);
+  font-size: var(--text-body);
+  line-height: 22px;
+}
+
+html[data-embed="true"] .capability-modal .modal-detail-body > ve-markdown,
+html[data-embed="true"] .capability-modal .modal-detail-body > .ve-markdown {
+  display: block;
+  padding: var(--space-m);
+  border: var(--stroke-weight-base) solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-surface);
+}
+
+/* Settings / Personalization mirrors the studio's Theme Style controls. */
+html[data-embed="true"] .theme-mirror-card {
+  display: grid;
+  overflow: hidden;
+  border: var(--stroke-weight-base) solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-base);
+}
+
+html[data-embed="true"] .theme-mirror-section {
+  display: grid;
+  gap: var(--space-m);
+  padding: var(--space-l);
+  border-bottom: var(--stroke-weight-base) solid var(--color-border-subtle);
+}
+
+html[data-embed="true"] .theme-mirror-section:last-child {
+  border-bottom: 0;
+}
+
+html[data-embed="true"] .theme-mirror-heading strong,
+html[data-embed="true"] .theme-mirror-heading small {
+  display: block;
+}
+
+html[data-embed="true"] .theme-mirror-heading strong {
+  color: var(--color-text-primary);
+  font-size: var(--text-body);
+  font-weight: var(--font-weight-semibold);
+  line-height: 22px;
+}
+
+html[data-embed="true"] .theme-mirror-heading small {
+  margin-top: 2px;
+  color: var(--color-text-tertiary);
+  font-size: var(--text-caption);
+  line-height: 20px;
+}
+
+html[data-embed="true"] .theme-mirror-color-row {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  align-items: end;
+  gap: var(--space-s);
+}
+
+html[data-embed="true"] .theme-mirror-color {
+  display: block;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  border: var(--stroke-weight-base) solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  background: var(--theme-mirror-primary);
+}
+
+html[data-embed="true"] .theme-mirror-color input {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+html[data-embed="true"] .theme-mirror-hex {
+  display: grid;
+  gap: var(--space-xxs);
+}
+
+html[data-embed="true"] .theme-mirror-hex span,
+html[data-embed="true"] .theme-mirror-font-row > span {
+  color: var(--color-text-secondary);
+  font-size: var(--text-caption);
+  line-height: 20px;
+}
+
+html[data-embed="true"] .theme-mirror-hex input {
+  width: 100%;
+  height: 36px;
+  border: var(--stroke-weight-base) solid var(--color-border-default);
+  border-radius: var(--radius-sm);
+  padding: 0 var(--space-s);
+  outline: 0;
+  background: var(--color-bg-base);
+  color: var(--color-text-primary);
+}
+
+html[data-embed="true"] .theme-mirror-hex input:focus {
+  border-color: var(--color-border-interactive);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary-600) 16%, transparent);
+}
+
+html[data-embed="true"] .theme-mirror-segmented {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-xxs);
+  padding: var(--space-xxs);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-surface);
+}
+
+html[data-embed="true"] .theme-mirror-segmented button,
+html[data-embed="true"] .theme-mirror-option,
+html[data-embed="true"] .theme-mirror-choice button {
+  min-height: 34px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-secondary);
+}
+
+html[data-embed="true"] .theme-mirror-segmented button.active,
+html[data-embed="true"] .theme-mirror-option.active,
+html[data-embed="true"] .theme-mirror-choice button.active {
+  background: var(--color-bg-base);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+html[data-embed="true"] .theme-mirror-context {
+  display: grid;
+  gap: var(--space-m);
+}
+
+html[data-embed="true"] .theme-mirror-context[hidden] {
+  display: none;
+}
+
+html[data-embed="true"] .theme-mirror-options {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+html[data-embed="true"] .theme-mirror-options-four {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+html[data-embed="true"] .theme-mirror-option {
+  position: relative;
+  display: grid;
+  min-height: 72px;
+  align-items: end;
+  padding: var(--space-xs);
+  border: var(--stroke-weight-base) solid var(--color-border-default);
+  text-align: left;
+}
+
+html[data-embed="true"] .theme-mirror-option::before {
+  content: "";
+  position: absolute;
+  inset: var(--space-xs) var(--space-xs) 28px;
+  border-radius: var(--radius-xs);
+  background: var(--color-bg-surface);
+}
+
+html[data-embed="true"] .theme-mirror-option.active {
+  border-color: var(--color-border-strong);
+  box-shadow: inset 0 0 0 1px var(--color-border-strong);
+}
+
+html[data-embed="true"] .theme-mirror-option span {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--text-caption);
+}
+
+html[data-embed="true"] .theme-mirror-gradient:nth-child(1)::before {
+  background: linear-gradient(135deg, var(--color-primary-100), var(--color-primary-300));
+}
+
+html[data-embed="true"] .theme-mirror-gradient:nth-child(2)::before {
+  background: linear-gradient(135deg, var(--color-primary-50), var(--color-primary-200));
+}
+
+html[data-embed="true"] .theme-mirror-gradient:nth-child(3)::before {
+  background: linear-gradient(135deg, var(--color-primary-200), color-mix(in oklab, var(--color-primary-200), #ffd75e 58%));
+}
+
+html[data-embed="true"] .theme-mirror-gradient:nth-child(4)::before {
+  background: linear-gradient(135deg, var(--color-primary-200), #ffb2c6, #9ee7dc);
+}
+
+html[data-embed="true"] .theme-mirror-solid:nth-child(1)::before { background: var(--color-bg-surface); }
+html[data-embed="true"] .theme-mirror-solid:nth-child(2)::before { background: var(--color-bg-base); }
+html[data-embed="true"] .theme-mirror-solid:nth-child(3)::before { background: var(--color-primary-50); }
+html[data-embed="true"] .theme-mirror-solid:nth-child(4)::before { background: var(--color-gray-100); }
+
+html[data-embed="true"] .theme-mirror-range {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+html[data-embed="true"] .theme-mirror-range > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-s);
+  color: var(--color-text-secondary);
+  font-size: var(--text-caption);
+}
+
+html[data-embed="true"] .theme-mirror-range b {
+  font-weight: var(--font-weight-regular);
+}
+
+html[data-embed="true"] .theme-mirror-range output {
+  color: var(--color-text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+html[data-embed="true"] .theme-mirror-range input {
+  width: 100%;
+  accent-color: var(--color-primary-600);
+}
+
+html[data-embed="true"] .theme-mirror-images {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-xs);
+}
+
+html[data-embed="true"] .theme-mirror-images button {
+  display: grid;
+  gap: var(--space-xxs);
+  min-width: 0;
+  border: var(--stroke-weight-base) solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-xs);
+  background: var(--color-bg-base);
+  color: var(--color-text-secondary);
+  text-align: left;
+}
+
+html[data-embed="true"] .theme-mirror-images button.active {
+  border-color: var(--color-border-strong);
+  box-shadow: inset 0 0 0 1px var(--color-border-strong);
+}
+
+html[data-embed="true"] .theme-mirror-images button span {
+  display: block;
+  min-height: 52px;
+  border-radius: var(--radius-sm);
+  background-position: center;
+  background-size: cover;
+}
+
+html[data-embed="true"] .theme-mirror-images button b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--text-caption);
+  font-weight: var(--font-weight-regular);
+}
+
+html[data-embed="true"] .theme-mirror-font-row {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-m);
+}
+
+html[data-embed="true"] .chat-column .user-bubble {
+  --ve-bubble-content-radius-round: var(--radius-xl);
+}
+
+html[data-embed="true"] .theme-mirror-choice {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-xxs);
+  padding: var(--space-xxs);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-surface);
+}
+
+html[data-embed="true"] .theme-mirror-choice button {
+  overflow: hidden;
+  padding: 0 var(--space-xs);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--text-caption);
+}
+
+@media (max-width: 900px) {
+  html[data-embed="true"] .theme-mirror-options-four,
+  html[data-embed="true"] .theme-mirror-images {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  html[data-embed="true"] .theme-mirror-font-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-xs);
+  }
+}
+
+/* 语音输入录音态反馈 */
+ve-chat-input-action[aria-label="语音输入"] {
+  position: relative;
+  border-radius: var(--radius-full, 999px);
+  transition: color var(--motion-base, 0.2s) var(--ease-standard, ease);
+}
+
+ve-chat-input-action[aria-label="语音输入"][data-listening="true"] {
+  color: var(--color-primary-600);
+}
+
+ve-chat-input-action[aria-label="语音输入"][data-listening="true"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-primary-600) 45%, transparent);
+  animation: studio-voice-pulse 1.4s var(--ease-standard, ease-out) infinite;
+  pointer-events: none;
+}
+
+@keyframes studio-voice-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-primary-600) 45%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 8px color-mix(in srgb, var(--color-primary-600) 0%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-primary-600) 0%, transparent);
+  }
+}
+
+/* Header 工具图标（分享 / 更多等）属于中性 UI，text 型 ve-button 默认走
+   accent 蓝，这里改回深色主文本色。 */
+html[data-embed="true"] .icon-button {
+  --ve-button-text-text: var(--color-text-primary);
+  --ve-button-current-text: var(--color-text-primary);
+  --ve-button-current-text-hover: var(--color-text-primary);
+}

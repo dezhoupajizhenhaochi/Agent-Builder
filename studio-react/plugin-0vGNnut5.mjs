@@ -1,0 +1,10 @@
+import { a as e } from "./23467-BjeV2xCg.mjs";
+import { t } from "./20787-DAItmzdR.mjs";
+//#region node_modules/@ve-design/web/dist/icons/plugin.js
+var n = {
+	name: "plugin",
+	svg: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"none\" viewBox=\"0 0 24 24\"><path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M12 18.25v3m3.25-15v-3.5m-6.5 3.5v-3.5m10.5 11.5v-6a2 2 0 0 0-2-2H6.75a2 2 0 0 0-2 2v6a4 4 0 0 0 4 4h6.5a4 4 0 0 0 4-4\"/></svg>\n"
+};
+t(), e(n);
+//#endregion
+export { n as pluginIcon };

@@ -1,0 +1,10 @@
+import { a as e } from "./23467-Bd3J2hK0.mjs";
+import { t } from "./20787-Deummg9m.mjs";
+//#region node_modules/@ve-design/web/dist/icons/tool.js
+var n = {
+	name: "tool",
+	svg: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"none\" viewBox=\"0 0 24 24\"><path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M15.005 8.301c-.373-.373-.56-.56-.63-.774a.94.94 0 0 1 0-.582c.07-.215.257-.401.63-.774L17.677 3.5a5.648 5.648 0 0 0-7.813 6.49c.112.461.168.691.158.837a.8.8 0 0 1-.103.369c-.067.13-.196.258-.453.515L3.585 17.59a1.997 1.997 0 0 0 2.824 2.824l5.881-5.881c.257-.257.386-.386.515-.453a.8.8 0 0 1 .37-.103c.145-.01.375.046.835.158a5.648 5.648 0 0 0 6.49-7.813l-2.67 2.673c-.373.373-.56.56-.774.63a.94.94 0 0 1-.582 0c-.215-.07-.401-.257-.774-.63z\"/></svg>\n"
+};
+t(), e(n);
+//#endregion
+export { n as toolIcon };
