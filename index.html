@@ -113,7 +113,11 @@
 
   html.dark .chat-empty .example { background: var(--color-bg-base, var(--app-surface)); border-color: var(--color-border-default, var(--app-border)); color: var(--color-text-secondary, var(--app-text-secondary)); }
   html.dark .chat-empty .example:hover { background: var(--color-bg-muted, var(--app-muted)); border-color: var(--color-border-strong, var(--app-border-strong)); color: var(--color-text-primary, var(--app-text)); }
-  html.dark .chat-empty .icon { background: var(--color-bg-primary, var(--app-accent)); }
+  html.dark .chat-empty .icon {
+    background: var(--color-bg-muted, var(--app-muted));
+    border-color: var(--color-border-default, var(--app-border));
+    color: var(--color-text-secondary, var(--app-text-secondary));
+  }
   html.dark .chat-composer .chat-input { background: transparent; border-color: transparent; }
 
   html.dark .typing-dots span { background: var(--app-text-muted); }
@@ -933,12 +937,13 @@
   .chat-empty .icon,
   .ved-chat-empty-icon {
     width: 48px; height: 48px;
-    background: var(--color-bg-primary, var(--app-accent));
+    background: var(--color-bg-muted, var(--app-muted));
+    border: var(--stroke-0_5, 0.5px) solid var(--color-border-default, var(--app-border));
     border-radius: var(--radius-xl, 16px);
     display: grid; place-items: center;
     margin-bottom: var(--space-s, 16px);
-    color: var(--color-text-foreground, white);
-    box-shadow: var(--shadow-md, none);
+    color: var(--color-text-secondary, var(--app-text-secondary));
+    box-shadow: var(--shadow-sm, none);
   }
   .chat-empty h3,
   .ved-chat-empty-title {
@@ -1992,6 +1997,7 @@
     position: absolute;
     inset: 24px;
     min-height: 0;
+    overflow: hidden;
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
@@ -2340,7 +2346,7 @@
   .preview-pane[data-pane="components"].active {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: auto;
     min-height: 0;
     flex: 1;
   }
@@ -3499,7 +3505,12 @@
   .studio-field > span { font-size:12px; color:var(--app-text-secondary); }
   .studio-select { display:block; width:148px; min-width:0; color:var(--app-text); font-size:12px; }
   .studio-switch { display:inline-flex; align-items:center; gap:8px; font-size:12px; color:var(--app-text-secondary); }
-  .studio-switch input { accent-color:var(--app-accent); }
+  .studio-switch ve-checkbox {
+    --ve-checkbox-font-size: 12px;
+    --ve-checkbox-text-color: var(--app-text-secondary);
+    --ve-checkbox-mask-border-width: var(--stroke-0_5, .5px);
+    --ve-checkbox-mask-color-bg-checked: var(--color-bg-primary, var(--app-accent));
+  }
   .studio-hint { display:none; }
   .studio-bg-tabs { display:grid; grid-template-columns:repeat(3,1fr); gap:3px; margin-top:12px; padding:3px; border-radius:8px; background:var(--app-muted); }
   .studio-content-frame-tabs { grid-template-columns:repeat(2,1fr); }
@@ -3910,45 +3921,6 @@
               <button class="ve-chat-input-action" data-type="icon" title="添加附件或能力" type="button" id="chat-attach-btn">
                 <svg viewBox="0 0 24 24" fill="none"><path d="M12 4L12 20M4 12H20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
-              <div class="composer-model-select">
-                <button class="ve-chat-input-action" data-type="dropdown" type="button" id="chat-model-btn">
-                  <svg viewBox="0 0 24 24" fill="none"><path d="M12 3L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 3Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  <span id="chat-model-label">Doubao Pro</span>
-                </button>
-                <div class="composer-dropdown composer-model-dropdown" id="chat-model-dropdown">
-                  <div class="composer-dropdown-item active" data-model="doubao-pro">
-                    <div class="composer-dropdown-item-main">
-                      <span class="composer-dropdown-item-name">Doubao Pro</span>
-                      <span class="composer-dropdown-item-tag">推荐</span>
-                    </div>
-                    <div class="composer-dropdown-item-desc">通用智能，适合主题分析与生成</div>
-                  </div>
-                  <div class="composer-dropdown-item" data-model="doubao-lite">
-                    <div class="composer-dropdown-item-main">
-                      <span class="composer-dropdown-item-name">Doubao Lite</span>
-                    </div>
-                    <div class="composer-dropdown-item-desc">轻量快速，适合简单主题调整</div>
-                  </div>
-                  <div class="composer-dropdown-item" data-model="doubao-ultra">
-                    <div class="composer-dropdown-item-main">
-                      <span class="composer-dropdown-item-name">Doubao Ultra</span>
-                      <span class="composer-dropdown-item-tag new">新版</span>
-                    </div>
-                    <div class="composer-dropdown-item-desc">深度推理，复杂创意场景</div>
-                  </div>
-                  <div class="composer-dropdown-divider"></div>
-                  <div class="composer-dropdown-item" data-model="custom">
-                    <div class="composer-dropdown-item-main">
-                      <span class="composer-dropdown-item-name">自定义模型</span>
-                    </div>
-                    <div class="composer-dropdown-item-desc">在设置中配置接入点 ID</div>
-                  </div>
-                </div>
-              </div>
-              <button class="ve-chat-input-action" data-type="toggle" type="button" id="chat-deep-thinking-btn">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M9.66 3.51L10.5 2L13.5 2L14.34 3.51M3 9L4.2 7M21 9L19.8 7M5 16.5L3.5 17.5M19 16.5L20.5 17.5M7.2 20.5L6.5 22M17.5 22L16.8 20.5M12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 12H14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                <span>深度思考</span>
-              </button>
             </div>
             <div class="ve-chat-input-actions" data-slot="rightAction">
               <button class="ve-chat-input-action" data-type="icon" title="语音输入" type="button" id="chat-voice-btn">
@@ -4310,7 +4282,7 @@
                 </label>
                 <div class="studio-brand-actions"><button class="studio-brand-remove" id="studio-logo-remove" type="button">恢复默认 Logo</button></div>
                 </div>
-                <label class="studio-field"><span>显示侧边栏</span><span class="studio-switch"><input type="checkbox" id="studio-sidebar-visible" checked> 显示</span></label>
+                <div class="studio-field"><span>显示侧边栏</span><span class="studio-switch" id="studio-sidebar-visible" data-checked="true"></span></div>
                 <div class="slider-row studio-sidebar-width-row">
                   <div class="slider-row-head"><span>侧边栏宽度</span><span id="studio-sidebar-width-val">220px</span></div>
                   <input type="range" id="studio-sidebar-width" min="180" max="280" value="220" step="4">
@@ -4327,9 +4299,9 @@
               <summary>欢迎页</summary>
               <div class="accordion-body">
                 <label class="studio-field"><span>欢迎标题</span><input class="text-input" id="studio-welcome-title" value="今天想设计点什么？" style="width:176px;height:32px;font-size:12px;"></label>
-                <label class="studio-field"><span>输入框能力</span><span class="studio-switch"><input type="checkbox" id="studio-welcome-capabilities" checked> 显示</span></label>
-                <label class="studio-field"><span>快捷推荐</span><span class="studio-switch"><input type="checkbox" id="studio-welcome-suggestions" checked> 显示</span></label>
-                <label class="studio-field"><span>任务卡片</span><span class="studio-switch"><input type="checkbox" id="studio-welcome-tasks" checked> 显示</span></label>
+                <div class="studio-field"><span>输入框能力</span><span class="studio-switch" id="studio-welcome-capabilities" data-checked="true"></span></div>
+                <div class="studio-field"><span>快捷推荐</span><span class="studio-switch" id="studio-welcome-suggestions" data-checked="true"></span></div>
+                <div class="studio-field"><span>任务卡片</span><span class="studio-switch" id="studio-welcome-tasks" data-checked="true"></span></div>
                 <div class="studio-hint">控制用户进入 Agent 后的第一屏内容与行动入口。</div>
               </div>
             </details>
@@ -4344,10 +4316,10 @@
                 <label class="studio-field"><span>对话内容宽度</span>
                   <span class="studio-select" id="studio-content-width"></span>
                 </label>
-                <label class="studio-field"><span>数据交互</span><span class="studio-switch"><input type="checkbox" id="studio-data-mock" checked> Mock 演示数据</span></label>
-                <label class="studio-field"><span>预览能力</span><span class="studio-switch"><input type="checkbox" id="studio-reasoning" checked> 思考链</span></label>
-                <label class="studio-field"><span></span><span class="studio-switch"><input type="checkbox" id="studio-sources" checked> 来源与引用</span></label>
-                <label class="studio-field"><span>消息操作</span><span class="studio-switch"><input type="checkbox" id="studio-message-actions" checked> 复制与重试</span></label>
+                <div class="studio-field"><span>数据交互</span><span class="studio-switch" id="studio-data-mock" data-checked="true"></span></div>
+                <div class="studio-field"><span>预览能力</span><span class="studio-switch" id="studio-reasoning" data-checked="true"></span></div>
+                <div class="studio-field"><span></span><span class="studio-switch" id="studio-sources" data-checked="true"></span></div>
+                <div class="studio-field"><span>消息操作</span><span class="studio-switch" id="studio-message-actions" data-checked="true"></span></div>
                 <div class="studio-hint">控制消息流、思考过程、来源和 Composer 的展示密度。</div>
               </div>
             </details>
@@ -4358,8 +4330,8 @@
               <div class="accordion-body">
                 <label class="studio-field"><span>结果布局</span><span class="studio-select" id="studio-artifact-layout"></span></label>
                 <label class="studio-field"><span>默认视图</span><span class="studio-select" id="studio-artifact-view"></span></label>
-                <label class="studio-field"><span>代码面板</span><span class="studio-switch"><input type="checkbox" id="studio-artifact-code" checked> 允许切换</span></label>
-                <label class="studio-field"><span>产物操作</span><span class="studio-switch"><input type="checkbox" id="studio-artifact-actions" checked> 复制与下载</span></label>
+                <div class="studio-field"><span>代码面板</span><span class="studio-switch" id="studio-artifact-code" data-checked="true"></span></div>
+                <div class="studio-field"><span>产物操作</span><span class="studio-switch" id="studio-artifact-actions" data-checked="true"></span></div>
                 <div class="studio-hint">用于 HTML、代码、文档和图片等 Agent 最终产物的展示方式。</div>
               </div>
             </details>
@@ -4504,7 +4476,7 @@
         <!-- Tab: Agent Demo (vedesign-Agent UI 欢迎页，参照 layouts.md §1.1) -->
         <div class="preview-pane active runtime-enabled" data-pane="components">
           <iframe class="agent-runtime-embed" id="agent-runtime-frame"
-            src="./agent-runtime/index.html?embed=1&v=20260714-expanded-replies"
+            src="./agent-runtime/index.html?embed=1&v=20260717-preview-even-inset"
             title="通用 Agent 完整模板预览"
             allow="clipboard-read; clipboard-write; microphone"></iframe>
           <div class="agent-demo">
@@ -9569,7 +9541,7 @@ function renderChat() {
       <div class="ved-chat-empty-icon icon">
         <svg class="ved-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 12C21 16.9706 16.9706 21 12 21C10.8029 21 9.6603 20.7663 8.61549 20.3419C8.41552 20.2607 8.31554 20.2201 8.23472 20.202C8.15566 20.1843 8.09715 20.1778 8.01613 20.1778C7.9333 20.1778 7.84309 20.1928 7.66265 20.2229L4.10476 20.8159C3.73218 20.878 3.54589 20.909 3.41118 20.8512C3.29328 20.8007 3.19933 20.7067 3.14876 20.5888C3.09098 20.4541 3.12203 20.2678 3.18413 19.8952L3.77711 16.3374C3.80718 16.1569 3.82222 16.0667 3.82221 15.9839C3.8222 15.9028 3.81572 15.8443 3.798 15.7653C3.77988 15.6845 3.73927 15.5845 3.65806 15.3845C3.23374 14.3397 3 13.1971 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
-      <h3 class="ved-chat-empty-title">开始对话</h3>
+      <h3 class="ved-chat-empty-title">你想设计什么</h3>
       <p class="ved-chat-empty-desc">描述你想要的主题风格、生成 demo 页面，或调整 Skill 配置。</p>
       <div class="ved-prompt-list examples">
         <button class="ved-prompt-item example" data-prompt="给我一个温暖的咖啡店品牌主题">温暖的咖啡店品牌主题</button>
@@ -10184,6 +10156,341 @@ function buildLeaderboardHtml() {
 </html>`;
 }
 
+function buildDataAnalysisHtml() {
+  return `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>数据分析报告</title>
+<style>
+  :root {
+    --bg: var(--color-bg-primary, #ffffff);
+    --surface: var(--color-bg-secondary, #f7f8fa);
+    --text: var(--color-text-primary, #1d2129);
+    --muted: var(--color-text-secondary, #86909c);
+    --brand: var(--color-primary-600, #1664ff);
+    --border: var(--color-border-primary, #e5e6eb);
+    --radius: var(--radius-lg, 16px);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--font-sans, -apple-system, "PingFang SC", sans-serif); background: var(--bg); color: var(--text); padding: 32px 24px; }
+  .wrap { max-width: 1000px; margin: 0 auto; }
+  .header { text-align: center; margin-bottom: 28px; }
+  .header h1 { font-size: 26px; margin: 0 0 8px; }
+  .header p { color: var(--muted); margin: 0; font-size: 14px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-align: center; }
+  .stat .num { font-size: 28px; font-weight: 700; color: var(--brand); }
+  .stat .label { color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; }
+  .section-title { font-size: 16px; font-weight: 600; margin: 0 0 20px; display: flex; align-items: center; gap: 8px; }
+  .section-title::before { content: ''; width: 4px; height: 16px; background: var(--brand); border-radius: 2px; }
+  .charts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .chart-card { background: var(--bg); border-radius: 12px; padding: 16px; }
+  .chart-card h4 { font-size: 14px; margin: 0 0 12px; color: var(--text); font-weight: 500; }
+  .line-chart { height: 160px; display: flex; align-items: flex-end; justify-content: space-between; gap: 4px; padding-bottom: 8px; }
+  .line-bar { flex: 1; background: var(--brand); border-radius: 4px 4px 0 0; min-height: 8px; }
+  .bar-chart { display: flex; flex-direction: column; gap: 8px; }
+  .bar-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+  .bar-row .label { width: 60px; flex-shrink: 0; }
+  .bar-row .bar-wrap { flex: 1; height: 12px; background: rgba(0,0,0,.06); border-radius: 6px; overflow: hidden; }
+  .bar-row .bar { height: 100%; background: var(--brand); border-radius: 6px; }
+  .pie-chart { display: flex; align-items: center; gap: 16px; }
+  .pie { width: 100px; height: 100px; border-radius: 50%; background: conic-gradient(var(--brand) 0% 68%, #86909c 68% 100%); position: relative; }
+  .pie::after { content: ''; position: absolute; inset: 28px; background: var(--bg); border-radius: 50%; }
+  .pie-legend { display: flex; flex-direction: column; gap: 6px; font-size: 12px; }
+  .pie-legend span { display: flex; align-items: center; gap: 6px; color: var(--muted); }
+  .pie-legend span::before { content: ''; width: 10px; height: 10px; border-radius: 2px; }
+  .trend { display: flex; justify-content: space-between; padding: 12px 0; border-top: 1px solid var(--border); }
+  .trend-item { text-align: center; }
+  .trend-item .val { font-size: 18px; font-weight: 600; color: var(--text); }
+  .trend-item .label { color: var(--muted); font-size: 12px; margin-top: 4px; }
+  .footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 16px; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <h1>📊 数据分析报告</h1>
+      <p>核心业务指标概览 · 趋势分析</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="num">128万</div><div class="label">DAU</div></div>
+      <div class="stat"><div class="num">520万</div><div class="label">MAU</div></div>
+      <div class="stat"><div class="num">6.8%</div><div class="label">转化率</div></div>
+    </div>
+    <div class="section">
+      <div class="section-title">7日趋势</div>
+      <div class="chart-card">
+        <h4>DAU 7日走势</h4>
+        <div class="line-chart">
+          <div class="line-bar" style="height:65%"></div>
+          <div class="line-bar" style="height:72%"></div>
+          <div class="line-bar" style="height:68%"></div>
+          <div class="line-bar" style="height:82%"></div>
+          <div class="line-bar" style="height:78%"></div>
+          <div class="line-bar" style="height:95%"></div>
+          <div class="line-bar" style="height:100%"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px">
+          <span>周一</span><span>周二</span><span>周三</span><span>周四</span><span>周五</span><span>周六</span><span>周日</span>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-title">渠道分布</div>
+      <div class="chart-card">
+        <h4>各渠道用户占比</h4>
+        <div class="bar-chart">
+          <div class="bar-row"><span class="label">自然流量</span><div class="bar-wrap"><div class="bar" style="width:42%"></div></div><span>42%</span></div>
+          <div class="bar-row"><span class="label">付费广告</span><div class="bar-wrap"><div class="bar" style="width:28%"></div></div><span>28%</span></div>
+          <div class="bar-row"><span class="label">社交媒体</span><div class="bar-wrap"><div class="bar" style="width:18%"></div></div><span>18%</span></div>
+          <div class="bar-row"><span class="label">其他</span><div class="bar-wrap"><div class="bar" style="width:12%"></div></div><span>12%</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-title">用户终端</div>
+      <div class="chart-card">
+        <h4>终端分布</h4>
+        <div class="pie-chart">
+          <div class="pie"></div>
+          <div class="pie-legend">
+            <span style="--c:var(--brand)">移动端 68%</span>
+            <span style="--c:#86909c">PC端 32%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-title">增长趋势</div>
+      <div class="trend">
+        <div class="trend-item"><div class="val">+12.5%</div><div class="label">近30天</div></div>
+        <div class="trend-item"><div class="val">+89.2%</div><div class="label">同比增长</div></div>
+        <div class="trend-item"><div class="val">6.8%</div><div class="label">转化率</div></div>
+      </div>
+    </div>
+    <div class="footer">由 vedesign-Agent 生成 · 主题随右侧预览实时联动</div>
+  </div>
+</body>
+</html>`;
+}
+
+function buildWeeklySummaryHtml() {
+  return `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>周工作总结</title>
+<style>
+  :root {
+    --bg: var(--color-bg-primary, #ffffff);
+    --surface: var(--color-bg-secondary, #f7f8fa);
+    --text: var(--color-text-primary, #1d2129);
+    --muted: var(--color-text-secondary, #86909c);
+    --brand: var(--color-primary-600, #1664ff);
+    --border: var(--color-border-primary, #e5e6eb);
+    --radius: var(--radius-lg, 16px);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--font-sans, -apple-system, "PingFang SC", sans-serif); background: var(--bg); color: var(--text); padding: 32px 24px; }
+  .wrap { max-width: 800px; margin: 0 auto; }
+  .header { text-align: center; margin-bottom: 28px; }
+  .header h1 { font-size: 26px; margin: 0 0 8px; }
+  .header p { color: var(--muted); margin: 0; font-size: 14px; }
+  .progress-ring { width: 80px; height: 80px; border-radius: 50%; background: conic-gradient(var(--brand) 0% 87.5%, rgba(0,0,0,.06) 87.5% 100%); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+  .progress-ring-inner { width: 64px; height: 64px; border-radius: 50%; background: var(--bg); display: flex; align-items: center; justify-content: center; }
+  .progress-ring-inner .num { font-size: 20px; font-weight: 700; color: var(--brand); }
+  .progress-label { text-align: center; color: var(--muted); font-size: 13px; }
+  .section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; }
+  .section-title { font-size: 16px; font-weight: 600; margin: 0 0 16px; display: flex; align-items: center; gap: 8px; }
+  .section-title::before { content: ''; width: 4px; height: 16px; background: var(--brand); border-radius: 2px; }
+  .task-list { display: flex; flex-direction: column; gap: 12px; }
+  .task { display: flex; align-items: flex-start; gap: 12px; padding: 12px; background: var(--bg); border-radius: 8px; }
+  .task .check { width: 20px; height: 20px; border-radius: 50%; background: #36c76f; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 12px; color: white; }
+  .task .content { flex: 1; }
+  .task .content h4 { font-size: 14px; margin: 0 0 4px; font-weight: 500; }
+  .task .content p { font-size: 12px; color: var(--muted); margin: 0; }
+  .task .badge { background: var(--brand); color: white; font-size: 10px; padding: 2px 8px; border-radius: 4px; flex-shrink: 0; }
+  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .mini-stat { text-align: center; padding: 12px; background: var(--bg); border-radius: 8px; }
+  .mini-stat .num { font-size: 20px; font-weight: 600; color: var(--brand); }
+  .mini-stat .label { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 16px; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <h1>📋 周工作总结</h1>
+      <p>2026年第29周 · 7月20日 - 7月26日</p>
+      <div class="progress-ring"><div class="progress-ring-inner"><div class="num">87.5%</div></div></div>
+      <div class="progress-label">任务完成率</div>
+    </div>
+    <div class="stat-row">
+      <div class="mini-stat"><div class="num">8</div><div class="label">完成任务</div></div>
+      <div class="mini-stat"><div class="num">6</div><div class="label">会议参与</div></div>
+      <div class="mini-stat"><div class="num">24</div><div class="label">代码提交</div></div>
+      <div class="mini-stat"><div class="num">3</div><div class="label">文档产出</div></div>
+    </div>
+    <div class="section">
+      <div class="section-title">本周完成事项</div>
+      <div class="task-list">
+        <div class="task"><div class="check">✓</div><div class="content"><h4>完成 Agent 对话组件开发</h4><p>实现消息列表、思考链展示、产物卡片</p></div><div class="badge">里程碑</div></div>
+        <div class="task"><div class="check">✓</div><div class="content"><h4>优化主题系统</h4><p>对齐 vedesign 设计规范，更新 CSS 变量</p></div></div>
+        <div class="task"><div class="check">✓</div><div class="content"><h4>修复预览同步问题</h4><p>解决 iframe 主题注入失效问题</p></div></div>
+        <div class="task"><div class="check">✓</div><div class="content"><h4>完成代码审查</h4><p>review 3 个 MR，提出 12 条改进建议</p></div></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-title">下周计划</div>
+      <div class="task-list">
+        <div class="task"><div class="check">○</div><div class="content"><h4>完善 mock 数据</h4><p>扩展场景类型，优化思链展示</p></div></div>
+        <div class="task"><div class="check">○</div><div class="content"><h4>性能优化</h4><p>减少首屏加载时间，优化渲染性能</p></div></div>
+        <div class="task"><div class="check">○</div><div class="content"><h4>单元测试</h4><p>添加核心功能测试用例</p></div></div>
+        <div class="task"><div class="check">○</div><div class="content"><h4>文档更新</h4><p>完善 API 文档和使用指南</p></div></div>
+        <div class="task"><div class="check">○</div><div class="content"><h4>部署上线</h4><p>准备生产环境部署</p></div></div>
+      </div>
+    </div>
+    <div class="footer">由 vedesign-Agent 生成 · 主题随右侧预览实时联动</div>
+  </div>
+</body>
+</html>`;
+}
+
+function buildCodeProjectHtml() {
+  return `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>代码项目展示</title>
+<style>
+  :root {
+    --bg: var(--color-bg-primary, #ffffff);
+    --surface: var(--color-bg-secondary, #f7f8fa);
+    --text: var(--color-text-primary, #1d2129);
+    --muted: var(--color-text-secondary, #86909c);
+    --brand: var(--color-primary-600, #1664ff);
+    --border: var(--color-border-primary, #e5e6eb);
+    --radius: var(--radius-lg, 16px);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--font-sans, -apple-system, "PingFang SC", sans-serif); background: var(--bg); color: var(--text); padding: 32px 24px; }
+  .wrap { max-width: 900px; margin: 0 auto; }
+  .header { text-align: center; margin-bottom: 28px; }
+  .header h1 { font-size: 26px; margin: 0 0 8px; }
+  .header p { color: var(--muted); margin: 0; font-size: 14px; }
+  .tech-stack { display: flex; justify-content: center; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .tech-tag { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 4px 12px; font-size: 12px; color: var(--muted); }
+  .section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; }
+  .section-title { font-size: 16px; font-weight: 600; margin: 0 0 16px; display: flex; align-items: center; gap: 8px; }
+  .section-title::before { content: ''; width: 4px; height: 16px; background: var(--brand); border-radius: 2px; }
+  .tree { font-family: monospace; font-size: 13px; }
+  .tree ul { list-style: none; padding-left: 20px; margin: 4px 0; }
+  .tree li { position: relative; padding: 2px 0; }
+  .tree li::before { content: ''; position: absolute; left: -10px; top: 8px; width: 6px; height: 1px; background: var(--border); }
+  .tree .folder { color: #e6a23c; }
+  .tree .file { color: var(--muted); }
+  .tree .component { color: var(--brand); }
+  .code-box { background: #1d2129; border-radius: 8px; overflow: hidden; }
+  .code-header { display: flex; gap: 8px; padding: 8px 12px; background: #25292f; }
+  .code-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .code-dot:first-child { background: #ff5f56; }
+  .code-dot:nth-child(2) { background: #ffbd2e; }
+  .code-dot:nth-child(3) { background: #27ca40; }
+  .code-content { padding: 12px; font-family: 'Fira Code', monospace; font-size: 12px; color: #c9d1d9; line-height: 1.6; overflow-x: auto; }
+  .code-keyword { color: #ff7b72; }
+  .code-string { color: #a5d6ff; }
+  .code-function { color: #d2a8ff; }
+  .code-comment { color: #8b949e; }
+  .component-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .component-card { background: var(--bg); border-radius: 8px; padding: 16px; border: 1px solid var(--border); }
+  .component-card h4 { font-size: 14px; margin: 0 0 8px; color: var(--brand); }
+  .component-card p { font-size: 12px; color: var(--muted); margin: 0; line-height: 1.5; }
+  .footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 16px; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <h1>📁 React + TypeScript 项目</h1>
+      <p>基于 @ve-design/web 组件库</p>
+      <div class="tech-stack">
+        <span class="tech-tag">React</span>
+        <span class="tech-tag">TypeScript</span>
+        <span class="tech-tag">Vite</span>
+        <span class="tech-tag">@ve-design/web</span>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-title">项目结构</div>
+      <div class="tree">
+        <div>src/</div>
+        <ul>
+          <li><span class="folder">components/</span>
+            <ul>
+              <li><span class="component">Layout.tsx</span></li>
+              <li><span class="component">Sidebar.tsx</span></li>
+              <li><span class="component">Chat.tsx</span></li>
+              <li><span class="component">Composer.tsx</span></li>
+              <li><span class="component">Thinking.tsx</span></li>
+            </ul>
+          </li>
+          <li><span class="folder">context/</span>
+            <ul><li><span class="file">ThemeContext.tsx</span></li></ul>
+          </li>
+          <li><span class="folder">hooks/</span>
+            <ul><li><span class="file">useChat.ts</span></li></ul>
+          </li>
+          <li><span class="file">App.tsx</span></li>
+          <li><span class="file">main.tsx</span></li>
+          <li><span class="file">index.css</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-title">核心组件</div>
+      <div class="component-grid">
+        <div class="component-card"><h4>Layout</h4><p>全局布局组件，包含侧边栏和主内容区</p></div>
+        <div class="component-card"><h4>Sidebar</h4><p>导航侧边栏，支持展开/收起状态切换</p></div>
+        <div class="component-card"><h4>Chat</h4><p>对话消息列表，支持思考链展示</p></div>
+        <div class="component-card"><h4>Composer</h4><p>消息输入组件，支持技能选择</p></div>
+        <div class="component-card"><h4>Thinking</h4><p>思考链组件，展示多步骤推理过程</p></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-title">代码预览</div>
+      <div class="code-box">
+        <div class="code-header"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div>
+        <div class="code-content">
+          <span class="code-keyword">import</span> { <span class="code-function">useState</span> } <span class="code-keyword">from</span> <span class="code-string">'react'</span>;<br/>
+          <span class="code-keyword">import</span> { <span class="code-function">VeChat</span>, <span class="code-function">VeComposer</span> } <span class="code-keyword">from</span> <span class="code-string">'@ve-design/web'</span>;<br/>
+          <br/>
+          <span class="code-keyword">export function</span> <span class="code-function">ChatPage</span>() {<br/>
+          &nbsp;&nbsp;<span class="code-keyword">const</span> [messages, setMessages] = <span class="code-function">useState</span>([]);<br/>
+          <br/>
+          &nbsp;&nbsp;<span class="code-keyword">const</span> handleSend = (<span class="code-keyword">async</span> content) => {<br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;setMessages(prev => [...prev, { role: <span class="code-string">'user'</span>, content }]);<br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// 调用 AI API...</span><br/>
+          &nbsp;&nbsp;};<br/>
+          <br/>
+          &nbsp;&nbsp;<span class="code-keyword">return</span> (<br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="code-function">VeChat</span> messages={messages} /&gt;<br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="code-function">VeComposer</span> onSend={handleSend} /&gt;<br/>
+          &nbsp;&nbsp;);<br/>
+          }
+        </div>
+      </div>
+    </div>
+    <div class="footer">由 vedesign-Agent 生成 · 主题随右侧预览实时联动</div>
+  </div>
+</body>
+</html>`;
+}
+
 function buildSurveyReportHtml() {
   const charts = [
     { title: '调研样本分布', type: 'pie', data: [
@@ -10373,78 +10680,211 @@ async function runMockWorkflow(userText) {
   chatState.messages.push({ role: 'user', content: userText });
 
   const isSurvey = /调研|报告|问卷|反馈/.test(userText);
-  const config = isSurvey ? {
-    title: '生成火山引擎用户调研报告 · 运行中',
-    titleDone: '生成火山引擎用户调研报告 · 已完成 · 4 步',
-    titleCancelled: '生成火山引擎用户调研报告 · 已停止',
-    stages: [
-      {
-        kind: 'think', title: '理解调研需求',
-        content: '用户需要一份「火山引擎用户调研报告」，核心诉求：\n\n- 覆盖多行业用户样本（互联网、金融、制造等）\n- 包含核心使用场景与满意度数据\n- 提供数据可视化图表与关键洞察\n- 使用当前主题变量，保证与右侧预览实时联动'
-      },
-      {
-        kind: 'search', title: '检索调研数据',
-        content: '调用知识库与用户反馈系统，汇总 200+ 企业用户的真实反馈：\n\n- 样本分布：互联网 38% / 金融 25% / 制造 18% / 零售 12%\n- 核心场景：实时计算 86% / 云存储 78% / AI 推理 72%\n- 满意度维度：稳定性 92分 / 性价比 88分 / 合规性 95分\n\n数据已完成清洗与归一化处理。'
-      },
-      {
-        kind: 'tool', title: '调用报告生成工具',
-        content: '```bash\n$ generate-report --template survey --theme current\n\n→ 解析主题 token: --color-primary-600, --radius-lg\n→ 生成图表组件：饼图 + 柱状图 + 雷达图\n→ 生成洞察卡片 + 满意度表格\n→ 内联 CSS，产物可独立运行\n✓ build ok (1 file, ~5.1 KB)\n```',
-        maxHeight: '220px'
-      },
-      {
-        kind: 'result', title: '生成调研报告',
-        content: '已生成 `survey-report.html`，包含头部概览、三大数据图表、三条核心洞察与六行满意度表格。颜色全部引用当前主题变量，切换主题时页面会同步变化。点击下方产物卡片即可预览或下载。'
-      }
-    ],
-    htmlBuilder: buildSurveyReportHtml,
-    artifactName: 'survey-report.html',
-    artifactDesc: '火山引擎用户调研报告 · 使用当前主题变量',
-    finalContent: [
-      '已经帮你生成**火山引擎用户调研报告**，覆盖 200+ 企业用户的真实反馈数据。',
-      '',
-      '报告包含：',
-      '- 📊 三大数据图表（样本分布饼图、使用场景柱状图、满意度雷达图）',
-      '- 💡 三条核心洞察（AI 推理需求激增、金融行业渗透率高、实时计算最受欢迎）',
-      '- 📈 六行产品满意度详情表格',
-      '',
-      '页面全部使用当前主题的 CSS 变量，切换主题时会实时联动。点击下方产物卡片可预览或下载。',
-      '',
-      '> 当前为演示数据（Mock）。接入真实 API 后，Agent 会基于你提供的真实数据生成报告。',
-    ].join('\n')
-  } : {
-    title: '搭建模型性能排行榜网站 · 运行中',
-    titleDone: '搭建模型性能排行榜网站 · 已完成 · 4 步',
-    titleCancelled: '搭建模型性能排行榜网站 · 已停止',
-    stages: [
-      {
-        kind: 'think', title: '理解需求',
-        content: '用户想要一个「模型性能排行榜」网站，需要：\n\n- 结构化的模型评测数据（质量、速度、票数）\n- 清晰的排名表格与关键指标概览\n- 使用当前主题变量，保证与右侧预览实时联动'
-      },
-      {
-        kind: 'search', title: '检索模型评测数据',
-        content: '调用知识库与联网检索，汇总 6 个主流模型的公开评测：\n\n- Doubao-Seed-1.6 / GPT-4o / Claude 3.5 Sonnet\n- Gemini 1.5 Pro / DeepSeek-V3 / Qwen2.5-72B\n\n对齐质量分、速度分与社区票数三项指标。'
-      },
-      {
-        kind: 'tool', title: '调用代码生成工具',
-        content: '```bash\n$ generate-site --template leaderboard --theme current\n\n→ 解析主题 token: --color-primary-600, --radius-lg, --space-*\n→ 生成语义化表格 + 指标卡 + 进度条\n→ 内联 CSS，产物可独立运行\n✓ build ok (1 file, ~4.2 KB)\n```',
-        maxHeight: '220px'
-      },
-      {
-        kind: 'result', title: '生成排行榜网站',
-        content: '已生成 `leaderboard.html`，包含 Hero 区、三张指标卡与 6 行排名表格。颜色全部引用当前主题变量，切换主题时页面会同步变化。点击下方产物卡片即可预览或下载。'
-      }
-    ],
-    htmlBuilder: buildLeaderboardHtml,
-    artifactName: 'leaderboard.html',
-    artifactDesc: '模型性能排行榜页面 · 使用当前主题变量',
-    finalContent: [
-      '已经帮你搭好**模型性能排行榜**网站，覆盖 6 个主流模型的质量分、速度分与社区票数。',
-      '',
-      '页面全部使用当前主题的 CSS 变量，切换主题时会实时联动。点击下方产物卡片可预览或下载。',
-      '',
-      '> 当前为演示数据（Mock）。接入真实 API 后，Agent 会返回你自己的实时评测与生成结果。',
-    ].join('\n')
-  };
+  const isData = /数据|分析|图表|可视化|dashboard/.test(userText);
+  const isWeekly = /周报|日报|总结|复盘/.test(userText);
+  const isCode = /代码|开发|项目|网站|页面/.test(userText);
+
+  let config;
+
+  if (isData) {
+    config = {
+      title: '生成数据分析报告 · 运行中',
+      titleDone: '生成数据分析报告 · 已完成 · 5 步',
+      titleCancelled: '生成数据分析报告 · 已停止',
+      stages: [
+        {
+          kind: 'think', title: '理解分析需求',
+          content: '用户需要一份「数据分析报告」，核心诉求：\n\n- 数据可视化展示（多种图表类型）\n- 关键指标概览\n- 趋势分析与洞察\n- 使用当前主题变量，保证与右侧预览实时联动'
+        },
+        {
+          kind: 'search', title: '检索数据指标',
+          content: '调用数据仓库与业务指标系统，汇总关键业务数据：\n\n- 核心指标：DAU 128万 / MAU 520万 / 转化率 6.8%\n- 趋势数据：近30天增长 12.5% / 同比增长 89.2%\n- 分布数据：移动端 68% / PC端 32%\n\n数据已完成清洗与聚合处理。'
+        },
+        {
+          kind: 'tool', title: '数据处理与计算',
+          content: '```python\nimport pandas as pd\nimport numpy as np\n\n# 数据清洗\nclean_data = raw_data.dropna().drop_duplicates()\n\n# 指标计算\nmetrics = {\n    "dau": clean_data[clean_data.date == today].user_id.nunique(),\n    "conversion_rate": clean_data.converted.sum() / clean_data.total.sum(),\n    "growth_rate": (this_month - last_month) / last_month * 100\n}\n\n# 趋势分析\ntrend = clean_data.resample("D").mean().rolling(7).mean()\n```',
+          maxHeight: '200px'
+        },
+        {
+          kind: 'tool', title: '生成可视化图表',
+          content: '```bash\n$ generate-charts --type all --theme current\n\n→ 生成折线图：DAU 7日趋势\n→ 生成柱状图：渠道分布\n→ 生成饼图：用户终端占比\n→ 生成指标卡：核心KPI展示\n✓ charts generated (4 charts, ~3.8 KB)\n```',
+          maxHeight: '180px'
+        },
+        {
+          kind: 'result', title: '生成分析报告',
+          content: '已生成 `data-analysis.html`，包含核心指标卡、三大数据图表（折线图、柱状图、饼图）与趋势分析。颜色全部引用当前主题变量，切换主题时页面会同步变化。'
+        }
+      ],
+      htmlBuilder: buildDataAnalysisHtml,
+      artifactName: 'data-analysis.html',
+      artifactDesc: '数据分析报告 · 使用当前主题变量',
+      finalContent: [
+        '已经帮你生成**数据分析报告**，包含核心业务指标与数据可视化图表。',
+        '',
+        '报告包含：',
+        '- 📈 核心指标卡（DAU、MAU、转化率）',
+        '- 📊 7日趋势折线图',
+        '- 📉 渠道分布柱状图',
+        '- 🍰 用户终端占比饼图',
+        '',
+        '页面全部使用当前主题的 CSS 变量，切换主题时会实时联动。',
+      ].join('\n')
+    };
+  } else if (isWeekly) {
+    config = {
+      title: '生成周工作总结 · 运行中',
+      titleDone: '生成周工作总结 · 已完成 · 4 步',
+      titleCancelled: '生成周工作总结 · 已停止',
+      stages: [
+        {
+          kind: 'think', title: '理解总结需求',
+          content: '用户需要一份「周工作总结」，核心诉求：\n\n- 本周完成事项清单\n- 进度与成果展示\n- 下周计划安排\n- 使用当前主题变量，保证与右侧预览实时联动'
+        },
+        {
+          kind: 'search', title: '检索工作记录',
+          content: '调用日历与任务管理系统，汇总本周工作记录：\n\n- 完成任务：8项（含2个里程碑）\n- 会议参与：6次\n- 代码提交：24次\n- 文档产出：3份\n\n数据已按优先级排序。'
+        },
+        {
+          kind: 'tool', title: '生成总结文档',
+          content: '```bash\n$ generate-summary --period week --theme current\n\n→ 解析任务完成度：87.5%\n→ 生成进度条：4个关键项目\n→ 提取核心成果：6条\n→ 规划下周任务：5项\n✓ summary generated (1 file, ~2.1 KB)\n```',
+          maxHeight: '180px'
+        },
+        {
+          kind: 'result', title: '生成工作总结',
+          content: '已生成 `weekly-summary.html`，包含本周工作概览、完成事项清单、进度展示与下周计划。颜色全部引用当前主题变量，切换主题时页面会同步变化。'
+        }
+      ],
+      htmlBuilder: buildWeeklySummaryHtml,
+      artifactName: 'weekly-summary.html',
+      artifactDesc: '周工作总结 · 使用当前主题变量',
+      finalContent: [
+        '已经帮你生成**周工作总结**，本周任务完成率 87.5%。',
+        '',
+        '本周完成：',
+        '- ✅ 完成 8 项任务（含 2 个里程碑）',
+        '- 📝 参与 6 次会议',
+        '- 💻 代码提交 24 次',
+        '- 📄 产出 3 份文档',
+        '',
+        '下周计划：5 项重点工作',
+      ].join('\n')
+    };
+  } else if (isCode) {
+    config = {
+      title: '生成代码项目 · 运行中',
+      titleDone: '生成代码项目 · 已完成 · 5 步',
+      titleCancelled: '生成代码项目 · 已停止',
+      stages: [
+        {
+          kind: 'think', title: '理解开发需求',
+          content: '用户需要一个「代码项目」，核心诉求：\n\n- 结构化的项目目录\n- 完整的功能代码\n- 配置文件与文档\n- 使用当前主题变量，保证与右侧预览实时联动'
+        },
+        {
+          kind: 'search', title: '检索技术方案',
+          content: '调用知识库与技术文档，获取最佳实践：\n\n- 技术栈：React + TypeScript + Vite\n- 组件库：@ve-design/web\n- 状态管理：React Context\n- 构建工具：Vite 6.x\n\n方案已确认。'
+        },
+        {
+          kind: 'tool', title: '初始化项目结构',
+          content: '```bash\n$ create-project --template react-ts --theme current\n\n→ 创建目录结构\n→ 初始化 package.json\n→ 配置 tsconfig.json\n→ 设置 vite.config.ts\n→ 安装依赖\n✓ project initialized (12 files)\n```',
+          maxHeight: '180px'
+        },
+        {
+          kind: 'tool', title: '生成组件代码',
+          content: '```bash\n$ generate-components --components all --theme current\n\n→ 生成 Layout 组件\n→ 生成 Sidebar 组件\n→ 生成 Chat 组件\n→ 生成 Composer 组件\n→ 生成 Thinking 组件\n✓ components generated (5 files, ~8.5 KB)\n```',
+          maxHeight: '180px'
+        },
+        {
+          kind: 'result', title: '生成项目代码',
+          content: '已生成 `code-project.html`，包含完整的项目结构展示、组件代码预览与使用说明。颜色全部引用当前主题变量，切换主题时页面会同步变化。'
+        }
+      ],
+      htmlBuilder: buildCodeProjectHtml,
+      artifactName: 'code-project.html',
+      artifactDesc: '代码项目展示 · 使用当前主题变量',
+      finalContent: [
+        '已经帮你生成**代码项目**展示页面。',
+        '',
+        '项目包含：',
+        '- 📁 完整目录结构（React + TypeScript + Vite）',
+        '- 🧩 5 个核心组件（Layout、Sidebar、Chat、Composer、Thinking）',
+        '- ⚙️ 配置文件说明',
+        '- 📖 使用文档',
+        '',
+        '页面全部使用当前主题的 CSS 变量，切换主题时会实时联动。',
+      ].join('\n')
+    };
+  } else if (isSurvey) {
+    config = {
+      title: '生成用户调研报告 · 运行中',
+      titleDone: '生成用户调研报告 · 已完成 · 4 步',
+      titleCancelled: '生成用户调研报告 · 已停止',
+      stages: [
+        {
+          kind: 'think', title: '理解调研需求',
+          content: '用户需要一份「用户调研报告」，核心诉求：\n\n- 覆盖多行业用户样本（互联网、金融、制造等）\n- 包含核心使用场景与满意度数据\n- 提供数据可视化图表与关键洞察\n- 使用当前主题变量，保证与右侧预览实时联动'
+        },
+        {
+          kind: 'search', title: '检索调研数据',
+          content: '调用知识库与用户反馈系统，汇总 200+ 企业用户的真实反馈：\n\n- 样本分布：互联网 38% / 金融 25% / 制造 18% / 零售 12%\n- 核心场景：实时计算 86% / 云存储 78% / AI 推理 72%\n- 满意度维度：稳定性 92分 / 性价比 88分 / 合规性 95分\n\n数据已完成清洗与归一化处理。'
+        },
+        {
+          kind: 'tool', title: '调用报告生成工具',
+          content: '```bash\n$ generate-report --template survey --theme current\n\n→ 解析主题 token: --color-primary-600, --radius-lg\n→ 生成图表组件：饼图 + 柱状图 + 雷达图\n→ 生成洞察卡片 + 满意度表格\n→ 内联 CSS，产物可独立运行\n✓ build ok (1 file, ~5.1 KB)\n```',
+          maxHeight: '200px'
+        },
+        {
+          kind: 'result', title: '生成调研报告',
+          content: '已生成 `survey-report.html`，包含头部概览、三大数据图表、三条核心洞察与六行满意度表格。颜色全部引用当前主题变量，切换主题时页面会同步变化。'
+        }
+      ],
+      htmlBuilder: buildSurveyReportHtml,
+      artifactName: 'survey-report.html',
+      artifactDesc: '用户调研报告 · 使用当前主题变量',
+      finalContent: [
+        '已经帮你生成**用户调研报告**，覆盖 200+ 企业用户的真实反馈数据。',
+        '',
+        '报告包含：',
+        '- 📊 三大数据图表（样本分布饼图、使用场景柱状图、满意度雷达图）',
+        '- 💡 三条核心洞察',
+        '- 📈 六行产品满意度详情表格',
+        '',
+        '页面全部使用当前主题的 CSS 变量，切换主题时会实时联动。',
+      ].join('\n')
+    };
+  } else {
+    config = {
+      title: '搭建模型性能排行榜网站 · 运行中',
+      titleDone: '搭建模型性能排行榜网站 · 已完成 · 4 步',
+      titleCancelled: '搭建模型性能排行榜网站 · 已停止',
+      stages: [
+        {
+          kind: 'think', title: '理解需求',
+          content: '用户想要一个「模型性能排行榜」网站，需要：\n\n- 结构化的模型评测数据（质量、速度、票数）\n- 清晰的排名表格与关键指标概览\n- 使用当前主题变量，保证与右侧预览实时联动'
+        },
+        {
+          kind: 'search', title: '检索模型评测数据',
+          content: '调用知识库与联网检索，汇总 6 个主流模型的公开评测：\n\n- Doubao-Seed-1.6 / GPT-4o / Claude 3.5 Sonnet\n- Gemini 1.5 Pro / DeepSeek-V3 / Qwen2.5-72B\n\n对齐质量分、速度分与社区票数三项指标。'
+        },
+        {
+          kind: 'tool', title: '调用代码生成工具',
+          content: '```bash\n$ generate-site --template leaderboard --theme current\n\n→ 解析主题 token: --color-primary-600, --radius-lg, --space-*\n→ 生成语义化表格 + 指标卡 + 进度条\n→ 内联 CSS，产物可独立运行\n✓ build ok (1 file, ~4.2 KB)\n```',
+          maxHeight: '200px'
+        },
+        {
+          kind: 'result', title: '生成排行榜网站',
+          content: '已生成 `leaderboard.html`，包含 Hero 区、三张指标卡与 6 行排名表格。颜色全部引用当前主题变量，切换主题时页面会同步变化。'
+        }
+      ],
+      htmlBuilder: buildLeaderboardHtml,
+      artifactName: 'leaderboard.html',
+      artifactDesc: '模型性能排行榜页面 · 使用当前主题变量',
+      finalContent: [
+        '已经帮你搭好**模型性能排行榜**网站，覆盖 6 个主流模型的质量分、速度分与社区票数。',
+        '',
+        '页面全部使用当前主题的 CSS 变量，切换主题时会实时联动。',
+      ].join('\n')
+    };
+  }
 
   const assistant = {
     id: 'mock-' + Date.now().toString(36),
@@ -10486,11 +10926,11 @@ async function runMockWorkflow(userText) {
       maxHeight: s.maxHeight
     });
     updateChain();
-    await mockDelay(900);
+    await mockDelay(800);
     if (chatState.cancelRequested) break;
     assistant.thoughtChain.steps[i].status = 'success';
     updateChain();
-    await mockDelay(250);
+    await mockDelay(200);
   }
 
   if (chatState.cancelRequested) {
@@ -10506,7 +10946,12 @@ async function runMockWorkflow(userText) {
   }
 
   assistant.thoughtChain.title = config.titleDone;
+
+  await mockDelay(300);
+
   assistant.status = 'complete';
+  assistant.content = config.finalContent;
+
   const html = config.htmlBuilder();
   const artifactId = 'art-' + Date.now().toString(36);
   const artifact = {
@@ -10520,8 +10965,6 @@ async function runMockWorkflow(userText) {
   };
   assistant.artifacts = [artifact];
   chatState.htmlArtifacts.unshift(artifact);
-  assistant.content = config.finalContent;
-  assistant.actions = [{ type: 'connect_api' }];
 
   chatState.busy = false;
   renderChat();

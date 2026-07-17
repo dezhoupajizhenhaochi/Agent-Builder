@@ -10736,10 +10736,29 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         const removeSearchNewChat = root => {
           root.querySelectorAll?.('.search-new-chat').forEach(button => button.remove());
         };
+        const moveModelActionToRight = root => {
+          root.querySelectorAll?.('ve-chat-input').forEach(chatInput => {
+            const leftSpan = Array.from(chatInput.children).find(
+              el => el.getAttribute && el.getAttribute('slot') === 'left-action'
+            );
+            if (!leftSpan) return;
+            const modelAction = Array.from(leftSpan.children).find(
+              el => /Doubao|模型|Pro/.test(el.textContent || '')
+            );
+            if (!modelAction) return;
+            if (modelAction.getAttribute('slot') === 'right-action') return;
+            modelAction.setAttribute('slot', 'right-action');
+            const rightNodes = Array.from(chatInput.children).filter(
+              el => el.getAttribute && el.getAttribute('slot') === 'right-action' && el !== modelAction
+            );
+            chatInput.insertBefore(modelAction, rightNodes[0] || null);
+          });
+        };
         const root = document.getElementById('root');
         const syncStudioOverrides = () => {
           expandAssistantReplies(root);
           removeSearchNewChat(root);
+          moveModelActionToRight(root);
         };
         const observer = new MutationObserver(syncStudioOverrides);
         observer.observe(root, { childList: true, subtree: true });

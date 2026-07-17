@@ -7,6 +7,7 @@ import { Thinking } from '@ve-design/react/thinking';
 import { ThoughtChain, ThoughtChainItem } from '@ve-design/react/thought-chain';
 import { ArtifactCard } from '@ve-design/react/artifact-card';
 import { Button } from '@ve-design/react/button';
+import { Checkbox } from '@ve-design/react/checkbox';
 import {
   IconAtom,
   IconSearch,
@@ -77,6 +78,19 @@ const selectConfigs = {
   },
 };
 
+const checkboxConfigs = {
+  'studio-sidebar-visible': { checked: true, label: '显示' },
+  'studio-welcome-capabilities': { checked: true, label: '显示' },
+  'studio-welcome-suggestions': { checked: true, label: '显示' },
+  'studio-welcome-tasks': { checked: true, label: '显示' },
+  'studio-data-mock': { checked: true, label: 'Mock 演示数据' },
+  'studio-reasoning': { checked: true, label: '思考链' },
+  'studio-sources': { checked: true, label: '来源与引用' },
+  'studio-message-actions': { checked: true, label: '复制与重试' },
+  'studio-artifact-code': { checked: true, label: '允许切换' },
+  'studio-artifact-actions': { checked: true, label: '复制与下载' },
+};
+
 function StudioSelect({ mount, config }) {
   const [value, setValue] = useState(config.value);
 
@@ -111,9 +125,44 @@ function StudioSelect({ mount, config }) {
   );
 }
 
+function StudioCheckbox({ mount, config }) {
+  const initialChecked = typeof mount.checked === 'boolean'
+    ? mount.checked
+    : mount.dataset.checked === 'false'
+      ? false
+      : config.checked;
+  const [checked, setChecked] = useState(initialChecked);
+
+  useEffect(() => {
+    mount.checked = checked;
+    mount.dataset.checked = String(checked);
+    mount.setAttribute('aria-checked', String(checked));
+  }, [mount, checked]);
+
+  return (
+    <Checkbox
+      checked={checked}
+      aria-label={config.label}
+      onChange={(event) => {
+        const nextChecked = Boolean(event.detail.checked);
+        setChecked(nextChecked);
+        mount.checked = nextChecked;
+        mount.dispatchEvent(new Event('change', { bubbles: true }));
+      }}
+    >
+      {config.label}
+    </Checkbox>
+  );
+}
+
 Object.entries(selectConfigs).forEach(([id, config]) => {
   const mount = document.getElementById(id);
   if (mount) createRoot(mount).render(<StudioSelect mount={mount} config={config} />);
+});
+
+Object.entries(checkboxConfigs).forEach(([id, config]) => {
+  const mount = document.getElementById(id);
+  if (mount) createRoot(mount).render(<StudioCheckbox mount={mount} config={config} />);
 });
 
 const thinkingRoots = new WeakMap();

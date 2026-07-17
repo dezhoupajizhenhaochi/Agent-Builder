@@ -2,36 +2,46 @@
 html[data-embed="true"] body,
 html[data-embed="true"] .app-shell {
   font-family: var(--font-en), var(--font-cn), sans-serif;
+  height: 100%;
 }
 
 /* Studio product controls are driven by the left configuration panel through
    postMessage. Keep the runtime layout responsive to those real states. */
 html[data-embed="true"] .app-shell {
+  --studio-runtime-inset: 8px;
   --app-sidebar-width-expanded: var(--studio-sidebar-width, 220px);
   grid-template-columns: var(--studio-sidebar-current-width, var(--studio-sidebar-width, 220px)) minmax(0, 1fr);
+  gap: var(--studio-runtime-inset);
+  box-sizing: border-box;
+  padding: var(--studio-runtime-inset);
 }
 
-/* Keep the runtime's original inset around the workspace while the sidebar
-   remains flush with the left edge of the shared application shell. */
+/* Embed mode owns spacing at the shell level, keeping all four edges equal. */
 html[data-embed="true"] .app-main {
-  padding: 8px 8px 8px 0;
+  min-height: 0;
+  padding: 0;
 }
 
 html[data-embed="true"] .main-panel {
-  height: calc(100vh - 16px);
+  height: 100%;
   border-radius: var(--panel-radius);
 }
 
 html[data-embed="true"][data-sidebar-position="right"] .app-main {
-  padding: 8px 0 8px 8px;
+  padding: 0;
 }
 
 html[data-embed="true"][data-content-frame="flush"] .app-main {
   padding: 0;
 }
 
+html[data-embed="true"][data-content-frame="flush"] .app-shell {
+  gap: 0;
+  padding: 0;
+}
+
 html[data-embed="true"][data-content-frame="flush"] .main-panel {
-  height: 100vh;
+  height: 100%;
   border-radius: 0;
 }
 
@@ -285,7 +295,39 @@ html.dark .source-list {
 /* 数据交互开关的引导卡（.studio-data-guide）由父页面注入时自带内联样式，
    不在此处定义，避免依赖可能被缓存的样式表。 */
 
-html[data-embed="true"][data-background-style="gradient"] .app-shell {
+/* 低饱和度渐变默认值 — 确保全屏独立运行时也有柔和的渐变效果 */
+:root {
+  --studio-gradient-color-1: oklch(0.78 0.09 var(--brand-hue, 285.8));
+  --studio-gradient-color-2: oklch(0.82 0.08 calc(var(--brand-hue, 285.8) + 48));
+  --studio-gradient-color-3: oklch(0.8 0.075 calc(var(--brand-hue, 285.8) - 46));
+  --studio-ui-gradient-weight-1: 67%;
+  --studio-ui-gradient-weight-2: 58%;
+  --studio-ui-gradient-weight-3: 49%;
+  --studio-gradient-tail-1: 32%;
+  --studio-gradient-tail-2: 26%;
+  --studio-gradient-tail-3: 24%;
+  --studio-gradient-base-lightness: .972;
+  --studio-gradient-base-chroma: .022;
+}
+
+/* 默认低饱和度渐变背景 — 全屏独立运行时生效 */
+.app-shell {
+  background:
+    radial-gradient(ellipse 74% 116% at 0% 0%, color-mix(in oklch, var(--studio-gradient-color-1) 44%, transparent) 0%, color-mix(in oklch, var(--studio-gradient-color-1) 18%, transparent) 54%, transparent 82%),
+    radial-gradient(ellipse 105% 82% at var(--studio-gradient-pos-1, 22% 18%), color-mix(in oklch, var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1, 67%), transparent) 0%, color-mix(in oklch, var(--studio-gradient-color-1) var(--studio-gradient-tail-1, 32%), transparent) 48%, transparent 78%),
+    radial-gradient(ellipse 94% 78% at var(--studio-gradient-pos-2, 88% 22%), color-mix(in oklch, var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2, 58%), transparent) 0%, color-mix(in oklch, var(--studio-gradient-color-2) var(--studio-gradient-tail-2, 26%), transparent) 52%, transparent 80%),
+    radial-gradient(ellipse 110% 88% at var(--studio-gradient-pos-3, 28% 92%), color-mix(in oklch, var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3, 49%), transparent) 0%, color-mix(in oklch, var(--studio-gradient-color-3) var(--studio-gradient-tail-3, 24%), transparent) 52%, transparent 82%),
+    oklch(var(--studio-gradient-base-lightness, .972) var(--studio-gradient-base-chroma, .022) var(--brand-hue, 285.8));
+}
+
+/* Solid 模式下恢复纯色背景 */
+html[data-background-style="solid"] .app-shell {
+  background: var(--color-bg-surface);
+}
+
+/* Embed 预览模式 — 高优先级覆盖内置样式 */
+html[data-embed="true"][data-background-style="gradient"] .app-shell,
+html[data-background-style="gradient"] .app-shell {
   background:
     radial-gradient(ellipse 74% 116% at 0% 0%, color-mix(in oklch, var(--studio-gradient-color-1) 44%, transparent) 0%, color-mix(in oklch, var(--studio-gradient-color-1) 18%, transparent) 54%, transparent 82%),
     radial-gradient(ellipse 105% 82% at var(--studio-gradient-pos-1, 22% 18%), color-mix(in oklch, var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1, 67%), transparent) 0%, color-mix(in oklch, var(--studio-gradient-color-1) var(--studio-gradient-tail-1, 32%), transparent) 48%, transparent 78%),
@@ -296,7 +338,8 @@ html[data-embed="true"][data-background-style="gradient"] .app-shell {
 
 /* Dark mode keeps the same dynamic hue system, but moves every stop onto a
    dark semantic surface so transparent sidebars retain readable contrast. */
-html.dark[data-embed="true"][data-background-style="gradient"] .app-shell {
+html[data-embed="true"].dark[data-background-style="gradient"] .app-shell,
+html.dark[data-background-style="gradient"] .app-shell {
   background:
     radial-gradient(ellipse 76% 62% at var(--studio-gradient-pos-1, 22% 18%), color-mix(in oklab, var(--studio-gradient-color-1) var(--studio-ui-gradient-weight-1, 20%), transparent), transparent 70%),
     radial-gradient(ellipse 68% 56% at var(--studio-gradient-pos-2, 88% 22%), color-mix(in oklab, var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2, 16%), transparent), transparent 72%),
@@ -304,7 +347,8 @@ html.dark[data-embed="true"][data-background-style="gradient"] .app-shell {
     var(--color-bg-surface);
 }
 
-html[data-embed="true"][data-background-style="image"] .app-shell {
+html[data-embed="true"][data-background-style="image"] .app-shell,
+html[data-background-style="image"] .app-shell {
   background:
     linear-gradient(rgb(7 13 24 / 12%), rgb(7 13 24 / 12%)),
     var(--studio-background-image),
@@ -313,7 +357,36 @@ html[data-embed="true"][data-background-style="image"] .app-shell {
   background-size: cover;
 }
 
-html[data-embed="true"]:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar {
+/* 默认侧边栏透明，透出渐变背景 */
+.agent-sidebar {
+  --ve-sidebar-background: transparent;
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.agent-sidebar::part(container),
+.agent-sidebar::part(content),
+.agent-sidebar::part(body),
+.agent-sidebar::part(footer) {
+  background: transparent;
+}
+
+/* Solid 模式下恢复侧边栏不透明背景 */
+html[data-background-style="solid"] .agent-sidebar {
+  --ve-sidebar-background: var(--color-bg-surface);
+  background: var(--color-bg-surface);
+}
+
+html[data-background-style="solid"] .agent-sidebar::part(container),
+html[data-background-style="solid"] .agent-sidebar::part(content),
+html[data-background-style="solid"] .agent-sidebar::part(body),
+html[data-background-style="solid"] .agent-sidebar::part(footer) {
+  background: var(--color-bg-surface);
+}
+
+html[data-embed="true"]:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar,
+html:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar {
   --ve-sidebar-background: transparent;
   background: transparent;
   -webkit-backdrop-filter: none;
@@ -323,16 +396,22 @@ html[data-embed="true"]:is([data-background-style="gradient"], [data-background-
 html[data-embed="true"]:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar::part(container),
 html[data-embed="true"]:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar::part(content),
 html[data-embed="true"]:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar::part(body),
-html[data-embed="true"]:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar::part(footer) {
+html[data-embed="true"]:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar::part(footer),
+html:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar::part(container),
+html:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar::part(content),
+html:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar::part(body),
+html:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar::part(footer) {
   background: transparent;
 }
 
-html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .app-shell {
+html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .app-shell,
+html[data-background-style="gradient"][data-gradient-noise="true"] .app-shell {
   position: relative;
   isolation: isolate;
 }
 
-html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .app-shell::before {
+html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .app-shell::before,
+html[data-background-style="gradient"][data-gradient-noise="true"] .app-shell::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -345,12 +424,15 @@ html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="t
   filter: contrast(145%) saturate(190%);
 }
 
-html.dark[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .app-shell::before {
+html[data-embed="true"].dark[data-background-style="gradient"][data-gradient-noise="true"] .app-shell::before,
+html.dark[data-background-style="gradient"][data-gradient-noise="true"] .app-shell::before {
   mix-blend-mode: screen;
 }
 
 html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .agent-sidebar,
-html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .main-panel {
+html[data-embed="true"][data-background-style="gradient"][data-gradient-noise="true"] .main-panel,
+html[data-background-style="gradient"][data-gradient-noise="true"] .agent-sidebar,
+html[data-background-style="gradient"][data-gradient-noise="true"] .main-panel {
   position: relative;
   z-index: 1;
 }
