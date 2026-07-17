@@ -115,16 +115,51 @@ html:not(.dark)[data-embed="true"] .agent-composer {
   --studio-chat-input-shadow: 0 2px 4px -2px rgba(16, 16, 19, .05),
     0 4px 26px -1px rgba(16, 16, 19, .05);
   --ve-chat-input-shadow: var(--studio-chat-input-shadow);
+  --ve-chat-input-min-height: 72px;
+  --ve-chat-input-border-glow-fill-opacity: 0;
+  --ve-chat-input-border-glow-padding: 0px;
+  --ve-chat-input-border-glow-edge-proximity: 0;
+  --ve-chat-input-border-glow-edge-sensitivity: 100;
+  --ve-chat-input-border-glow-color-sensitivity: 100;
+  --ve-chat-input-border-color-active: var(--ve-chat-input-border-color);
 }
 
 html.dark[data-embed="true"] .agent-composer {
   --studio-chat-input-shadow: 0 10px 15px -3px rgba(0, 0, 0, .2),
     0 4px 6px -4px rgba(0, 0, 0, .2);
   --ve-chat-input-shadow: var(--studio-chat-input-shadow);
+  --ve-chat-input-min-height: 72px;
+  --ve-chat-input-border-glow-fill-opacity: 0;
+  --ve-chat-input-border-glow-padding: 0px;
+  --ve-chat-input-border-glow-edge-proximity: 0;
+  --ve-chat-input-border-glow-edge-sensitivity: 100;
+  --ve-chat-input-border-glow-color-sensitivity: 100;
+  --ve-chat-input-border-color-active: var(--ve-chat-input-border-color);
 }
 
 html[data-embed="true"] .chat-column .composer-zone {
   padding-inline: 32px;
+}
+
+html[data-embed="true"] .chat-column .composer-zone .composer-shell .ved-shimmer-border,
+html[data-embed="true"] .chat-column .composer-zone .composer-shell .shimmer-svg {
+  display: none !important;
+}
+
+html[data-embed="true"] ve-chat-input.agent-composer::part(wrapper),
+html[data-embed="true"] .agent-composer::part(wrapper) {
+  overflow: hidden !important;
+}
+
+html[data-embed="true"] ve-chat-input.agent-composer,
+html[data-embed="true"] .agent-composer {
+  --ve-chat-input-min-height: 72px;
+  --ve-chat-input-border-glow-edge-proximity: 0;
+  --ve-chat-input-border-glow-edge-sensitivity: 100;
+  --ve-chat-input-border-glow-color-sensitivity: 100;
+  --ve-chat-input-border-glow-fill-opacity: 0;
+  --ve-chat-input-border-glow-padding: 0px;
+  --ve-chat-input-border-color-active: var(--ve-chat-input-border-color);
 }
 
 html[data-embed="true"] .agent-sidebar {

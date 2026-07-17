@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>VedesignStudio</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%235252ff' d='M12 2 22 20H2z'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23111114' d='M16 3 28 27 16 21 4 27z'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Roboto:wght@400;500;600;700&display=swap">
@@ -996,78 +996,24 @@
 
   #chat-input-box {
     width: 100%;
+    --ve-chat-input-min-height: 48px;
+    --ve-chat-input-text-size: var(--text-body, 14px);
+    --ve-chat-input-text-color: var(--color-text-primary, var(--app-text));
+    --ve-chat-input-placeholder-color: var(--color-text-disable, var(--app-muted-text));
+    --ve-chat-input-bg: var(--color-bg-base, var(--app-surface));
+    --ve-chat-input-radius: var(--radius-2xl, 20px);
+    --ve-chat-input-border-width: var(--stroke-0_5, 0.5px);
+    --ve-chat-input-border-color: var(--color-border-default, var(--app-border));
+    --ve-chat-input-border-color-active: var(--color-border-interactive, var(--app-accent));
+    --ve-chat-input-shadow: var(--shadow-md, 0 4px 16px rgba(0, 0, 0, .06));
+    --ve-chat-input-font-family: var(--font-cn, var(--app-font));
+    --ve-chat-input-border-glow-fill-opacity: 0;
+    --ve-chat-input-border-glow-edge-proximity: 0;
+    --ve-chat-input-border-glow-color-sensitivity: 100;
   }
 
   #chat-input-box::part(wrapper) {
-    border-radius: var(--radius-2xl, 20px);
-    border: var(--stroke-0_5, 0.5px) solid var(--color-border-default, var(--app-border));
-    background: var(--color-bg-base, var(--app-surface));
-    box-shadow: var(--shadow-md, 0 4px 16px rgba(0, 0, 0, .06));
-    transition: border-color var(--motion-fast, .15s) var(--ease-standard, ease),
-                box-shadow var(--motion-fast, .15s) var(--ease-standard, ease);
-  }
-
-  #chat-input-box[data-state="focused"]::part(wrapper),
-  #chat-input-box[data-state="typing"]::part(wrapper) {
-    border-color: var(--color-border-interactive, var(--app-accent));
-    box-shadow:
-      var(--shadow-md, 0 4px 16px rgba(0, 0, 0, .06)),
-      0 0 0 3px color-mix(in oklch, var(--color-bg-secondary, var(--app-muted)) 68%, transparent);
-  }
-
-  #chat-input-box[data-state="generating"]::part(wrapper) {
-    border-color: var(--color-border-interactive, var(--app-accent));
-  }
-
-  #chat-input-box::part(editor) {
-    min-height: 44px;
-    padding: 10px 14px 6px;
-    color: var(--color-text-primary, var(--app-text));
-    font-family: var(--font-cn, var(--app-font));
-    font-size: var(--text-body-sm, 13px);
-    line-height: 22px;
-  }
-
-  #chat-input-box::part(toolbar) {
-    padding: 0 10px 8px;
-    min-height: 36px;
-  }
-
-  #chat-input-box::part(actions) {
-    display: flex;
-    align-items: center;
-    gap: var(--space-xxxs, 4px);
-  }
-
-  #chat-input-box::part(send),
-  #chat-input-box::part(stop) {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-full, 99px);
-    background: var(--color-bg-primary, var(--app-accent));
-    color: var(--color-text-foreground, white);
-    border: none;
-    display: grid;
-    place-items: center;
-    cursor: pointer;
-    transition: opacity var(--motion-fast, .15s) var(--ease-standard, ease),
-                transform var(--motion-fast, .15s) var(--ease-standard, ease);
-  }
-
-  #chat-input-box::part(send):hover,
-  #chat-input-box::part(stop):hover {
-    transform: translateY(-1px);
-  }
-
-  #chat-input-box::part(send):disabled {
-    opacity: .42;
-    cursor: not-allowed;
-  }
-
-  .chat-input-left-actions {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-xxxs, 4px);
+    overflow: hidden !important;
   }
 
   /* ===== 命令触发面板 ===== */
@@ -3080,7 +3026,7 @@
 <header class="app-header">
   <div class="logo">
     <div class="logo-mark">
-      <svg viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C11.0942 2 10.5558 2.8165 9.47896 4.44951L3.47528 13.5541C2.3675 15.234 1.81361 16.074 2.05637 16.9209C2.29914 17.7678 3.2222 18.2158 5.06831 19.1117L7.95829 20.5141C9.99958 21.5047 11.0202 22 12 22C12.9798 22 14.0004 21.5047 16.0417 20.5141L18.9317 19.1117C20.7778 18.2158 21.7009 17.7678 21.9436 16.9209C22.1864 16.074 21.6325 15.234 20.5247 13.5541L14.521 4.44951C13.4442 2.8165 12.9058 2 12 2ZM9.4492 6.72892C10.1503 5.65866 10.5008 5.12353 11.0959 5.28897C11.6911 5.4544 11.6911 6.08697 11.6911 7.35211V17.4622C11.6911 18.9356 11.6911 19.6722 11.1018 20.0203C10.5126 20.3683 9.83 20.0349 8.4648 19.3679L5.31433 17.8289C4.21207 17.2904 3.66095 17.0211 3.51576 16.515C3.37058 16.0088 3.70016 15.5056 4.35933 14.4993L9.4492 6.72892Z" fill="currentColor"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C11.0942 2 10.5558 2.8165 9.47896 4.44951L3.47528 13.5541C2.3675 15.234 1.81361 16.074 2.05637 16.9209C2.29914 17.7678 3.2222 18.2158 5.06831 19.1117L7.95829 20.5141C9.99958 21.5047 11.0202 22 12 22C12.9798 22 14.0004 21.5047 16.0417 20.5141L18.9317 19.1117C20.7778 18.2158 21.7009 17.7678 21.9436 16.9209C22.1864 16.074 21.6325 15.234 20.5247 13.5541L14.521 4.44951C13.4442 2.8165 12.9058 2 12 2ZM9.4492 6.72892C10.1503 5.65866 10.5008 5.12353 11.0959 5.28897C11.6911 5.4544 11.6911 6.08697 11.6911 7.35211V17.4622C11.6911 18.9356 11.6911 19.6722 11.1018 20.0203C10.5126 20.3683 9.83 20.0349 8.4648 19.3679L5.31433 17.8289C4.21207 17.2904 3.66095 17.0211 3.51576 16.515C3.37058 16.0088 3.70016 15.5056 4.35933 14.4993L9.4492 6.72892Z" fill="currentColor"/></svg>
     </div>
     <div>VedesignStudio</div>
   </div>
@@ -3142,20 +3088,8 @@
       <div class="chat-input-row">
         <ve-chat-input
           id="chat-input-box"
-          size="default"
           placeholder="描述想要的主题，或粘贴网站 / Figma URL…"
-        >
-          <div slot="left-action" class="chat-input-left-actions">
-            <ve-chat-input-action
-              type="button"
-              icon-only
-              id="chat-attach-btn"
-              title="添加附件或能力"
-            >
-              <ve-icon slot="icon" name="attachment"></ve-icon>
-            </ve-chat-input-action>
-          </div>
-        </ve-chat-input>
+        ></ve-chat-input>
 
         <div class="chat-command-panel-overlay" id="chat-command-overlay" style="display:none;">
           <div class="chat-command-panel" id="chat-command-panel">
@@ -10842,11 +10776,7 @@ const chatComposerState = {
   attachments: []
 };
 
-// 附件按钮
-$('#chat-attach-btn')?.addEventListener('click', () => {
-  $('#chat-file-input').click();
-});
-
+// 附件上传（组件内置）
 $('#chat-file-input')?.addEventListener('change', (e) => {
   const files = Array.from(e.target.files || []);
   if (!files.length) return;

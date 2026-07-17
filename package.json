@@ -16,6 +16,7 @@
     "@react-three/fiber": "^9.6.1",
     "@shadergradient/react": "^2.4.20",
     "@ve-design/react": "^0.0.5",
+    "@ve-design/web": "^0.0.7",
     "camera-controls": "^3.1.2",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
