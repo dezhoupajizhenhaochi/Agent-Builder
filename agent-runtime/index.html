@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23111114' d='M16 3 28 27 16 21 4 27z'/%3E%3C/svg%3E" />
-    <title>Agent Design</title>
+    <title>VedesignStudio</title>
     <script type="module" crossorigin>var DG=Object.defineProperty;var j5=r=>{throw TypeError(r)};var OG=(r,a,e)=>a in r?DG(r,a,{enumerable:!0,configurable:!0,writable:!0,value:e}):r[a]=e;var U=(r,a,e)=>OG(r,typeof a!="symbol"?a+"":a,e),D5=(r,a,e)=>a.has(r)||j5("Cannot "+e);var R=(r,a,e)=>(D5(r,a,"read from private field"),e?e.call(r):a.get(r)),F=(r,a,e)=>a.has(r)?j5("Cannot add the same private member more than once"):a instanceof WeakSet?a.add(r):a.set(r,e),G=(r,a,e,i)=>(D5(r,a,"write to private field"),i?i.call(r,e):a.set(r,e),e);function SG(r,a){for(var e=0;e<a.length;e++){const i=a[e];if(typeof i!="string"&&!Array.isArray(i)){for(const l in i)if(l!=="default"&&!(l in r)){const f=Object.getOwnPropertyDescriptor(i,l);f&&Object.defineProperty(r,l,f.get?f:{enumerable:!0,get:()=>i[l]})}}}return Object.freeze(Object.defineProperty(r,Symbol.toStringTag,{value:"Module"}))}(function(){const a=document.createElement("link").relList;if(a&&a.supports&&a.supports("modulepreload"))return;for(const l of document.querySelectorAll('link[rel="modulepreload"]'))i(l);new MutationObserver(l=>{for(const f of l)if(f.type==="childList")for(const p of f.addedNodes)p.tagName==="LINK"&&p.rel==="modulepreload"&&i(p)}).observe(document,{childList:!0,subtree:!0});function e(l){const f={};return l.integrity&&(f.integrity=l.integrity),l.referrerPolicy&&(f.referrerPolicy=l.referrerPolicy),l.crossOrigin==="use-credentials"?f.credentials="include":l.crossOrigin==="anonymous"?f.credentials="omit":f.credentials="same-origin",f}function i(l){if(l.ep)return;l.ep=!0;const f=e(l);fetch(l.href,f)}})();var O5=typeof globalThis<"u"?globalThis:typeof window<"u"?window:typeof global<"u"?global:typeof self<"u"?self:{};function dO(r){return r&&r.__esModule&&Object.prototype.hasOwnProperty.call(r,"default")?r.default:r}var zh={exports:{}},js={};/**
  * @license React
  * react-jsx-runtime.production.js
@@ -10853,6 +10853,239 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           setTimeout(setupVoiceInput, 1000);
         } else {
           document.addEventListener('DOMContentLoaded', () => setTimeout(setupVoiceInput, 1000));
+        }
+      })();
+    </script>
+    <script>
+      (() => {
+        const mockScenarios = {
+          data: {
+            keywords: ['数据', '分析', '图表', '可视化', 'dashboard', '报表', '指标'],
+            title: '数据分析报告',
+            thoughtChain: [
+              { key: 'scope', title: '分析需求范围', content: '确定需要分析的核心指标：用户增长、活跃度、留存率和转化漏斗。' },
+              { key: 'collect', title: '收集与清洗数据', content: '从用户表、行为表和订单表中抽取最近30天数据，清洗异常值并统一口径。' },
+              { key: 'metrics', title: '计算核心指标', content: '计算DAU/MAU、次日留存、7日留存、转化率等关键指标，并做环比对比。' },
+              { key: 'visualize', title: '生成可视化图表', content: '生成趋势折线图、分布柱状图、占比饼图和对比表格。' },
+              { key: 'insights', title: '提炼洞察与建议', content: '识别异常波动，定位增长机会点，输出3条可落地的优化建议。' }
+            ],
+            finalContent: '已完成数据分析报告。核心发现：本周日活用户环比增长12.3%，但次日留存率下降2.1个百分点。建议重点优化新用户首屏引导流程，提升首日体验。',
+            artifact: { title: '数据分析报告.md', type: 'Markdown', size: '24 KB' }
+          },
+          weekly: {
+            keywords: ['周报', '日报', '总结', '复盘', '周会', '工作'],
+            title: '周工作总结',
+            thoughtChain: [
+              { key: 'collect', title: '收集本周工作项', content: '从任务系统、日历和提交记录中汇总本周所有工作内容。' },
+              { key: 'categorize', title: '分类与优先级排序', content: '按项目维度分类，标记已完成、进行中和延期项，标注高优先级任务。' },
+              { key: 'metrics', title: '量化成果指标', content: '统计完成任务数、代码提交量、Bug修复数和需求交付率。' },
+              { key: 'plan', title: '制定下周计划', content: '基于当前进度和依赖关系，排定下周三项重点工作和两个风险项。' }
+            ],
+            finalContent: '本周工作总结已生成。完成任务12项，其中高优先级5项；代码提交47次，Bug修复18个；整体交付率92%。下周重点：完成用户中心重构、上线数据看板V2。',
+            artifact: { title: '周工作总结.md', type: 'Markdown', size: '12 KB' }
+          },
+          code: {
+            keywords: ['代码', '开发', '项目', '网站', '页面', '组件', '功能'],
+            title: '代码项目方案',
+            thoughtChain: [
+              { key: 'scope', title: '明确项目范围', content: '确定技术栈、功能模块和核心交互流程，排除非核心需求。' },
+              { key: 'architecture', title: '设计系统架构', content: '规划目录结构、组件分层、状态管理方案和API接口设计。' },
+              { key: 'components', title: '拆解核心组件', content: '拆分为12个基础组件和8个业务组件，定义Props接口和样式规范。' },
+              { key: 'flow', title: '设计数据流向', content: '设计状态管理方案：本地状态用hooks，全局状态用Context，异步用SWR。' },
+              { key: 'deliver', title: '输出交付物', content: '生成项目结构说明、核心组件代码示例和开发路线图。' }
+            ],
+            finalContent: '已生成代码项目方案。采用 React + TypeScript + Vite 技术栈，按功能模块拆分为 pages、components、hooks、utils 四层架构。核心组件12个，预计开发周期5个工作日。',
+            artifact: { title: '项目方案文档.md', type: 'Markdown', size: '18 KB' }
+          },
+          research: {
+            keywords: ['调研', '报告', '问卷', '反馈', '用户研究', '访谈'],
+            title: '用户调研报告',
+            thoughtChain: [
+              { key: 'design', title: '设计调研方案', content: '确定调研目标、目标用户画像、样本量和调研方法（问卷+访谈）。' },
+              { key: 'collect', title: '收集用户反馈', content: '回收有效问卷238份，完成深度访谈12人，覆盖核心用户群体。' },
+              { key: 'analyze', title: '分析与归类', content: '按功能需求、体验问题、价格敏感度三个维度编码分析，提取Top10痛点。' },
+              { key: 'report', title: '生成调研报告', content: '输出调研结论、用户画像、需求优先级矩阵和产品建议。' }
+            ],
+            finalContent: '用户调研报告已完成。核心发现：78%的用户认为"操作复杂"是最大痛点，62%的用户期望"更智能的推荐"。建议优先优化新手引导流程和增加个性化推荐功能。',
+            artifact: { title: '用户调研报告.md', type: 'Markdown', size: '32 KB' }
+          },
+          default: {
+            keywords: [],
+            title: '通用 Agent 方案',
+            thoughtChain: [
+              { key: 'scope', title: '确认产品范围', content: '保留欢迎页、对话页、Skill 管理、文件库和设置页五个入口，避免把首屏做成营销页。' },
+              { key: 'state', title: '规划可见状态', content: '提交消息、停止生成、搜索过滤、能力安装、开关启停、设置保存都会改变页面上的可见结果。' },
+              { key: 'flow', title: '设计交互流程', content: '从输入到输出的完整链路：意图识别 → 能力匹配 → 工具调用 → 结果组装 → 产物生成。' },
+              { key: 'artifact', title: '生成交付产物', content: '已准备一个工作台说明文档和可预览代码片段，点击产物卡可打开右侧产物面板。' }
+            ],
+            finalContent: '已完成方案草稿：建议先确认目标用户和权限边界，再把 Agent 拆成任务启动、执行反馈、能力管理和系统设置四个稳定模块。右侧产物面板里可以继续维护详细说明。',
+            artifact: { title: 'agent-workspace-spec.md', type: 'Markdown', size: '18 KB' }
+          }
+        };
+
+        function matchScenario(text) {
+          const lower = text.toLowerCase();
+          for (const [key, scenario] of Object.entries(mockScenarios)) {
+            if (key === 'default') continue;
+            if (scenario.keywords.some(kw => lower.includes(kw))) {
+              return scenario;
+            }
+          }
+          return mockScenarios.default;
+        }
+
+        let mockRunning = false;
+        let lastUserMessage = '';
+
+        function runMockWorkflow(userText) {
+          if (mockRunning) return;
+          mockRunning = true;
+          lastUserMessage = userText;
+
+          const scenario = matchScenario(userText);
+          const root = document.getElementById('root');
+          if (!root) { mockRunning = false; return; }
+
+          const thinkingEl = root.querySelector('ve-thinking');
+          const artifactEl = root.querySelector('.workspace-artifact');
+          const connectorEl = root.querySelector('.connector-card');
+          const sourceEl = root.querySelector('.source-list');
+          const bubbleContent = root.querySelector('.assistant-bubble .ve-markdown-richtext');
+
+          if (connectorEl) connectorEl.style.display = 'none';
+          if (sourceEl) sourceEl.style.display = 'none';
+          if (artifactEl) artifactEl.style.display = 'none';
+
+          let stepIndex = 0;
+          const steps = scenario.thoughtChain;
+
+          function updateThinkingStep(index, status) {
+            if (!thinkingEl) return;
+            const items = thinkingEl.querySelectorAll('ve-thought-chain-item');
+            if (items[index]) {
+              items[index].setAttribute('status', status);
+            }
+          }
+
+          function setThinkingLoading() {
+            if (!thinkingEl) return;
+            thinkingEl.setAttribute('loading', 'true');
+            thinkingEl.setAttribute('title', '正在思考中...');
+            thinkingEl.setAttribute('expanded', 'true');
+          }
+
+          function setThinkingComplete() {
+            if (!thinkingEl) return;
+            thinkingEl.removeAttribute('loading');
+            thinkingEl.setAttribute('title', `思维链 Chain of Thought · ${steps.length} 步`);
+          }
+
+          function typeText(element, text, callback) {
+            if (!element) { callback && callback(); return; }
+            const chars = Array.from(text);
+            let i = 0;
+            const speed = Math.max(10, Math.floor(1500 / chars.length));
+            
+            function type() {
+              if (i >= chars.length) {
+                callback && callback();
+                return;
+              }
+              i = Math.min(i + Math.max(1, Math.ceil(chars.length / 80)), chars.length);
+              element.textContent = chars.slice(0, i).join('');
+              setTimeout(type, speed);
+            }
+            element.textContent = '';
+            type();
+          }
+
+          function runStep() {
+            if (stepIndex >= steps.length) {
+              setThinkingComplete();
+              setTimeout(() => showFinalContent(), 400);
+              return;
+            }
+
+            const step = steps[stepIndex];
+            updateThinkingStep(stepIndex, 'loading');
+            
+            setTimeout(() => {
+              updateThinkingStep(stepIndex, 'success');
+              stepIndex++;
+              setTimeout(runStep, 500 + Math.random() * 500);
+            }, 800 + Math.random() * 700);
+          }
+
+          function showFinalContent() {
+            const assistantBubble = root.querySelector('.assistant-bubble');
+            if (assistantBubble) {
+              const richtext = assistantBubble.querySelector('.ve-markdown-richtext');
+              if (richtext) {
+                typeText(richtext, scenario.finalContent, () => {
+                  setTimeout(() => showArtifact(), 500);
+                });
+              } else {
+                setTimeout(() => showArtifact(), 500);
+              }
+            } else {
+              setTimeout(() => showArtifact(), 500);
+            }
+          }
+
+          function showArtifact() {
+            if (artifactEl) {
+              artifactEl.style.display = '';
+              artifactEl.style.opacity = '0';
+              artifactEl.style.transform = 'translateY(8px)';
+              artifactEl.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+              requestAnimationFrame(() => {
+                artifactEl.style.opacity = '1';
+                artifactEl.style.transform = 'translateY(0)';
+              });
+            }
+            mockRunning = false;
+          }
+
+          setThinkingLoading();
+          setTimeout(runStep, 600);
+        }
+
+        function detectNewMessage() {
+          const root = document.getElementById('root');
+          if (!root) return;
+
+          const userBubbles = root.querySelectorAll('.user-bubble');
+          const assistantBubbles = root.querySelectorAll('.assistant-bubble');
+          
+          if (userBubbles.length > 0 && assistantBubbles.length > 0) {
+            const lastUserBubble = userBubbles[userBubbles.length - 1];
+            const userText = lastUserBubble.textContent || '';
+            
+            if (userText && userText !== lastUserMessage && !mockRunning) {
+              setTimeout(() => runMockWorkflow(userText), 300);
+            }
+          }
+        }
+
+        let observer = null;
+        function initMockWorkflow() {
+          const root = document.getElementById('root');
+          if (!root) return;
+          if (observer) return;
+
+          observer = new MutationObserver(() => {
+            detectNewMessage();
+          });
+
+          observer.observe(root, { childList: true, subtree: true, characterData: true });
+          
+          setTimeout(detectNewMessage, 1000);
+        }
+
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+          setTimeout(initMockWorkflow, 1500);
+        } else {
+          document.addEventListener('DOMContentLoaded', () => setTimeout(initMockWorkflow, 1500));
         }
       })();
     </script>

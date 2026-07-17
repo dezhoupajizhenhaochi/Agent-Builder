@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Vedesign Themes</title>
+<title>VedesignStudio</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%235252ff' d='M12 2 22 20H2z'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1092,50 +1092,119 @@
     height: 16px;
     flex-shrink: 0;
   }
+  .ve-chat-input-attachments {
+    padding: var(--space-xxs, 8px) var(--space-xs, 12px) 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xxxs, 4px);
+    border-bottom: var(--stroke-0_5, 0.5px) solid var(--color-border-subtle, rgba(0,0,0,.06));
+    padding-bottom: var(--space-xxs, 8px);
+    margin-bottom: var(--space-xxs, 8px);
+  }
+  .ve-chat-input-attachment {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px 4px 6px;
+    background: var(--color-bg-muted, var(--app-muted));
+    border-radius: var(--radius-md, 8px);
+    font-size: 11px;
+    color: var(--color-text-secondary, var(--app-text-secondary));
+    max-width: 220px;
+    transition: background var(--motion-fast, .15s) ease;
+  }
+  .ve-chat-input-attachment:hover {
+    background: var(--color-bg-secondary, var(--app-surface));
+  }
+  .ve-chat-input-attachment-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    background: var(--color-bg-surface, var(--app-surface));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--color-text-tertiary, var(--app-text-muted));
+  }
+  .ve-chat-input-attachment-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .ve-chat-input-attachment-remove {
+    width: 18px;
+    height: 18px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-tertiary, var(--app-text-muted));
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    flex-shrink: 0;
+    padding: 0;
+    transition: all var(--motion-fast, .15s) ease;
+  }
+  .ve-chat-input-attachment-remove:hover {
+    background: var(--color-bg-surface, var(--app-surface));
+    color: var(--color-text-primary, var(--app-text));
+  }
   .ve-chat-input-action[data-type="toggle"].is-active {
-    background: var(--color-primary-50, color-mix(in srgb, var(--color-primary-600) 8%, transparent));
+    background: var(--color-primary-50, color-mix(in srgb, var(--color-primary-600) 12%, transparent));
     color: var(--color-primary-600, var(--app-primary));
-    border-color: var(--color-primary-200, color-mix(in srgb, var(--color-primary-600) 20%, transparent));
+    border-color: var(--color-primary-200, color-mix(in srgb, var(--color-primary-600) 30%, transparent));
+    font-weight: var(--font-weight-medium, 500);
   }
   .ve-chat-input-action[data-type="toggle"].is-active svg {
     color: var(--color-primary-600, var(--app-primary));
   }
   .composer-model-select {
-    position: relative;
+    position: static;
   }
   .composer-dropdown {
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: 0;
-    min-width: 260px;
+    position: fixed;
+    min-width: 280px;
     background: var(--color-bg-base, var(--app-surface));
     border: var(--stroke-0_5, 0.5px) solid var(--color-border-default, var(--app-border));
     border-radius: var(--radius-lg, 12px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.06);
     padding: var(--space-xxxs, 4px);
-    z-index: 100;
+    z-index: 9999;
     display: none;
   }
   .composer-dropdown.show {
     display: block;
+    animation: dropdownFadeIn .15s ease-out;
+  }
+  @keyframes dropdownFadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
   }
   .composer-dropdown-item {
     padding: var(--space-xxs, 8px) var(--space-xs, 12px);
     border-radius: var(--radius-md, 8px);
     cursor: pointer;
     transition: background var(--motion-fast, .15s) ease);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
   }
   .composer-dropdown-item:hover {
     background: var(--color-bg-muted, var(--app-muted));
   }
   .composer-dropdown-item.active {
-    background: var(--color-primary-50, color-mix(in srgb, var(--color-primary-600) 6%, transparent));
+    background: var(--color-primary-50, color-mix(in srgb, var(--color-primary-600) 8%, transparent));
+  }
+  .composer-dropdown-item.active .composer-dropdown-item-name {
+    color: var(--color-primary-600, var(--app-primary));
   }
   .composer-dropdown-item-main {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 3px;
   }
   .composer-dropdown-item-name {
     font-size: 13px;
@@ -3856,7 +3925,7 @@
     <div class="logo-mark">
       <svg viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C11.0942 2 10.5558 2.8165 9.47896 4.44951L3.47528 13.5541C2.3675 15.234 1.81361 16.074 2.05637 16.9209C2.29914 17.7678 3.2222 18.2158 5.06831 19.1117L7.95829 20.5141C9.99958 21.5047 11.0202 22 12 22C12.9798 22 14.0004 21.5047 16.0417 20.5141L18.9317 19.1117C20.7778 18.2158 21.7009 17.7678 21.9436 16.9209C22.1864 16.074 21.6325 15.234 20.5247 13.5541L14.521 4.44951C13.4442 2.8165 12.9058 2 12 2ZM9.4492 6.72892C10.1503 5.65866 10.5008 5.12353 11.0959 5.28897C11.6911 5.4544 11.6911 6.08697 11.6911 7.35211V17.4622C11.6911 18.9356 11.6911 19.6722 11.1018 20.0203C10.5126 20.3683 9.83 20.0349 8.4648 19.3679L5.31433 17.8289C4.21207 17.2904 3.66095 17.0211 3.51576 16.515C3.37058 16.0088 3.70016 15.5056 4.35933 14.4993L9.4492 6.72892Z" fill="currentColor"/></svg>
     </div>
-    <div>Vedesign Themes</div>
+    <div>VedesignStudio</div>
   </div>
   <div class="header-actions">
     <button class="icon-btn" id="btn-theme-mode" title="切换深色 / 浅色模式">
@@ -3915,11 +3984,22 @@
 
       <div class="chat-input-row">
         <div class="ve-chat-input" id="chat-input-box" data-size="default">
+          <div class="ve-chat-input-attachments" id="chat-attachments" style="display:none;"></div>
           <textarea class="ve-chat-input-editor chat-input" id="chat-input" placeholder="描述想要的主题，或粘贴网站 / Figma URL…" rows="3"></textarea>
           <div class="ve-chat-input-footer">
             <div class="ve-chat-input-actions" data-slot="leftAction">
               <button class="ve-chat-input-action" data-type="icon" title="添加附件或能力" type="button" id="chat-attach-btn">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M12 4L12 20M4 12H20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg viewBox="0 0 24 24" fill="none"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="composer-model-select">
+                <button class="ve-chat-input-action" data-type="dropdown" type="button" id="chat-model-btn">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M12 3L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 3Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span id="chat-model-label">Doubao Pro</span>
+                </button>
+              </div>
+              <button class="ve-chat-input-action" data-type="toggle" type="button" id="chat-deep-thinking-btn">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M12 3C12.85 3 13.66 3.21 14.38 3.6L16.45 2.1L18.15 3.8L16.65 5.87C17.39 6.62 17.81 7.57 17.93 8.63L20.12 9.27L20.45 11.5L18.49 12.58C18.44 13.18 18.25 13.76 17.93 14.28L18.74 16.37L17.05 17.59L15.5 16.24C14.9 16.69 14.2 17.03 13.46 17.21L13 19.5H11L10.54 17.21C9.8 17.03 9.1 16.69 8.5 16.24L6.95 17.59L5.26 16.37L6.07 14.28C5.75 13.76 5.56 13.18 5.51 12.58L3.55 11.5L3.88 9.27L6.07 8.63C6.19 7.57 6.61 6.62 7.35 5.87L5.85 3.8L7.55 2.1L9.62 3.6C10.34 3.21 11.15 3 12 3Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 12H14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <span>深度思考</span>
               </button>
             </div>
             <div class="ve-chat-input-actions" data-slot="rightAction">
@@ -3936,6 +4016,37 @@
       </div>
 
       <input type="file" id="chat-file-input" multiple style="display:none;">
+
+      <!-- 模型下拉菜单（放在 panel 外避免被 overflow 裁剪） -->
+      <div class="composer-dropdown composer-model-dropdown" id="chat-model-dropdown">
+        <div class="composer-dropdown-item active" data-model="doubao-pro">
+          <div class="composer-dropdown-item-main">
+            <span class="composer-dropdown-item-name">Doubao Pro</span>
+            <span class="composer-dropdown-item-tag">推荐</span>
+          </div>
+          <div class="composer-dropdown-item-desc">通用智能，适合主题分析与生成</div>
+        </div>
+        <div class="composer-dropdown-item" data-model="doubao-lite">
+          <div class="composer-dropdown-item-main">
+            <span class="composer-dropdown-item-name">Doubao Lite</span>
+          </div>
+          <div class="composer-dropdown-item-desc">轻量快速，适合简单主题调整</div>
+        </div>
+        <div class="composer-dropdown-item" data-model="doubao-ultra">
+          <div class="composer-dropdown-item-main">
+            <span class="composer-dropdown-item-name">Doubao Ultra</span>
+            <span class="composer-dropdown-item-tag new">新版</span>
+          </div>
+          <div class="composer-dropdown-item-desc">深度推理，复杂创意场景</div>
+        </div>
+        <div class="composer-dropdown-divider"></div>
+        <div class="composer-dropdown-item" data-model="custom">
+          <div class="composer-dropdown-item-main">
+            <span class="composer-dropdown-item-name">自定义模型</span>
+          </div>
+          <div class="composer-dropdown-item-desc">在设置中配置接入点 ID</div>
+        </div>
+      </div>
     </aside>
 
     <!-- ===== Left: Manual Input ===== -->
@@ -4244,8 +4355,8 @@
               <summary>字体间距</summary>
               <div class="accordion-body">
                 <div class="slider-row">
-                  <div class="slider-row-head"><span>间距密度</span><span id="density-val">1.00×</span></div>
-                  <input type="range" id="density" min="0.5" max="1.6" value="1" step="0.05">
+                  <div class="slider-row-head"><span>间距密度</span><span id="density-val">0.70×</span></div>
+                  <input type="range" id="density" min="0.5" max="1.6" value="0.7" step="0.05">
                 </div>
               </div>
             </details>
@@ -4273,7 +4384,7 @@
             <details class="accordion sub-accordion" open>
               <summary>sidebar</summary>
               <div class="accordion-body">
-                <label class="studio-field"><span>Agent 名称</span><input class="text-input" id="studio-brand-name" value="Agent" maxlength="32" placeholder="Agent" style="width:176px;height:32px;font-size:12px;"></label>
+                <label class="studio-field"><span>Agent 名称</span><input class="text-input" id="studio-brand-name" value="VedesignStudio" maxlength="32" placeholder="VedesignStudio" style="width:176px;height:32px;font-size:12px;"></label>
                 <div class="studio-brand-config">
                 <label class="studio-upload studio-brand-upload" id="studio-brand-upload" for="studio-logo-upload">
                   <span class="studio-upload-icon" id="studio-brand-logo-preview">+</span>
@@ -4298,7 +4409,7 @@
             <details class="accordion sub-accordion is-collapsible" open>
               <summary>欢迎页</summary>
               <div class="accordion-body">
-                <label class="studio-field"><span>欢迎标题</span><input class="text-input" id="studio-welcome-title" value="今天想设计点什么？" style="width:176px;height:32px;font-size:12px;"></label>
+                <label class="studio-field"><span>欢迎标题</span><input class="text-input" id="studio-welcome-title" value="今天想做点什么" style="width:176px;height:32px;font-size:12px;"></label>
                 <div class="studio-field"><span>输入框能力</span><span class="studio-switch" id="studio-welcome-capabilities" data-checked="true"></span></div>
                 <div class="studio-field"><span>快捷推荐</span><span class="studio-switch" id="studio-welcome-suggestions" data-checked="true"></span></div>
                 <div class="studio-field"><span>任务卡片</span><span class="studio-switch" id="studio-welcome-tasks" data-checked="true"></span></div>
@@ -4485,7 +4596,7 @@
               <div class="ved-sidebar-header">
                 <div class="ved-brand">
                   <svg class="ved-icon" viewBox="0 0 24 24" width="24" height="24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C11.0942 2 10.5558 2.8165 9.47896 4.44951L3.47528 13.5541C2.3675 15.234 1.81361 16.074 2.05637 16.9209C2.29914 17.7678 3.2222 18.2158 5.06831 19.1117L7.95829 20.5141C9.99958 21.5047 11.0202 22 12 22C12.9798 22 14.0004 21.5047 16.0417 20.5141L18.9317 19.1117C20.7778 18.2158 21.7009 17.7678 21.9436 16.9209C22.1864 16.074 21.6325 15.234 20.5247 13.5541L14.521 4.44951C13.4442 2.8165 12.9058 2 12 2ZM9.4492 6.72892C10.1503 5.65866 10.5008 5.12353 11.0959 5.28897C11.6911 5.4544 11.6911 6.08697 11.6911 7.35211V17.4622C11.6911 18.9356 11.6911 19.6722 11.1018 20.0203C10.5126 20.3683 9.83 20.0349 8.4648 19.3679L5.31433 17.8289C4.21207 17.2904 3.66095 17.0211 3.51576 16.515C3.37058 16.0088 3.70016 15.5056 4.35933 14.4993L9.4492 6.72892Z" fill="currentColor"/></svg>
-                  <span class="ved-brand-name">Agent</span>
+                  <span class="ved-brand-name">VedesignStudio</span>
                 </div>
                 <button class="ved-sidebar-collapse" title="收起 sidebar"><svg class="ved-icon" viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M8.75 4V20M3.75 6.75C3.75 5.09315 5.09315 3.75 6.75 3.75H17.25C18.9069 3.75 20.25 5.09315 20.25 6.75V17.25C20.25 18.9069 18.9069 20.25 17.25 20.25H6.75C5.09315 20.25 3.75 18.9069 3.75 17.25V6.75Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
               </div>
@@ -4525,7 +4636,7 @@
                 <div class="ved-main-inner">
                   <!-- Welcome 区 -->
                   <section class="ved-welcome">
-                    <h1 class="ved-welcome-title">今天想设计点什么？</h1>
+                    <h1 class="ved-welcome-title">今天想做点什么</h1>
 
                     <div class="ved-composer-wrap">
                       <!-- Composer + 流光边框 (shimmer) -->
@@ -5958,7 +6069,7 @@ const state = {
   // 默认进「手动调试」
   mode: 'reference',
   // 矢量缩放：值为浮点比例（1.0 = 标准基线），可平滑控制整套 token 体系
-  density: 1.0,
+  density: 0.7,
   radiusIdx: DEFAULT_RADIUS_SCALE,
   shadowIdx: 0,
   primary: hexToOklch(DEFAULT_PRIMARY_HEX),
@@ -5984,7 +6095,7 @@ function getRuntimeBackgroundImageUrl() {
 }
 
 const studioState = {
-  brandName: 'Agent', logoDataUrl: '',
+  brandName: 'VedesignStudio', logoDataUrl: '',
   background: 'gradient', imageDataUrl: DEFAULT_BACKGROUND_IMAGE_PATH, imageTone: 'light', blur: 18, sidebarOpacity: 100,
   sidebarTransparent: false,
   sidebarVisible: true, sidebarWidth: 220, sidebarPosition: 'left',
@@ -5993,7 +6104,7 @@ const studioState = {
   bgToken: 'surface', gradientMode: 'complementary', gradientStrength: 50, gradientNoise: 50,
   fontCn: 'pingfang', fontEn: 'inter',
   compact: false, wide: false, reasoning: true, sources: true, dataMock: true,
-  welcomeTitle: '今天想设计点什么？', welcomeCapabilities: true, welcomeSuggestions: true, welcomeTasks: true,
+  welcomeTitle: '今天想做点什么', welcomeCapabilities: true, welcomeSuggestions: true, welcomeTasks: true,
   composerStyle: 'outlined', messageActions: true,
   artifactLayout: 'split', artifactView: 'preview', artifactCode: true, artifactActions: true,
   page: 'welcome'
@@ -6814,7 +6925,7 @@ if (themeGalleryHost && productPresetSection) {
         <span class="theme-card-preview-nav"><i class="theme-card-preview-line"></i></span>
       </span>
       <span class="theme-card-preview-main">
-        <span class="theme-card-preview-title">今天想设计点什么？</span>
+        <span class="theme-card-preview-title">今天想做点什么</span>
         <span class="theme-card-preview-composer"></span>
         <span class="theme-card-preview-chips"><i></i><i></i><i></i><i></i></span>
         <span class="theme-card-preview-tasks"><i></i><i></i><i></i></span>
@@ -7006,16 +7117,22 @@ const studioGradientChroma = () => {
 
 function studioGradientRule(mode = studioState.gradientMode) {
   const mood = oklchToMood(state.primary.L, state.primary.C, state.primary.H);
-  // 色彩调试点与背景色团共用同一套空间坐标；派生色围绕主色形成稳定的色彩星座。
+  // 背景色团优先穿过左侧导航区域，再向内容区延展，避免导航只吃到单一浅色。
   const x = 10 + mood.x * 80;
   const y = 10 + mood.y * 70;
   const pos = (px, py) => `${clamp(px, -8, 108).toFixed(1)}% ${clamp(100 - py, -8, 108).toFixed(1)}%`;
+  const navTop = pos(10 + mood.x * 14, 88 - mood.y * .08);
+  const navMid = pos(20 + mood.x * 18, 54 + mood.y * .08);
+  const navBottom = pos(12 + mood.x * 16, 16 + mood.y * .12);
+  const canvasTop = pos(92 - x * .18, 86 - y * .08);
+  const canvasMid = pos(84 - x * .18, 52 + y * .08);
+  const canvasBottom = pos(70 + (x - 50) * .14, 12 + y * .12);
   return {
-    monochrome: { offsets:[0, 0], positions:[pos(x, y), pos(108 - x * .45, 12 + y * .2), pos(18 + x * .18, 106 - y * .38)] },
-    analogous: { offsets:[48, -64], positions:[pos(x, y), pos(106 - x * .32, 14 + y * .18), pos(16 + x * .16, 106 - y * .3)] },
-    complementary: { offsets:[180, 210], positions:[pos(x, y), pos(100 - x, 100 - y), pos(104 - x * .25, 12 + y * .24)] },
-    triadic: { offsets:[120, 240], positions:[pos(x, y), pos(104 - x * .28, 16 + y * .16), pos(50 + (x - 50) * .25, 106 - y * .28)] }
-  }[mode] || { offsets:[48, -64], positions:[pos(x, y), pos(106 - x * .32, 14 + y * .18), pos(16 + x * .16, 106 - y * .3)] };
+    monochrome: { offsets:[0, 0], positions:[navTop, canvasMid, navBottom] },
+    analogous: { offsets:[48, -64], positions:[navTop, navMid, canvasBottom] },
+    complementary: { offsets:[180, 210], positions:[navTop, navMid, canvasTop] },
+    triadic: { offsets:[120, 240], positions:[navTop, navMid, navBottom] }
+  }[mode] || { offsets:[48, -64], positions:[navTop, navMid, canvasBottom] };
 }
 
 function studioGradientOffsets(mode = studioState.gradientMode) {
@@ -7461,7 +7578,7 @@ function syncAgentRuntimeBrand() {
     if (nameEl) nameEl.dataset.studioBrandName = 'true';
   }
   if (!nameEl) return;
-  nameEl.textContent = studioState.brandName || 'Agent';
+  nameEl.textContent = studioState.brandName || 'VedesignStudio';
   const runtimeLogo = runtimeSidebar?.querySelector('[slot="logo"]');
   if (runtimeLogo) {
     if (!runtimeLogo.dataset.studioDefaultSrc) runtimeLogo.dataset.studioDefaultSrc = runtimeLogo.getAttribute('src') || '';
@@ -7486,7 +7603,7 @@ function syncAgentRuntimeBrand() {
   }
 
   const fallbackName = document.querySelector('.ved-brand-name');
-  if (fallbackName) fallbackName.textContent = studioState.brandName || 'Agent';
+  if (fallbackName) fallbackName.textContent = studioState.brandName || 'VedesignStudio';
   const fallbackBrand = fallbackName?.parentElement;
   const fallbackDefault = fallbackBrand?.querySelector('svg');
   let fallbackLogo = fallbackBrand?.querySelector('[data-studio-brand-logo]');
@@ -7625,7 +7742,7 @@ function syncStudioBackgroundControls() {
 }
 
 $('#studio-brand-name')?.addEventListener('input', e => {
-  studioState.brandName = e.target.value.trimStart().slice(0, 32) || 'Agent';
+  studioState.brandName = e.target.value.trimStart().slice(0, 32) || 'VedesignStudio';
   syncAgentRuntimeTheme();
 });
 $('#studio-logo-upload')?.addEventListener('change', e => {
@@ -7776,7 +7893,7 @@ bindStudioSelect('#studio-content-width', value => { studioState.wide = value ==
 $('#studio-data-mock')?.addEventListener('change', e => { studioState.dataMock = e.target.checked; syncAgentRuntimeTheme(); });
 $('#studio-reasoning')?.addEventListener('change', e => { studioState.reasoning = e.target.checked; syncAgentRuntimeTheme(); if (studioState.page === 'chat') renderAgentRuntimePage('chat'); });
 $('#studio-sources')?.addEventListener('change', e => { studioState.sources = e.target.checked; syncAgentRuntimeTheme(); if (studioState.page === 'chat') renderAgentRuntimePage('chat'); });
-$('#studio-welcome-title')?.addEventListener('input', e => { studioState.welcomeTitle = e.target.value || '今天想设计点什么？'; applyStudioAppearance(); });
+$('#studio-welcome-title')?.addEventListener('input', e => { studioState.welcomeTitle = e.target.value || '今天想做点什么'; applyStudioAppearance(); });
 $('#studio-welcome-capabilities')?.addEventListener('change', e => { studioState.welcomeCapabilities = e.target.checked; applyStudioAppearance(); });
 $('#studio-welcome-suggestions')?.addEventListener('change', e => { studioState.welcomeSuggestions = e.target.checked; applyStudioAppearance(); });
 $('#studio-welcome-tasks')?.addEventListener('change', e => { studioState.welcomeTasks = e.target.checked; applyStudioAppearance(); });
@@ -10059,9 +10176,14 @@ async function sendChatMessage() {
   const input = $('#chat-input');
   if (chatState.busy) return;
   const text = input.value.trim();
-  if (!text) return;
+  const hasAttachments = chatComposerState.attachments.length > 0;
+  if (!text && !hasAttachments) return;
   if (await handlePendingSourceAuthorization(text, input)) return;
   if (await handleSourceUrlFromChat(text, input)) return;
+
+  const attachmentsSnapshot = [...chatComposerState.attachments];
+  chatComposerState.attachments = [];
+  renderAttachments();
 
   if (!aiSettings.apiKey) {
     input.value = '';
@@ -11631,9 +11753,35 @@ const modelMap = {
   'custom': { name: '自定义模型', id: null }
 };
 
+function positionModelDropdown() {
+  const dropdown = $('#chat-model-dropdown');
+  const btn = $('#chat-model-btn');
+  if (!dropdown || !btn) return;
+  const btnRect = btn.getBoundingClientRect();
+  const dropdownWidth = dropdown.offsetWidth || 280;
+  let left = btnRect.left;
+  if (left + dropdownWidth > window.innerWidth - 12) {
+    left = window.innerWidth - dropdownWidth - 12;
+  }
+  dropdown.style.left = `${left}px`;
+  dropdown.style.top = `${btnRect.top - 8}px`;
+  dropdown.style.transform = 'translateY(-100%)';
+}
+
 $('#chat-model-btn')?.addEventListener('click', (e) => {
   e.stopPropagation();
-  $('#chat-model-dropdown').classList.toggle('show');
+  const dropdown = $('#chat-model-dropdown');
+  dropdown.classList.toggle('show');
+  if (dropdown.classList.contains('show')) {
+    positionModelDropdown();
+  }
+});
+
+window.addEventListener('resize', () => {
+  const dropdown = $('#chat-model-dropdown');
+  if (dropdown?.classList.contains('show')) {
+    positionModelDropdown();
+  }
 });
 
 document.addEventListener('click', (e) => {
@@ -11664,9 +11812,53 @@ $('#chat-deep-thinking-btn')?.addEventListener('click', () => {
   chatComposerState.deepThinking = !chatComposerState.deepThinking;
   const btn = $('#chat-deep-thinking-btn');
   btn.classList.toggle('is-active', chatComposerState.deepThinking);
+  btn.setAttribute('aria-pressed', chatComposerState.deepThinking);
   btn.setAttribute('data-status', chatComposerState.deepThinking ? 'active' : 'default');
-  showToast(chatComposerState.deepThinking ? '深度思考已开启' : '深度思考已关闭');
 });
+
+// 附件渲染
+function getFileIconSVG(type) {
+  if (type.startsWith('image/')) {
+    return '<svg viewBox="0 0 24 24" fill="none" width="12" height="12"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="9" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  }
+  if (type.startsWith('video/')) {
+    return '<svg viewBox="0 0 24 24" fill="none" width="12" height="12"><rect x="2" y="4" width="15" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M17 9l5-3v12l-5-3V9z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>';
+  }
+  if (type.includes('pdf')) {
+    return '<svg viewBox="0 0 24 24" fill="none" width="12" height="12"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M14 2v6h6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><text x="12" y="17" text-anchor="middle" font-size="6" fill="currentColor" font-weight="bold">PDF</text></svg>';
+  }
+  return '<svg viewBox="0 0 24 24" fill="none" width="12" height="12"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M14 2v6h6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>';
+}
+
+function renderAttachments() {
+  const container = $('#chat-attachments');
+  if (!container) return;
+  if (!chatComposerState.attachments.length) {
+    container.style.display = 'none';
+    container.innerHTML = '';
+    return;
+  }
+  container.style.display = 'flex';
+  container.innerHTML = chatComposerState.attachments.map((file, idx) => `
+    <div class="ve-chat-input-attachment" data-idx="${idx}">
+      <div class="ve-chat-input-attachment-icon">
+        ${getFileIconSVG(file.type)}
+      </div>
+      <span class="ve-chat-input-attachment-name" title="${file.name}">${file.name}</span>
+      <button class="ve-chat-input-attachment-remove" type="button" data-idx="${idx}" aria-label="移除附件">
+        <svg viewBox="0 0 24 24" fill="none" width="10" height="10"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  `).join('');
+  container.querySelectorAll('.ve-chat-input-attachment-remove').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const idx = parseInt(btn.dataset.idx);
+      chatComposerState.attachments.splice(idx, 1);
+      renderAttachments();
+    });
+  });
+}
 
 // 附件按钮
 $('#chat-attach-btn')?.addEventListener('click', () => {
@@ -11677,6 +11869,7 @@ $('#chat-file-input')?.addEventListener('change', (e) => {
   const files = Array.from(e.target.files || []);
   if (files.length) {
     chatComposerState.attachments = [...chatComposerState.attachments, ...files];
+    renderAttachments();
     showToast(`已添加 ${files.length} 个附件`);
   }
   e.target.value = '';
@@ -12099,7 +12292,7 @@ async function downloadProjectCode() {
   zip.folder('src').file('theme.css', generatedProjectCss(config));
   zip.folder('src').file('studio-config.json', JSON.stringify(config, null, 2));
   zip.file('tsconfig.json', JSON.stringify({ compilerOptions:{ target:'ES2020', useDefineForClassFields:true, lib:['ES2020','DOM','DOM.Iterable'], allowJs:false, skipLibCheck:true, esModuleInterop:true, allowSyntheticDefaultImports:true, strict:true, forceConsistentCasingInFileNames:true, module:'ESNext', moduleResolution:'Bundler', resolveJsonModule:true, isolatedModules:true, noEmit:true, jsx:'react-jsx' }, include:['src'] }, null, 2));
-  zip.file('README.md', `# ${name}\n\nGenerated by Vedesign Themes.\n\n\`\`\`bash\npnpm install\npnpm dev\n\`\`\`\n`);
+  zip.file('README.md', `# ${name}\n\nGenerated by VedesignStudio.\n\n\`\`\`bash\npnpm install\npnpm dev\n\`\`\`\n`);
   const blob = await zip.generateAsync({ type:'blob', compression:'DEFLATE', compressionOptions:{ level:6 } });
   const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `${name}.zip`; a.click(); URL.revokeObjectURL(url);
   showToast(`已下载 ${name}.zip`); closeProjectModal();
@@ -12216,7 +12409,7 @@ async function downloadRuntimeApp() {
 
     zip.file('README.md', `# ${appName}
 
-由 Vedesign Themes 导出的**完整 Agent 应用**，已冻结你在设计器里调好的主题、品牌、欢迎语与布局状态，解压即用。
+由 VedesignStudio 导出的**完整 Agent 应用**，已冻结你在设计器里调好的主题、品牌、欢迎语与布局状态，解压即用。
 
 ## 本地运行
 
