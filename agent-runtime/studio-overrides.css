@@ -136,8 +136,11 @@ html[data-embed="true"] .agent-sidebar {
 /* History is a dense text list, so it should not inherit the taller primary
    navigation row. Overflow actions appear without shifting the label. */
 html[data-embed="true"] .agent-sidebar ve-sidebar-item[type="history"] {
+  --studio-history-item-inset: var(--space-xs);
   --ve-sidebar-item-height: 32px;
+  --ve-sidebar-item-padding-inline: var(--studio-history-item-inset);
   --ve-sidebar-item-padding-block: var(--space-xxxs);
+  --ve-sidebar-item-hover-surface: rgb(255 255 255 / 30%);
   --ve-sidebar-item-indicator-color: transparent;
 }
 
@@ -154,6 +157,11 @@ html[data-embed="true"] .agent-sidebar ve-sidebar-item[type="history"]:focus-wit
   display: inline-flex;
   order: initial;
   margin-inline-start: auto;
+}
+
+html[data-embed="true"] .agent-sidebar ve-sidebar-item[type="history"] [slot="suffix"] {
+  margin-inline-end: 0;
+  background: rgb(255 255 255 / 28%);
 }
 
 /* The account row belongs to the sidebar canvas; remove the component's

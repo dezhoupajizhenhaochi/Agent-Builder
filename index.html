@@ -993,173 +993,155 @@
     padding: var(--space-xs, 12px);
     background: var(--color-bg-base, var(--app-surface));
   }
-  .ve-chat-input {
+
+  #chat-input-box {
     width: 100%;
-    min-height: 116px;
-    background: var(--color-bg-base, var(--app-surface));
-    border: var(--stroke-0_5, 0.5px) solid var(--color-border-default, var(--app-border));
-    border-radius: var(--radius-2xl, 20px);
-    box-shadow: var(--shadow-md, 0 4px 16px rgba(0, 0, 0, .06));
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
-    transition: border-color var(--motion-fast, .15s) var(--ease-standard, ease), box-shadow var(--motion-fast, .15s) var(--ease-standard, ease);
   }
-  .ve-chat-input:focus-within,
-  .ve-chat-input.is-ready {
+
+  #chat-input-box::part(wrapper) {
+    border-radius: var(--radius-2xl, 20px);
+    border: var(--stroke-0_5, 0.5px) solid var(--color-border-default, var(--app-border));
+    background: var(--color-bg-base, var(--app-surface));
+    box-shadow: var(--shadow-md, 0 4px 16px rgba(0, 0, 0, .06));
+    transition: border-color var(--motion-fast, .15s) var(--ease-standard, ease),
+                box-shadow var(--motion-fast, .15s) var(--ease-standard, ease);
+  }
+
+  #chat-input-box[data-state="focused"]::part(wrapper),
+  #chat-input-box[data-state="typing"]::part(wrapper) {
     border-color: var(--color-border-interactive, var(--app-accent));
     box-shadow:
       var(--shadow-md, 0 4px 16px rgba(0, 0, 0, .06)),
       0 0 0 3px color-mix(in oklch, var(--color-bg-secondary, var(--app-muted)) 68%, transparent);
   }
-  .ve-chat-input.is-loading {
+
+  #chat-input-box[data-state="generating"]::part(wrapper) {
     border-color: var(--color-border-interactive, var(--app-accent));
   }
-  .ve-chat-input-editor {
-    width: 100%;
+
+  #chat-input-box::part(editor) {
     min-height: 58px;
-    max-height: 160px;
     padding: var(--space-xs, 12px) var(--space-xs, 12px) var(--space-xxs, 8px);
-    border: none;
-    outline: none;
-    background: transparent;
     color: var(--color-text-primary, var(--app-text));
     font-family: var(--font-cn, var(--app-font));
     font-size: var(--text-body-sm, 13px);
     line-height: 22px;
-    resize: none;
   }
-  .ve-chat-input-editor::placeholder {
-    color: var(--color-text-tertiary, var(--app-text-muted));
-  }
-  .ve-chat-input-footer {
-    margin-top: auto;
-    min-height: 40px;
+
+  #chat-input-box::part(toolbar) {
     padding: 0 var(--space-xxs, 8px) var(--space-xxs, 8px);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-xxs, 8px);
+    min-height: 40px;
   }
-  .ve-chat-input-actions {
+
+  #chat-input-box::part(actions) {
     display: flex;
     align-items: center;
-    min-width: 0;
     gap: var(--space-xxxs, 4px);
   }
-  .ve-chat-input-action {
-    height: 30px;
-    padding: 0 var(--space-xxs, 8px);
-    border: var(--stroke-0_5, 0.5px) solid transparent;
+
+  #chat-input-box::part(send),
+  #chat-input-box::part(stop) {
+    width: 32px;
+    height: 32px;
     border-radius: var(--radius-full, 99px);
-    background: transparent;
-    color: var(--color-text-secondary, var(--app-text-secondary));
-    font-family: inherit;
-    font-size: var(--text-caption, 12px);
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-    transition: all var(--motion-fast, .15s) var(--ease-standard, ease);
-    white-space: nowrap;
-  }
-  .ve-chat-input-action:hover {
-    background: var(--color-bg-muted, var(--app-muted));
-    color: var(--color-text-primary, var(--app-text));
-  }
-  .ve-chat-input-action[data-type="icon"] {
-    width: 30px;
-    padding: 0;
-    justify-content: center;
-  }
-  .ve-chat-input-action[data-status="active"] {
-    background: var(--color-bg-secondary, var(--app-muted));
-    border-color: var(--color-border-interactive, var(--app-border-strong));
-    color: var(--color-text-primary, var(--app-text));
-  }
-  .ve-chat-input-action[data-type="dropdown"]::after {
-    content: '';
-    width: 5px;
-    height: 5px;
-    border-right: var(--stroke-1, 1px) solid currentColor;
-    border-bottom: var(--stroke-1, 1px) solid currentColor;
-    transform: rotate(45deg) translateY(-1px);
-    opacity: .72;
-  }
-  .ve-chat-input-action svg {
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
-  }
-  .ve-chat-input-attachments {
-    padding: var(--space-xxs, 8px) var(--space-xs, 12px) 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xxxs, 4px);
-    border-bottom: var(--stroke-0_5, 0.5px) solid var(--color-border-subtle, rgba(0,0,0,.06));
-    padding-bottom: var(--space-xxs, 8px);
-    margin-bottom: var(--space-xxs, 8px);
-  }
-  .ve-chat-input-attachment {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 8px 4px 6px;
-    background: var(--color-bg-muted, var(--app-muted));
-    border-radius: var(--radius-md, 8px);
-    font-size: 11px;
-    color: var(--color-text-secondary, var(--app-text-secondary));
-    max-width: 220px;
-    transition: background var(--motion-fast, .15s) ease;
-  }
-  .ve-chat-input-attachment:hover {
-    background: var(--color-bg-secondary, var(--app-surface));
-  }
-  .ve-chat-input-attachment-icon {
-    width: 22px;
-    height: 22px;
-    border-radius: 4px;
-    background: var(--color-bg-surface, var(--app-surface));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    color: var(--color-text-tertiary, var(--app-text-muted));
-  }
-  .ve-chat-input-attachment-name {
-    flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .ve-chat-input-attachment-remove {
-    width: 18px;
-    height: 18px;
+    background: var(--color-bg-primary, var(--app-accent));
+    color: var(--color-text-foreground, white);
     border: none;
-    background: transparent;
-    color: var(--color-text-tertiary, var(--app-text-muted));
+    display: grid;
+    place-items: center;
     cursor: pointer;
-    display: flex;
+    transition: opacity var(--motion-fast, .15s) var(--ease-standard, ease),
+                transform var(--motion-fast, .15s) var(--ease-standard, ease);
+  }
+
+  #chat-input-box::part(send):hover,
+  #chat-input-box::part(stop):hover {
+    transform: translateY(-1px);
+  }
+
+  #chat-input-box::part(send):disabled {
+    opacity: .42;
+    cursor: not-allowed;
+  }
+
+  .chat-input-left-actions {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    border-radius: 4px;
-    flex-shrink: 0;
-    padding: 0;
-    transition: all var(--motion-fast, .15s) ease;
+    gap: var(--space-xxxs, 4px);
   }
-  .ve-chat-input-attachment-remove:hover {
-    background: var(--color-bg-surface, var(--app-surface));
-    color: var(--color-text-primary, var(--app-text));
+
+  /* ===== 命令触发面板 ===== */
+  .chat-command-panel {
+    width: 320px;
+    padding: var(--space-xxxs, 4px);
+    background: var(--color-bg-base, var(--app-surface));
+    border-radius: var(--radius-lg, 12px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.06);
+    border: var(--stroke-0_5, 0.5px) solid var(--color-border-default, var(--app-border));
+    max-height: 360px;
+    overflow-y: auto;
   }
-  .ve-chat-input-action[data-type="toggle"].is-active {
-    background: var(--color-primary-50, color-mix(in srgb, var(--color-primary-600) 12%, transparent));
-    color: var(--color-primary-600, var(--app-primary));
-    border-color: var(--color-primary-200, color-mix(in srgb, var(--color-primary-600) 30%, transparent));
+
+  .chat-command-group-title {
+    padding: var(--space-xxs, 8px) var(--space-xs, 12px) var(--space-xxxs, 4px);
+    font-size: var(--text-caption, 12px);
+    color: var(--color-text-tertiary, var(--app-text-muted));
     font-weight: var(--font-weight-medium, 500);
   }
-  .ve-chat-input-action[data-type="toggle"].is-active svg {
-    color: var(--color-primary-600, var(--app-primary));
+
+  .chat-command-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xxs, 8px);
+    padding: var(--space-xxs, 8px) var(--space-xs, 12px);
+    border-radius: var(--radius-md, 8px);
+    cursor: pointer;
+    transition: background var(--motion-fast, .15s) ease;
+  }
+
+  .chat-command-item:hover,
+  .chat-command-item.active {
+    background: var(--color-bg-muted, var(--app-muted));
+  }
+
+  .chat-command-item-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-md, 8px);
+    background: var(--color-bg-secondary, var(--app-surface));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-secondary, var(--app-text-secondary));
+    flex-shrink: 0;
+  }
+
+  .chat-command-item-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .chat-command-item-name {
+    font-size: var(--text-body-sm, 13px);
+    color: var(--color-text-primary, var(--app-text));
+    font-weight: var(--font-weight-medium, 500);
+    line-height: 1.4;
+  }
+
+  .chat-command-item-desc {
+    font-size: var(--text-caption, 12px);
+    color: var(--color-text-tertiary, var(--app-text-muted));
+    line-height: 1.4;
+    margin-top: 2px;
+  }
+
+  .chat-command-item-shortcut {
+    font-size: var(--text-caption, 12px);
+    color: var(--color-text-tertiary, var(--app-text-muted));
+    background: var(--color-bg-muted, var(--app-muted));
+    padding: 2px 6px;
+    border-radius: var(--radius-sm, 4px);
+    font-family: var(--font-mono, ui-monospace, monospace);
   }
   .composer-model-select {
     position: static;
@@ -1233,33 +1215,6 @@
     background: var(--color-border-subtle, rgba(0,0,0,.06));
     margin: var(--space-xxxs, 4px) 0;
   }
-  .ve-chat-input-submit {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-full, 99px);
-    background: var(--color-bg-primary, var(--app-accent));
-    color: var(--color-text-foreground, white);
-    border: none;
-    display: grid;
-    place-items: center;
-    cursor: pointer;
-    transition: opacity var(--motion-fast, .15s) var(--ease-standard, ease), transform var(--motion-fast, .15s) var(--ease-standard, ease);
-  }
-  .ve-chat-input-submit:hover:not(:disabled) {
-    transform: translateY(-1px);
-  }
-  .ve-chat-input-submit:disabled {
-    opacity: .42;
-    cursor: not-allowed;
-  }
-  .ve-chat-input-submit svg {
-    width: 18px;
-    height: 18px;
-  }
-  .ve-chat-input-submit .icon-stop { display: none; }
-  .ve-chat-input.is-loading .ve-chat-input-submit .icon-send { display: none; }
-  .ve-chat-input.is-loading .ve-chat-input-submit .icon-stop { display: block; }
-
   /* ============================================
    * Left Panel — Input
    * ============================================ */
@@ -1913,70 +1868,6 @@
     line-height: 1.5;
   }
   #panel-themes .product-preset-card.active { box-shadow: 0 0 0 1px var(--preset-color); }
-
-  /* OKLCH sliders */
-  .oklch-sliders {
-    margin-top: 14px;
-    padding-top: 14px;
-    border-top: 1px dashed var(--app-border);
-  }
-  .oklch-row { margin-bottom: 12px; }
-  .oklch-row:last-child { margin-bottom: 0; }
-  .oklch-row-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 5px;
-  }
-  .oklch-label {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--app-text);
-    letter-spacing: 0.02em;
-  }
-  .oklch-num {
-    width: 70px;
-    height: 26px;
-    padding: 0 8px;
-    border: 1px solid var(--app-border);
-    border-radius: 5px;
-    font-size: 12px;
-    font-family: var(--app-mono);
-    text-align: right;
-    background: var(--app-surface);
-  }
-  .oklch-num:focus { border-color: var(--app-accent); }
-  .oklch-num::-webkit-inner-spin-button,
-  .oklch-num::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-
-  .oklch-slider {
-    height: 4px !important;
-    border-radius: 2px !important;
-    /* gradient bg set dynamically via inline style for L/C; hue uses static rainbow */
-  }
-  .oklch-slider::-webkit-slider-thumb {
-    width: 18px !important;
-    height: 18px !important;
-    background: white !important;
-    border: 2px solid var(--app-accent);
-    box-shadow: 0 1px 3px rgba(0,0,0,.25);
-  }
-  .oklch-slider::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
-    background: white;
-    border: 2px solid var(--app-accent);
-    border-radius: 50%;
-    box-shadow: 0 1px 3px rgba(0,0,0,.25);
-  }
-  .lch-slider-h {
-    background: linear-gradient(to right,
-      oklch(0.7 0.18 0),    oklch(0.7 0.18 30),  oklch(0.7 0.18 60),
-      oklch(0.7 0.18 90),   oklch(0.7 0.18 120), oklch(0.7 0.18 150),
-      oklch(0.7 0.18 180),  oklch(0.7 0.18 210), oklch(0.7 0.18 240),
-      oklch(0.7 0.18 270),  oklch(0.7 0.18 300), oklch(0.7 0.18 330),
-      oklch(0.7 0.18 360)) !important;
-  }
 
   /* Generate button (sticky) */
   .panel-input-footer {
@@ -3587,16 +3478,8 @@
   .studio-bg-tabs button.active { color:var(--app-text); background:var(--app-surface); box-shadow:0 1px 3px rgba(0,0,0,.08); }
   .color-swatch-large { position:relative; cursor:pointer; }
   #color-input { pointer-events:none; opacity:0; }
-  .primary-color-popover { display:none; position:absolute; left:18px; right:18px; z-index:80; margin-top:8px; padding:14px; border:1px solid var(--app-border-strong); border-radius:12px; background:var(--app-surface); box-shadow:0 18px 48px rgba(24,24,27,.18),0 3px 10px rgba(24,24,27,.08); }
   #section-reference { position:relative; }
   #theme-style-group { border-top:0; padding-top:0; margin-top:0 !important; }
-  .primary-color-popover.show { display:block; }
-  .primary-color-popover-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; font-size:12px; font-weight:600; }
-  .primary-color-popover-close { width:24px; height:24px; border:0; border-radius:6px; background:transparent; color:var(--app-text-secondary); cursor:pointer; }
-  .primary-color-popover-close:hover { background:var(--app-muted); }
-  .primary-color-plane { position:relative; height:148px; overflow:hidden; border-radius:8px; border:1px solid var(--app-border); cursor:crosshair; background:linear-gradient(to top,#000,transparent),linear-gradient(to right,#fff,transparent),var(--primary-picker-hue,#a16a00); }
-  .primary-color-plane-dot { position:absolute; width:16px; height:16px; border:3px solid #fff; border-radius:50%; box-shadow:0 0 0 2px rgba(0,0,0,.75); transform:translate(-50%,-50%); pointer-events:none; }
-  .primary-color-popover .oklch-sliders { margin-top:12px; }
   .studio-upload { margin-top:12px; min-height:62px; padding:10px 12px; display:flex; align-items:center; gap:10px; border:1px dashed var(--app-border-strong); border-radius:8px; background:var(--app-muted); cursor:pointer; }
   .studio-upload:hover { border-color:var(--app-accent); }
   .studio-upload-icon { width:28px; height:28px; display:grid; place-items:center; border-radius:6px; background:var(--app-surface); font-size:18px; }
@@ -4015,6 +3898,70 @@
               <span>深度思考</span>
             </ve-chat-input-action>
           </div>
+
+          <ve-chat-input-panel trigger="/" placement="top">
+            <div class="chat-command-panel" id="chat-command-panel">
+              <div class="chat-command-group-title">快捷操作</div>
+              <div class="chat-command-item" data-command="theme">
+                <div class="chat-command-item-icon">
+                  <ve-icon name="palette"></ve-icon>
+                </div>
+                <div class="chat-command-item-body">
+                  <div class="chat-command-item-name">生成主题</div>
+                  <div class="chat-command-item-desc">基于描述自动生成配色方案</div>
+                </div>
+                <span class="chat-command-item-shortcut">Enter</span>
+              </div>
+              <div class="chat-command-item" data-command="analyze">
+                <div class="chat-command-item-icon">
+                  <ve-icon name="search-magnifying-glass"></ve-icon>
+                </div>
+                <div class="chat-command-item-body">
+                  <div class="chat-command-item-name">分析网站</div>
+                  <div class="chat-command-item-desc">输入网址提取设计风格</div>
+                </div>
+                <span class="chat-command-item-shortcut">Enter</span>
+              </div>
+              <div class="chat-command-item" data-command="figma">
+                <div class="chat-command-item-icon">
+                  <ve-icon name="figma"></ve-icon>
+                </div>
+                <div class="chat-command-item-body">
+                  <div class="chat-command-item-name">Figma 导入</div>
+                  <div class="chat-command-item-desc">从设计稿提取主题 Token</div>
+                </div>
+                <span class="chat-command-item-shortcut">Enter</span>
+              </div>
+              <div class="chat-command-group-title">常用模板</div>
+              <div class="chat-command-item" data-command="warm">
+                <div class="chat-command-item-icon">
+                  <ve-icon name="sun-02"></ve-icon>
+                </div>
+                <div class="chat-command-item-body">
+                  <div class="chat-command-item-name">温暖活力</div>
+                  <div class="chat-command-item-desc">橙黄色调，积极向上</div>
+                </div>
+              </div>
+              <div class="chat-command-item" data-command="tech">
+                <div class="chat-command-item-icon">
+                  <ve-icon name="cpu"></ve-icon>
+                </div>
+                <div class="chat-command-item-body">
+                  <div class="chat-command-item-name">科技未来</div>
+                  <div class="chat-command-item-desc">蓝紫色调，专业理性</div>
+                </div>
+              </div>
+              <div class="chat-command-item" data-command="minimal">
+                <div class="chat-command-item-icon">
+                  <ve-icon name="layers-01"></ve-icon>
+                </div>
+                <div class="chat-command-item-body">
+                  <div class="chat-command-item-name">极简清新</div>
+                  <div class="chat-command-item-desc">薄荷绿调，清爽舒适</div>
+                </div>
+              </div>
+            </div>
+          </ve-chat-input-panel>
         </ve-chat-input>
       </div>
 
@@ -4205,37 +4152,6 @@
                   </button>
                 </div>
 
-                <div class="primary-color-popover" id="primary-color-popover">
-                  <div class="primary-color-popover-head"><span>主色精调 · OKLCH</span><button class="primary-color-popover-close" id="primary-color-popover-close" type="button">×</button></div>
-                  <div class="primary-color-plane" id="primary-color-plane"><span class="primary-color-plane-dot" id="primary-color-plane-dot"></span></div>
-                <div class="oklch-sliders">
-                  <div class="oklch-row">
-                    <div class="oklch-row-head">
-                      <span class="oklch-label">L <span style="color:var(--app-text-muted);font-weight:400;">明度</span></span>
-                      <input type="number" class="oklch-num" id="lch-l-num" min="0" max="1" step="0.001" value="0.577">
-                    </div>
-                    <input type="range" class="oklch-slider lch-slider-l" id="lch-l" min="0" max="1" step="0.001" value="0.577">
-                  </div>
-                  <div class="oklch-row">
-                    <div class="oklch-row-head">
-                      <span class="oklch-label">C <span style="color:var(--app-text-muted);font-weight:400;">色度</span></span>
-                      <input type="number" class="oklch-num" id="lch-c-num" min="0" max="0.4" step="0.001" value="0.1002">
-                    </div>
-                    <input type="range" class="oklch-slider lch-slider-c" id="lch-c" min="0" max="0.4" step="0.001" value="0.1002">
-                  </div>
-                  <div class="oklch-row">
-                    <div class="oklch-row-head">
-                      <span class="oklch-label">H <span style="color:var(--app-text-muted);font-weight:400;">色相</span></span>
-                      <input type="number" class="oklch-num" id="lch-h-num" min="0" max="360" step="1" value="150">
-                    </div>
-                    <input type="range" class="oklch-slider lch-slider-h" id="lch-h" min="0" max="360" step="0.1" value="149.9">
-                  </div>
-                </div>
-
-                <div style="font-size:11px;color:var(--app-text-muted);margin-top:8px;line-height:1.5;">
-                  算法会以此色为 600 档锚点，向上下两端展开生成 11 级色阶。
-                </div>
-                </div>
               </div>
             </details>
 
@@ -6739,25 +6655,6 @@ function commitColor(L, C, H, source) {
   if (source !== 'hex')   $('#hex-input').value = hex;
   if ($('#oklch-display')) $('#oklch-display').value = fmtOklch(L, C, H);
 
-  // Sliders + number inputs — slider 与 num 是双向配对：
-  // 拖滑杆时 num 数字要同步；改 num 框时 slider 把手要跟着挪。
-  if (source !== 'l-slider') $('#lch-l').value = L.toFixed(3);
-  if (source !== 'l-num')    $('#lch-l-num').value = L.toFixed(3);
-  if (source !== 'c-slider') $('#lch-c').value = C.toFixed(3);
-  if (source !== 'c-num')    $('#lch-c-num').value = C.toFixed(3);
-  if (source !== 'h-slider') $('#lch-h').value = H.toFixed(1);
-  if (source !== 'h-num')    $('#lch-h-num').value = Math.round(H);
-
-  // Update slider gradient backgrounds to reflect current L/C/H context
-  updateSliderGradients(L, C, H);
-  const plane = $('#primary-color-plane');
-  const planeDot = $('#primary-color-plane-dot');
-  if (plane) plane.style.setProperty('--primary-picker-hue', `oklch(.68 .24 ${H.toFixed(1)})`);
-  if (planeDot) {
-    planeDot.style.left = `${clamp(C / .4, 0, 1) * 100}%`;
-    planeDot.style.top = `${(1 - L) * 100}%`;
-  }
-
   // 同步 mood-grid 圆点位置（从颜色反推坐标，非 mood 来源时更新）
   const moodDot = document.getElementById('mood-dot');
   if (moodDot && source !== 'mood') {
@@ -6777,25 +6674,6 @@ function commitColor(L, C, H, source) {
   }
 }
 
-function updateSliderGradients(L, C, H) {
-  // L slider: black → current hue → white (using current C and H)
-  const lStops = [];
-  for (let i = 0; i <= 10; i++) {
-    const li = i / 10;
-    lStops.push(`oklch(${li.toFixed(2)} ${C.toFixed(3)} ${H.toFixed(1)}) ${i * 10}%`);
-  }
-  $('#lch-l').style.background = `linear-gradient(to right, ${lStops.join(', ')})`;
-
-  // C slider: at fixed L/H, from C=0 to C=0.4
-  const cStops = [];
-  for (let i = 0; i <= 8; i++) {
-    const ci = (i / 8) * 0.4;
-    cStops.push(`oklch(${L.toFixed(2)} ${ci.toFixed(3)} ${H.toFixed(1)}) ${i * 12.5}%`);
-  }
-  $('#lch-c').style.background = `linear-gradient(to right, ${cStops.join(', ')})`;
-  // H slider keeps its static rainbow gradient from CSS class
-}
-
 function syncColorFromHex(hex, source = 'hex') {
   try {
     const o = hexToOklch(hex);
@@ -6804,38 +6682,6 @@ function syncColorFromHex(hex, source = 'hex') {
 }
 
 $('#color-input').addEventListener('input', e => syncColorFromHex(e.target.value, 'color'));
-const primaryPopover = $('#primary-color-popover');
-$('.color-swatch-large')?.addEventListener('click', e => {
-  e.preventDefault();
-  e.stopPropagation();
-  primaryPopover?.classList.toggle('show');
-});
-$('#primary-color-popover-close')?.addEventListener('click', e => {
-  e.stopPropagation();
-  primaryPopover?.classList.remove('show');
-});
-primaryPopover?.addEventListener('click', e => e.stopPropagation());
-document.addEventListener('click', () => primaryPopover?.classList.remove('show'));
-
-const primaryPlane = $('#primary-color-plane');
-let primaryPlaneDragging = false;
-function updateFromPrimaryPlane(event) {
-  if (!primaryPlane) return;
-  const rect = primaryPlane.getBoundingClientRect();
-  const x = clamp((event.clientX - rect.left) / rect.width, 0, 1);
-  const y = clamp((event.clientY - rect.top) / rect.height, 0, 1);
-  commitColor(1 - y, x * .4, state.primary.H, 'plane');
-}
-primaryPlane?.addEventListener('pointerdown', event => {
-  primaryPlaneDragging = true;
-  primaryPlane.setPointerCapture(event.pointerId);
-  updateFromPrimaryPlane(event);
-});
-primaryPlane?.addEventListener('pointermove', event => { if (primaryPlaneDragging) updateFromPrimaryPlane(event); });
-primaryPlane?.addEventListener('pointerup', event => {
-  primaryPlaneDragging = false;
-  primaryPlane.releasePointerCapture(event.pointerId);
-});
 $('#hex-input').addEventListener('change', e => {
   let v = e.target.value.trim();
   if (!v.startsWith('#')) v = '#' + v;
@@ -6951,7 +6797,7 @@ if (themeGalleryHost && productPresetSection) {
   });
 }
 // 当用户手动改色（拾色器/滑杆/hex 框）时，重置下拉选择
-['color-input', 'hex-input', 'lch-l', 'lch-c', 'lch-h', 'lch-l-num', 'lch-c-num', 'lch-h-num'].forEach(id => {
+['color-input', 'hex-input'].forEach(id => {
   document.getElementById(id)?.addEventListener('input', () => {
     resetPresetSelect();
     resetProductPresetCards();
@@ -7080,23 +6926,6 @@ function oklchToMood(L, C, H) {
     setPosition(Math.random(), Math.random(), true);
   });
 })();
-
-// OKLCH sliders + number inputs
-function bindOklchPair(sliderId, numId, key) {
-  const slider = document.getElementById(sliderId);
-  const num    = document.getElementById(numId);
-  const onChange = (val, src) => {
-    const { L, C, H } = state.primary;
-    if (key === 'L') commitColor(parseFloat(val), C, H, src);
-    if (key === 'C') commitColor(L, parseFloat(val), H, src);
-    if (key === 'H') commitColor(L, C, parseFloat(val), src);
-  };
-  slider.addEventListener('input', e => onChange(e.target.value, key.toLowerCase() + '-slider'));
-  num.addEventListener('input',    e => onChange(e.target.value, key.toLowerCase() + '-num'));
-}
-bindOklchPair('lch-l', 'lch-l-num', 'L');
-bindOklchPair('lch-c', 'lch-c-num', 'C');
-bindOklchPair('lch-h', 'lch-h-num', 'H');
 
 /* --- Sliders --- */
 // 在 reference 模式下三条 advanced 滑杆也自动 schedule 重生成
@@ -11736,6 +11565,12 @@ function initChatInput() {
     sendChatMessage();
   });
 
+  chatInput.addEventListener('ve-chat-input-cancel', () => {
+    chatState.busy = false;
+    chatInput.loading = false;
+    renderChat();
+  });
+
   chatInput.addEventListener('ve-chat-input-attachment-remove', (e) => {
     const id = e.detail?.id;
     if (!id) return;
@@ -11747,6 +11582,38 @@ function initChatInput() {
       };
     }
   });
+
+  const panel = $('#chat-command-panel');
+  if (panel) {
+    panel.querySelectorAll('.chat-command-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const cmd = item.dataset.command;
+        handleCommandSelect(cmd, chatInput);
+      });
+    });
+  }
+}
+
+function handleCommandSelect(cmd, chatInput) {
+  if (!chatInput) return;
+  const templates = {
+    warm: '生成一个温暖活力的主题，橙黄色调，积极向上的感觉',
+    tech: '生成一个科技未来感的主题，蓝紫色调，专业理性',
+    minimal: '生成一个极简清新的主题，薄荷绿调，清爽舒适',
+    theme: '帮我生成一套配色方案，',
+    analyze: '帮我分析这个网站的设计风格：',
+    figma: '帮我从这个 Figma 设计稿中提取主题 Token：'
+  };
+  const text = templates[cmd] || '';
+  const current = chatInput.value || '';
+  const currentText = typeof current === 'string' ? current :
+    (typeof current === 'object' ? (current.segments?.map(s => s.text || '').join('') || '') : '');
+  const newText = currentText ? currentText + text : text;
+  chatInput.value = {
+    segments: [{ type: 'text', text: newText }],
+    attachments: (typeof current === 'object' && current.attachments) ? current.attachments : []
+  };
+  chatInput.focus();
 }
 
 if (customElements.get('ve-chat-input')) {
