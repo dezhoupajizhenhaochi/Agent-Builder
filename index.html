@@ -1997,7 +1997,7 @@
     position: absolute;
     inset: 24px;
     min-height: 0;
-    overflow: hidden;
+    overflow: visible;
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
@@ -3785,7 +3785,7 @@
   .agent-runtime-row:last-child { border-bottom:0; }
   .agent-runtime-badge { padding:3px 8px; border-radius:999px; color:var(--color-primary-700); background:var(--color-primary-100); font-size:11px; }
   .agent-runtime-embed {
-    width:100%; height:100%; min-height:0; border:0; display:block;
+    width:100%; height:100%; min-height:0; border:0; display:block; overflow:hidden;
     border-radius:var(--radius-xl); background:var(--studio-iframe-bg, var(--color-bg-surface));
     box-shadow:0 18px 50px rgba(42,42,70,.09), 0 2px 10px rgba(42,42,70,.05);
   }
@@ -4476,7 +4476,7 @@
         <!-- Tab: Agent Demo (vedesign-Agent UI 欢迎页，参照 layouts.md §1.1) -->
         <div class="preview-pane active runtime-enabled" data-pane="components">
           <iframe class="agent-runtime-embed" id="agent-runtime-frame"
-            src="./agent-runtime/index.html?embed=1&v=20260717-preview-even-inset"
+            src="./agent-runtime/index.html?embed=1&v=20260717-runtime-gradient-match"
             title="通用 Agent 完整模板预览"
             allow="clipboard-read; clipboard-write; microphone"></iframe>
           <div class="agent-demo">
@@ -7038,6 +7038,9 @@ function syncStudioGradientVariables(target, mode = studioState.gradientMode) {
   target.style.setProperty('--brand-hue', state.primary.H.toFixed(1));
   target.style.setProperty('--brand-chroma', state.primary.C.toFixed(4));
   target.style.setProperty('--studio-gradient-chroma', chroma.toFixed(3));
+  if (target.dataset) target.dataset.gradientMode = mode;
+  target.style.setProperty('--studio-gradient-hue-2', `calc(var(--brand-hue, 285.8) + ${offsetA})`);
+  target.style.setProperty('--studio-gradient-hue-3', `calc(var(--brand-hue, 285.8) + ${offsetB})`);
   target.style.setProperty('--studio-gradient-color-1', `oklch(${lightness1.toFixed(3)} ${chroma1.toFixed(3)} ${state.primary.H})`);
   target.style.setProperty('--studio-gradient-color-2', `oklch(${lightness2.toFixed(3)} ${chroma2.toFixed(3)} ${state.primary.H + offsetA})`);
   target.style.setProperty('--studio-gradient-color-3', `oklch(${lightness3.toFixed(3)} ${chroma3.toFixed(3)} ${state.primary.H + offsetB})`);
@@ -7099,6 +7102,27 @@ function syncAgentRuntimeNoise() {
 
 function syncAgentRuntimeGradientVariables() {
   syncStudioGradientVariables(document.getElementById('agent-runtime-frame')?.contentDocument?.documentElement);
+}
+
+function syncAgentRuntimeAppearanceAttributes() {
+  const frame = document.getElementById('agent-runtime-frame');
+  const root = frame?.contentDocument?.documentElement;
+  if (!root) return;
+  root.dataset.backgroundStyle = studioState.background;
+  root.dataset.bgToken = studioState.bgToken;
+  root.dataset.gradientMode = studioState.gradientMode;
+  root.dataset.imageTone = studioState.imageTone;
+  root.dataset.contentFrame = studioState.contentFrame;
+  root.dataset.gradientNoise = String(studioState.background === 'gradient' && studioState.gradientNoise > 0);
+  const bgTokens = {
+    surface: 'var(--color-bg-surface)',
+    base: 'var(--color-bg-base)',
+    soft: 'var(--color-primary-50)',
+    neutral: 'var(--color-gray-100)'
+  };
+  const solidBackground = bgTokens[studioState.bgToken] || bgTokens.surface;
+  root.style.setProperty('--studio-solid-background', solidBackground);
+  frame.style.setProperty('--studio-iframe-bg', solidBackground);
 }
 
 $('#density').addEventListener('input', e => {
@@ -7165,6 +7189,7 @@ function applyStudioAppearance() {
   if (frame?.contentDocument?.documentElement) {
     const root = frame.contentDocument.documentElement;
     root.dataset.contentFrame = studioState.contentFrame;
+    syncAgentRuntimeAppearanceAttributes();
     syncAgentRuntimeNoise();
     syncAgentRuntimeGradientVariables();
     root.style.setProperty('--font-cn', fontCn);
@@ -7338,6 +7363,7 @@ function syncAgentRuntimeTheme() {
   if (!frame?.contentWindow) return;
   const runtimeRoot = frame.contentDocument?.documentElement;
   if (runtimeRoot) runtimeRoot.dataset.studioWelcomeCapabilities = String(studioState.welcomeCapabilities);
+  syncAgentRuntimeAppearanceAttributes();
   frame.contentWindow.postMessage(buildRuntimeThemeMessage(), '*');
   syncAgentRuntimeNoise();
   syncAgentRuntimeGradientVariables();
@@ -7910,7 +7936,12 @@ function openAgentRuntimeInNewTab() {
         Object.entries(srcRoot.dataset).forEach(([k, v]) => { doc.documentElement.dataset[k] = v; });
         doc.documentElement.classList.toggle('dark', state.themeMode === 'dark');
       }
-      // 2. postMessage 主题，驱动 Web Component 与镜像脚本重绘
+      // 2. 主动应用渐变变量（确保同步最新的渐变强度、噪点等）
+      syncStudioGradientVariables(doc.documentElement);
+      // 3. 应用噪点效果
+      doc.documentElement.dataset.gradientNoise = String(studioState.background === 'gradient' && studioState.gradientNoise > 0);
+      doc.documentElement.style.setProperty('--studio-gradient-noise-opacity', gradientNoiseOpacity());
+      // 4. postMessage 主题，驱动 Web Component 与镜像脚本重绘
       win.postMessage(buildRuntimeThemeMessage(), '*');
       return true;
     } catch { return false; }
@@ -10035,7 +10066,7 @@ async function sendChatMessage() {
   if (!aiSettings.apiKey) {
     input.value = '';
     input.dispatchEvent(new Event('input'));
-    showToast('请先接入 API 密钥，右侧预览区已支持未接入时的 mock 演示');
+    await runMockWorkflow(text);
     return;
   }
 

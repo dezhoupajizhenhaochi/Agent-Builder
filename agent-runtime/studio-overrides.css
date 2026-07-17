@@ -320,9 +320,41 @@ html.dark .source-list {
     oklch(var(--studio-gradient-base-lightness, .972) var(--studio-gradient-base-chroma, .022) var(--brand-hue, 285.8));
 }
 
-/* Solid 模式下恢复纯色背景 */
+/* Solid 模式下恢复纯色背景，并跟随 Studio 背景色选项。 */
+html[data-background-style="solid"][data-bg-token="surface"] {
+  --studio-solid-background: var(--color-bg-surface);
+}
+
+html[data-background-style="solid"][data-bg-token="base"] {
+  --studio-solid-background: var(--color-bg-base);
+}
+
+html[data-background-style="solid"][data-bg-token="soft"] {
+  --studio-solid-background: var(--color-primary-50);
+}
+
+html[data-background-style="solid"][data-bg-token="neutral"] {
+  --studio-solid-background: var(--color-gray-100);
+}
+
+html.dark[data-background-style="solid"][data-bg-token="surface"] {
+  --studio-solid-background: var(--color-bg-surface);
+}
+
+html.dark[data-background-style="solid"][data-bg-token="base"] {
+  --studio-solid-background: var(--color-bg-base);
+}
+
+html.dark[data-background-style="solid"][data-bg-token="soft"] {
+  --studio-solid-background: var(--color-primary-dark-100);
+}
+
+html.dark[data-background-style="solid"][data-bg-token="neutral"] {
+  --studio-solid-background: var(--color-gray-dark-100);
+}
+
 html[data-background-style="solid"] .app-shell {
-  background: var(--color-bg-surface);
+  background: var(--studio-solid-background, var(--color-bg-surface));
 }
 
 /* Embed 预览模式 — 高优先级覆盖内置样式 */
@@ -334,6 +366,24 @@ html[data-background-style="gradient"] .app-shell {
     radial-gradient(ellipse 94% 78% at var(--studio-gradient-pos-2, 88% 22%), color-mix(in oklch, var(--studio-gradient-color-2) var(--studio-ui-gradient-weight-2, 58%), transparent) 0%, color-mix(in oklch, var(--studio-gradient-color-2) var(--studio-gradient-tail-2, 26%), transparent) 52%, transparent 80%),
     radial-gradient(ellipse 110% 88% at var(--studio-gradient-pos-3, 28% 92%), color-mix(in oklch, var(--studio-gradient-color-3) var(--studio-ui-gradient-weight-3, 49%), transparent) 0%, color-mix(in oklch, var(--studio-gradient-color-3) var(--studio-gradient-tail-3, 24%), transparent) 52%, transparent 82%),
     oklch(var(--studio-gradient-base-lightness, .972) var(--studio-gradient-base-chroma, .022) var(--brand-hue, 285.8));
+}
+
+html[data-embed="true"][data-background-style="gradient"] .app-main,
+html[data-background-style="gradient"] .app-main {
+  background: transparent;
+}
+
+html[data-background-style="gradient"] {
+  --studio-runtime-panel-background: color-mix(in srgb, var(--color-bg-base) 90%, transparent);
+}
+
+html.dark[data-background-style="gradient"] {
+  --studio-runtime-panel-background: color-mix(in srgb, var(--color-bg-surface) 86%, transparent);
+}
+
+html[data-embed="true"][data-background-style="gradient"] .main-panel,
+html[data-background-style="gradient"] .main-panel {
+  background: var(--studio-runtime-panel-background, var(--color-bg-base));
 }
 
 /* Dark mode keeps the same dynamic hue system, but moves every stop onto a
@@ -374,15 +424,15 @@ html[data-background-style="image"] .app-shell {
 
 /* Solid 模式下恢复侧边栏不透明背景 */
 html[data-background-style="solid"] .agent-sidebar {
-  --ve-sidebar-background: var(--color-bg-surface);
-  background: var(--color-bg-surface);
+  --ve-sidebar-background: var(--studio-solid-background, var(--color-bg-surface));
+  background: var(--studio-solid-background, var(--color-bg-surface));
 }
 
 html[data-background-style="solid"] .agent-sidebar::part(container),
 html[data-background-style="solid"] .agent-sidebar::part(content),
 html[data-background-style="solid"] .agent-sidebar::part(body),
 html[data-background-style="solid"] .agent-sidebar::part(footer) {
-  background: var(--color-bg-surface);
+  background: var(--studio-solid-background, var(--color-bg-surface));
 }
 
 html[data-embed="true"]:is([data-background-style="gradient"], [data-background-style="image"]) .agent-sidebar,
