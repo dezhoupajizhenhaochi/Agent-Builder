@@ -52,6 +52,13 @@ html[data-embed="true"] .search-new-chat {
   display: none !important;
 }
 
+/* The studio mock presents the answer and artifact directly, without sources
+   or connector recommendations. */
+html[data-embed="true"] .source-list,
+html[data-embed="true"] .connector-card {
+  display: none !important;
+}
+
 /* Message content and the chat composer share one responsive measure. */
 html[data-embed="true"] .chat-column {
   --studio-conversation-content-width: 800px;
@@ -127,10 +134,26 @@ html[data-embed="true"] .agent-sidebar {
 }
 
 /* History is a dense text list, so it should not inherit the taller primary
-   navigation row. Keep its selected and overflow actions unchanged. */
+   navigation row. Overflow actions appear without shifting the label. */
 html[data-embed="true"] .agent-sidebar ve-sidebar-item[type="history"] {
   --ve-sidebar-item-height: 32px;
   --ve-sidebar-item-padding-block: var(--space-xxxs);
+  --ve-sidebar-item-indicator-color: transparent;
+}
+
+html[data-embed="true"] .agent-sidebar ve-sidebar-item[type="history"]::part(indicator) {
+  display: none !important;
+}
+
+html[data-embed="true"] .agent-sidebar ve-sidebar-item[type="history"]::part(suffix) {
+  display: none;
+}
+
+html[data-embed="true"] .agent-sidebar ve-sidebar-item[type="history"]:hover::part(suffix),
+html[data-embed="true"] .agent-sidebar ve-sidebar-item[type="history"]:focus-within::part(suffix) {
+  display: inline-flex;
+  order: initial;
+  margin-inline-start: auto;
 }
 
 /* The account row belongs to the sidebar canvas; remove the component's

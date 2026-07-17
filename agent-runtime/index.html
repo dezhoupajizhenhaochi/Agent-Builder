@@ -5,6 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23111114' d='M16 3 28 27 16 21 4 27z'/%3E%3C/svg%3E" />
     <title>VedesignStudio</title>
+    <script>
+      (() => {
+        const conversationKey = 'agent.workspace.conversations';
+        const activeConversationKey = 'agent.workspace.activeConversationId';
+        const mockVersionKey = 'agent.workspace.mockVersion';
+        const mockVersion = '20260717-runtime-mock-v2';
+        const initialConversation = {
+          id: 'conversation-mock',
+          title: 'AI 办公数据分析',
+          updatedAt: '2026-07-17 19:33',
+          messages: [
+            {
+              id: 'mock-user',
+              role: 'user',
+              content: '请分析 AI 办公数据，并给出可执行的优化建议。',
+              status: 'complete',
+              createdAt: '19:33'
+            },
+            {
+              id: 'mock-assistant',
+              role: 'assistant',
+              content: '已完成 AI 办公数据分析。核心发现：本周日活用户环比增长 12.3%，但次日留存率下降 2.1 个百分点。建议优先优化新用户首屏引导，并持续观察转化漏斗变化。',
+              status: 'complete',
+              createdAt: '19:33'
+            }
+          ]
+        };
+
+        try {
+          const stored = window.localStorage.getItem(conversationKey);
+          const conversations = stored ? JSON.parse(stored) : [];
+          const hasCurrentMock = window.localStorage.getItem(mockVersionKey) === mockVersion;
+
+          if (!hasCurrentMock || !Array.isArray(conversations) || !conversations.length) {
+            window.localStorage.setItem(conversationKey, JSON.stringify([initialConversation]));
+            window.localStorage.setItem(activeConversationKey, JSON.stringify(initialConversation.id));
+            window.localStorage.setItem(mockVersionKey, mockVersion);
+          }
+        } catch {
+          window.localStorage.removeItem(conversationKey);
+          window.localStorage.removeItem(activeConversationKey);
+        }
+      })();
+    </script>
     <script type="module" crossorigin>var DG=Object.defineProperty;var j5=r=>{throw TypeError(r)};var OG=(r,a,e)=>a in r?DG(r,a,{enumerable:!0,configurable:!0,writable:!0,value:e}):r[a]=e;var U=(r,a,e)=>OG(r,typeof a!="symbol"?a+"":a,e),D5=(r,a,e)=>a.has(r)||j5("Cannot "+e);var R=(r,a,e)=>(D5(r,a,"read from private field"),e?e.call(r):a.get(r)),F=(r,a,e)=>a.has(r)?j5("Cannot add the same private member more than once"):a instanceof WeakSet?a.add(r):a.set(r,e),G=(r,a,e,i)=>(D5(r,a,"write to private field"),i?i.call(r,e):a.set(r,e),e);function SG(r,a){for(var e=0;e<a.length;e++){const i=a[e];if(typeof i!="string"&&!Array.isArray(i)){for(const l in i)if(l!=="default"&&!(l in r)){const f=Object.getOwnPropertyDescriptor(i,l);f&&Object.defineProperty(r,l,f.get?f:{enumerable:!0,get:()=>i[l]})}}}return Object.freeze(Object.defineProperty(r,Symbol.toStringTag,{value:"Module"}))}(function(){const a=document.createElement("link").relList;if(a&&a.supports&&a.supports("modulepreload"))return;for(const l of document.querySelectorAll('link[rel="modulepreload"]'))i(l);new MutationObserver(l=>{for(const f of l)if(f.type==="childList")for(const p of f.addedNodes)p.tagName==="LINK"&&p.rel==="modulepreload"&&i(p)}).observe(document,{childList:!0,subtree:!0});function e(l){const f={};return l.integrity&&(f.integrity=l.integrity),l.referrerPolicy&&(f.referrerPolicy=l.referrerPolicy),l.crossOrigin==="use-credentials"?f.credentials="include":l.crossOrigin==="anonymous"?f.credentials="omit":f.credentials="same-origin",f}function i(l){if(l.ep)return;l.ep=!0;const f=e(l);fetch(l.href,f)}})();var O5=typeof globalThis<"u"?globalThis:typeof window<"u"?window:typeof global<"u"?global:typeof self<"u"?self:{};function dO(r){return r&&r.__esModule&&Object.prototype.hasOwnProperty.call(r,"default")?r.default:r}var zh={exports:{}},js={};/**
  * @license React
  * react-jsx-runtime.production.js
@@ -10913,12 +10957,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             keywords: [],
             title: '通用 Agent 方案',
             thoughtChain: [
-              { key: 'scope', title: '确认产品范围', content: '保留欢迎页、对话页、Skill 管理、文件库和设置页五个入口，避免把首屏做成营销页。' },
-              { key: 'state', title: '规划可见状态', content: '提交消息、停止生成、搜索过滤、能力安装、开关启停、设置保存都会改变页面上的可见结果。' },
+              { key: 'scope', title: '确认分析目标', content: '明确核心指标、数据范围和需要回答的业务问题。' },
+              { key: 'state', title: '整理数据链路', content: '汇总行为、订单和用户数据，统一统计口径并排除异常值。' },
               { key: 'flow', title: '设计交互流程', content: '从输入到输出的完整链路：意图识别 → 能力匹配 → 工具调用 → 结果组装 → 产物生成。' },
               { key: 'artifact', title: '生成交付产物', content: '已准备一个工作台说明文档和可预览代码片段，点击产物卡可打开右侧产物面板。' }
             ],
-            finalContent: '已完成方案草稿：建议先确认目标用户和权限边界，再把 Agent 拆成任务启动、执行反馈、能力管理和系统设置四个稳定模块。右侧产物面板里可以继续维护详细说明。',
+            finalContent: '已完成 AI 办公数据分析。核心发现：本周日活用户环比增长 12.3%，但次日留存率下降 2.1 个百分点。建议优先优化新用户首屏引导，并持续观察转化漏斗变化。',
             artifact: { title: 'agent-workspace-spec.md', type: 'Markdown', size: '18 KB' }
           }
         };
@@ -10936,6 +10980,38 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
 
         let mockRunning = false;
         let lastUserMessage = '';
+        const defaultSteps = [
+          ['确认分析目标', '明确核心指标、数据范围和需要回答的业务问题。'],
+          ['整理数据链路', '汇总行为、订单和用户数据，统一统计口径并排除异常值。'],
+          ['生成结论产物', '输出关键发现、风险判断和下一步可执行建议。']
+        ];
+
+        function syncMockPresentation() {
+          const root = document.getElementById('root');
+          if (!root) return;
+
+          root.querySelectorAll('.connector-card, .source-list').forEach(element => {
+            element.style.display = 'none';
+          });
+
+          const chain = root.querySelector('ve-thought-chain');
+          if (chain) {
+            chain.setAttribute('title', '思维链 Chain of Thought · 3 步');
+            chain.setAttribute('expanded', 'true');
+            const items = chain.querySelectorAll('ve-thought-chain-item');
+            items.forEach((item, index) => {
+              const step = defaultSteps[index];
+              if (!step) return;
+              item.setAttribute('title', step[0]);
+              item.setAttribute('status', 'success');
+              const content = item.querySelector('[slot="content"]') || item;
+              if (content && !content.dataset.mockSynced) {
+                content.textContent = step[1];
+                content.dataset.mockSynced = 'true';
+              }
+            });
+          }
+        }
 
         function runMockWorkflow(userText) {
           if (mockRunning) return;
@@ -11016,10 +11092,27 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }, 800 + Math.random() * 700);
           }
 
+          function setAssistantContent(text) {
+            const assistantBubble = root.querySelector('.assistant-bubble');
+            if (!assistantBubble) return;
+            const candidates = [
+              ...assistantBubble.querySelectorAll('ve-markdown, ve-markdown-richtext, [data-markdown]')
+            ];
+            candidates.forEach(element => {
+              try {
+                if ('content' in element) element.content = text;
+                element.setAttribute('content', text);
+              } catch {}
+            });
+            const richtext = assistantBubble.querySelector('.ve-markdown-richtext');
+            if (richtext) richtext.textContent = text;
+          }
+
           function showFinalContent() {
             const assistantBubble = root.querySelector('.assistant-bubble');
             if (assistantBubble) {
               const richtext = assistantBubble.querySelector('.ve-markdown-richtext');
+              setAssistantContent(scenario.finalContent);
               if (richtext) {
                 typeText(richtext, scenario.finalContent, () => {
                   setTimeout(() => showArtifact(), 500);
@@ -11074,12 +11167,18 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           if (observer) return;
 
           observer = new MutationObserver(() => {
+            syncMockPresentation();
             detectNewMessage();
           });
 
           observer.observe(root, { childList: true, subtree: true, characterData: true });
           
-          setTimeout(detectNewMessage, 1000);
+          setTimeout(() => {
+            syncMockPresentation();
+            const initialUserBubble = root.querySelector('.user-bubble');
+            lastUserMessage = initialUserBubble ? initialUserBubble.textContent || '' : '';
+            detectNewMessage();
+          }, 1000);
         }
 
         if (document.readyState === 'complete' || document.readyState === 'interactive') {

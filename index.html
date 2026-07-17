@@ -3983,41 +3983,44 @@
       </div>
 
       <div class="chat-input-row">
-        <div class="ve-chat-input" id="chat-input-box" data-size="default">
-          <div class="ve-chat-input-attachments" id="chat-attachments" style="display:none;"></div>
-          <textarea class="ve-chat-input-editor chat-input" id="chat-input" placeholder="描述想要的主题，或粘贴网站 / Figma URL…" rows="3"></textarea>
-          <div class="ve-chat-input-footer">
-            <div class="ve-chat-input-actions" data-slot="leftAction">
-              <button class="ve-chat-input-action" data-type="icon" title="添加附件或能力" type="button" id="chat-attach-btn">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <div class="composer-model-select">
-                <button class="ve-chat-input-action" data-type="dropdown" type="button" id="chat-model-btn">
-                  <svg viewBox="0 0 24 24" fill="none"><path d="M12 3L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 3Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  <span id="chat-model-label">Doubao Pro</span>
-                </button>
-              </div>
-              <button class="ve-chat-input-action" data-type="toggle" type="button" id="chat-deep-thinking-btn">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M12 3C12.85 3 13.66 3.21 14.38 3.6L16.45 2.1L18.15 3.8L16.65 5.87C17.39 6.62 17.81 7.57 17.93 8.63L20.12 9.27L20.45 11.5L18.49 12.58C18.44 13.18 18.25 13.76 17.93 14.28L18.74 16.37L17.05 17.59L15.5 16.24C14.9 16.69 14.2 17.03 13.46 17.21L13 19.5H11L10.54 17.21C9.8 17.03 9.1 16.69 8.5 16.24L6.95 17.59L5.26 16.37L6.07 14.28C5.75 13.76 5.56 13.18 5.51 12.58L3.55 11.5L3.88 9.27L6.07 8.63C6.19 7.57 6.61 6.62 7.35 5.87L5.85 3.8L7.55 2.1L9.62 3.6C10.34 3.21 11.15 3 12 3Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 12H14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                <span>深度思考</span>
-              </button>
-            </div>
-            <div class="ve-chat-input-actions" data-slot="rightAction">
-              <button class="ve-chat-input-action" data-type="icon" title="语音输入" type="button" id="chat-voice-btn">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M12 15C14.2091 15 16 13.2091 16 11V6C16 3.79086 14.2091 2 12 2C9.79086 2 8 3.79086 8 6V11C8 13.2091 9.79086 15 12 15Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 11C19 14.866 15.866 18 12 18C8.13401 18 5 14.866 5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 18V22M8 22H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <button class="ve-chat-input-submit chat-send" id="chat-send" title="发送" type="button" disabled>
-                <svg class="icon-send" viewBox="0 0 24 24" fill="none"><path d="M12 19V5M18 11L12 5L6 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <svg class="icon-stop" viewBox="0 0 24 24" fill="none"><path d="M8 8H16V16H8V8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
-              </button>
-            </div>
+        <ve-chat-input
+          id="chat-input-box"
+          size="default"
+          placeholder="描述想要的主题，或粘贴网站 / Figma URL…"
+          expandable
+        >
+          <div slot="left-action" class="chat-input-left-actions">
+            <ve-chat-input-action
+              type="button"
+              icon-only
+              id="chat-attach-btn"
+              title="添加附件或能力"
+            >
+              <ve-icon slot="icon" name="attachment"></ve-icon>
+            </ve-chat-input-action>
+            <ve-chat-input-action
+              type="dropdown"
+              id="chat-model-btn"
+              title="选择模型"
+            >
+              <ve-icon slot="icon" name="logo-doubao-llm"></ve-icon>
+              <span id="chat-model-label">Doubao Pro</span>
+            </ve-chat-input-action>
+            <ve-chat-input-action
+              type="button"
+              id="chat-deep-thinking-btn"
+              title="深度思考"
+            >
+              <ve-icon slot="icon" name="atom-02"></ve-icon>
+              <span>深度思考</span>
+            </ve-chat-input-action>
           </div>
-        </div>
+        </ve-chat-input>
       </div>
 
       <input type="file" id="chat-file-input" multiple style="display:none;">
 
-      <!-- 模型下拉菜单（放在 panel 外避免被 overflow 裁剪） -->
+      <!-- 模型下拉菜单（fixed 定位避免 overflow 裁剪） -->
       <div class="composer-dropdown composer-model-dropdown" id="chat-model-dropdown">
         <div class="composer-dropdown-item active" data-model="doubao-pro">
           <div class="composer-dropdown-item-main">
@@ -4587,7 +4590,7 @@
         <!-- Tab: Agent Demo (vedesign-Agent UI 欢迎页，参照 layouts.md §1.1) -->
         <div class="preview-pane active runtime-enabled" data-pane="components">
           <iframe class="agent-runtime-embed" id="agent-runtime-frame"
-            src="./agent-runtime/index.html?embed=1&v=20260717-runtime-gradient-match"
+            src="./agent-runtime/index.html?embed=1&v=20260717-gradient-atelier-v2"
             title="通用 Agent 完整模板预览"
             allow="clipboard-read; clipboard-write; microphone"></iframe>
           <div class="agent-demo">
@@ -7108,31 +7111,32 @@ const gradientNoiseOpacity = () => {
 const studioGradientIntensity = () => Math.pow(clamp(studioState.gradientStrength / 100, 0, 1), 1.6);
 const studioGradientChroma = () => {
   const intensity = studioGradientIntensity();
-  const derivedChroma = state.primary.C * (0.01 + intensity * 1.05);
-  const darkNeutralFloor = state.primary.L < 0.42 && state.primary.C < 0.04
-    ? 0.04 + intensity * 0.08
+  const derivedChroma = state.primary.C * (0.18 + intensity * 1.02);
+  const designerFloor = 0.045 + intensity * 0.105;
+  const neutralHueFloor = state.primary.C < 0.045
+    ? 0.06 + intensity * 0.105
     : 0;
-  return clamp(Math.max(derivedChroma, darkNeutralFloor), 0.001, 0.22);
+  return clamp(Math.max(derivedChroma, designerFloor, neutralHueFloor), 0.035, 0.19);
 };
 
 function studioGradientRule(mode = studioState.gradientMode) {
   const mood = oklchToMood(state.primary.L, state.primary.C, state.primary.H);
-  // 背景色团优先穿过左侧导航区域，再向内容区延展，避免导航只吃到单一浅色。
+  // Atelier aurora：让导航侧有明确主色倾向，同时用辅助色向内容区柔和过渡。
   const x = 10 + mood.x * 80;
   const y = 10 + mood.y * 70;
   const pos = (px, py) => `${clamp(px, -8, 108).toFixed(1)}% ${clamp(100 - py, -8, 108).toFixed(1)}%`;
-  const navTop = pos(10 + mood.x * 14, 88 - mood.y * .08);
-  const navMid = pos(20 + mood.x * 18, 54 + mood.y * .08);
-  const navBottom = pos(12 + mood.x * 16, 16 + mood.y * .12);
-  const canvasTop = pos(92 - x * .18, 86 - y * .08);
-  const canvasMid = pos(84 - x * .18, 52 + y * .08);
-  const canvasBottom = pos(70 + (x - 50) * .14, 12 + y * .12);
+  const navLead = pos(8 + mood.x * 10, 82 - mood.y * .06);
+  const navWash = pos(24 + mood.x * 12, 48 + mood.y * .08);
+  const navTail = pos(14 + mood.x * 12, 18 + mood.y * .08);
+  const canvasLift = pos(72 + (x - 50) * .08, 84 - y * .04);
+  const canvasDrift = pos(84 - x * .16, 44 + y * .08);
+  const canvasGround = pos(64 + (x - 50) * .12, 10 + y * .1);
   return {
-    monochrome: { offsets:[0, 0], positions:[navTop, canvasMid, navBottom] },
-    analogous: { offsets:[48, -64], positions:[navTop, navMid, canvasBottom] },
-    complementary: { offsets:[180, 210], positions:[navTop, navMid, canvasTop] },
-    triadic: { offsets:[120, 240], positions:[navTop, navMid, navBottom] }
-  }[mode] || { offsets:[48, -64], positions:[navTop, navMid, canvasBottom] };
+    monochrome: { offsets:[0, 0], positions:[navLead, navWash, canvasGround] },
+    analogous: { offsets:[38, -42], positions:[navLead, navWash, canvasGround] },
+    complementary: { offsets:[168, 206], positions:[navLead, navWash, canvasLift] },
+    triadic: { offsets:[112, 232], positions:[navLead, navWash, canvasDrift] }
+  }[mode] || { offsets:[38, -42], positions:[navLead, navWash, canvasGround] };
 }
 
 function studioGradientOffsets(mode = studioState.gradientMode) {
@@ -7144,14 +7148,14 @@ function syncStudioGradientVariables(target, mode = studioState.gradientMode) {
   const intensity = studioGradientIntensity();
   const chroma = studioGradientChroma();
   const { offsets:[offsetA, offsetB], positions } = studioGradientRule(mode);
-  const lightness1 = clamp(state.primary.L + 0.18, 0.73, 0.83);
-  const lightness2 = clamp(state.primary.L + 0.29, 0.84, 0.92);
-  const lightness3 = clamp(state.primary.L + 0.325, 0.87, 0.95);
+  const lightness1 = clamp(state.primary.L + 0.16, 0.70, 0.80);
+  const lightness2 = clamp(state.primary.L + 0.255, 0.80, 0.89);
+  const lightness3 = clamp(state.primary.L + 0.305, 0.85, 0.94);
   const chroma1 = chroma;
-  const chroma2 = chroma * 0.92;
-  const chroma3 = chroma * 0.82;
-  const baseLightness = clamp(0.99 - intensity * 0.04 + state.primary.L * 0.006, 0.95, 0.994);
-  const baseChroma = clamp(chroma * intensity * 0.26, 0, 0.058);
+  const chroma2 = chroma * 0.86;
+  const chroma3 = chroma * 0.74;
+  const baseLightness = clamp(0.988 - intensity * 0.052 + state.primary.L * 0.006, 0.942, 0.992);
+  const baseChroma = clamp(chroma * intensity * 0.18, 0, 0.042);
   target.style.setProperty('--brand-hue', state.primary.H.toFixed(1));
   target.style.setProperty('--brand-chroma', state.primary.C.toFixed(4));
   target.style.setProperty('--studio-gradient-chroma', chroma.toFixed(3));
@@ -7161,12 +7165,12 @@ function syncStudioGradientVariables(target, mode = studioState.gradientMode) {
   target.style.setProperty('--studio-gradient-color-1', `oklch(${lightness1.toFixed(3)} ${chroma1.toFixed(3)} ${state.primary.H})`);
   target.style.setProperty('--studio-gradient-color-2', `oklch(${lightness2.toFixed(3)} ${chroma2.toFixed(3)} ${state.primary.H + offsetA})`);
   target.style.setProperty('--studio-gradient-color-3', `oklch(${lightness3.toFixed(3)} ${chroma3.toFixed(3)} ${state.primary.H + offsetB})`);
-  target.style.setProperty('--studio-ui-gradient-weight-1', `${Math.round(2 + intensity * 94)}%`);
-  target.style.setProperty('--studio-ui-gradient-weight-2', `${Math.round(1 + intensity * 83)}%`);
-  target.style.setProperty('--studio-ui-gradient-weight-3', `${Math.round(intensity * 74)}%`);
-  target.style.setProperty('--studio-gradient-tail-1', `${Math.round(intensity * 42)}%`);
-  target.style.setProperty('--studio-gradient-tail-2', `${Math.round(intensity * 34)}%`);
-  target.style.setProperty('--studio-gradient-tail-3', `${Math.round(intensity * 30)}%`);
+  target.style.setProperty('--studio-ui-gradient-weight-1', `${Math.round(6 + intensity * 94)}%`);
+  target.style.setProperty('--studio-ui-gradient-weight-2', `${Math.round(4 + intensity * 82)}%`);
+  target.style.setProperty('--studio-ui-gradient-weight-3', `${Math.round(2 + intensity * 72)}%`);
+  target.style.setProperty('--studio-gradient-tail-1', `${Math.round(3 + intensity * 46)}%`);
+  target.style.setProperty('--studio-gradient-tail-2', `${Math.round(2 + intensity * 38)}%`);
+  target.style.setProperty('--studio-gradient-tail-3', `${Math.round(1 + intensity * 32)}%`);
   target.style.setProperty('--studio-gradient-base-lightness', baseLightness.toFixed(3));
   target.style.setProperty('--studio-gradient-base-chroma', baseChroma.toFixed(3));
   target.style.setProperty('--studio-gradient-pos-1', positions[0]);
@@ -7206,6 +7210,9 @@ function syncStudioSolidThumbs(theme = state.currentTheme) {
     if (!thumb || !color) return;
     const hex = oklchToHex(color.L, color.C, color.H);
     thumb.style.setProperty('--studio-solid-preview', hex);
+    // Set the resolved color directly so the first render does not fall back
+    // to the shared neutral placeholder before custom properties are applied.
+    thumb.style.background = hex;
     button.title = `${button.querySelector('.studio-gradient-name')?.textContent || '背景色'} · ${hex} · ${fmtOklch(color.L, color.C, color.H)}`;
   });
 }
@@ -9533,14 +9540,9 @@ function clearChat() {
 }
 
 function syncChatInputState() {
-  const input = $('#chat-input');
-  const send = $('#chat-send');
-  const box = $('#chat-input-box');
-  const hasValue = !!input?.value.trim();
-  if (send) send.disabled = !hasValue || chatState.busy;
-  if (box) {
-    box.classList.toggle('is-ready', hasValue);
-    box.classList.toggle('is-loading', chatState.busy);
+  const chatInput = $('#chat-input-box');
+  if (chatInput) {
+    chatInput.loading = chatState.busy;
   }
 }
 
@@ -10111,10 +10113,9 @@ const sourceThemeExtractorSkill = {
   }
 };
 
-async function runSourceThemeSkill(url, input, { figmaToken = '', appendUserMessage = true } = {}) {
-  if (appendUserMessage) chatState.messages.push({ role: 'user', content: input.value.trim() });
-  input.value = '';
-  input.dispatchEvent(new Event('input'));
+async function runSourceThemeSkill(url, chatInput, { figmaToken = '', appendUserMessage = true, userText = '' } = {}) {
+  if (appendUserMessage) chatState.messages.push({ role: 'user', content: userText || chatInput.value?.trim?.() || '' });
+  chatInput.value = '';
 
   const result = await sourceThemeExtractorSkill.execute({ url, figmaToken });
   if (result.status === 'needs_authorization') {
@@ -10140,20 +10141,20 @@ async function runSourceThemeSkill(url, input, { figmaToken = '', appendUserMess
   return true;
 }
 
-async function handleSourceUrlFromChat(text, input) {
+async function handleSourceUrlFromChat(text, chatInput) {
   const url = sourceThemeExtractorSkill.match(text);
   if (!url) return false;
   chatState.busy = true;
   renderChat();
   try {
-    return await runSourceThemeSkill(url, input);
+    return await runSourceThemeSkill(url, chatInput, { userText: text });
   } finally {
     chatState.busy = false;
     renderChat();
   }
 }
 
-async function handlePendingSourceAuthorization(text, input) {
+async function handlePendingSourceAuthorization(text, chatInput) {
   const pending = chatState.pendingSourceSkill;
   if (!pending || pending.skillId !== sourceThemeExtractorSkill.id) return false;
   if (!/^figd_[A-Za-z0-9_-]+$/.test(text)) return false;
@@ -10162,7 +10163,7 @@ async function handlePendingSourceAuthorization(text, input) {
   chatState.busy = true;
   renderChat();
   try {
-    return await runSourceThemeSkill(pending.url, input, {
+    return await runSourceThemeSkill(pending.url, chatInput, {
       figmaToken: text,
       appendUserMessage: false
     });
@@ -10173,28 +10174,24 @@ async function handlePendingSourceAuthorization(text, input) {
 }
 
 async function sendChatMessage() {
-  const input = $('#chat-input');
-  if (chatState.busy) return;
-  const text = input.value.trim();
-  const hasAttachments = chatComposerState.attachments.length > 0;
+  const chatInput = $('#chat-input-box');
+  if (chatState.busy || !chatInput) return;
+  const value = chatInput.value || '';
+  const text = typeof value === 'string' ? value.trim() : '';
+  const attachments = (typeof value === 'object' && value?.attachments) ? value.attachments : [];
+  const hasAttachments = attachments.length > 0;
   if (!text && !hasAttachments) return;
-  if (await handlePendingSourceAuthorization(text, input)) return;
-  if (await handleSourceUrlFromChat(text, input)) return;
-
-  const attachmentsSnapshot = [...chatComposerState.attachments];
-  chatComposerState.attachments = [];
-  renderAttachments();
+  if (await handlePendingSourceAuthorization(text, chatInput)) return;
+  if (await handleSourceUrlFromChat(text, chatInput)) return;
 
   if (!aiSettings.apiKey) {
-    input.value = '';
-    input.dispatchEvent(new Event('input'));
+    chatInput.value = '';
     await runMockWorkflow(text);
     return;
   }
 
   chatState.messages.push({ role: 'user', content: text });
-  input.value = '';
-  input.dispatchEvent(new Event('input'));
+  chatInput.value = '';
   chatState.busy = true;
   renderChat();
 
@@ -11729,15 +11726,36 @@ async function packAndDownloadSkill() {
 
 $('#btn-download-skill').addEventListener('click', packAndDownloadSkill);
 
-// ===== Chat input event wiring =====
-$('#chat-input').addEventListener('input', syncChatInputState);
-$('#chat-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+// ===== Chat input event wiring (ve-chat-input) =====
+function initChatInput() {
+  const chatInput = $('#chat-input-box');
+  if (!chatInput) return;
+
+  chatInput.addEventListener('ve-chat-input-submit', (e) => {
     e.preventDefault();
     sendChatMessage();
-  }
-});
-$('#chat-send').addEventListener('click', sendChatMessage);
+  });
+
+  chatInput.addEventListener('ve-chat-input-attachment-remove', (e) => {
+    const id = e.detail?.id;
+    if (!id) return;
+    const current = chatInput.value || '';
+    if (typeof current === 'object' && current.attachments) {
+      chatInput.value = {
+        segments: current.segments || [{ type: 'text', text: '' }],
+        attachments: current.attachments.filter(a => a.id !== id)
+      };
+    }
+  });
+}
+
+if (customElements.get('ve-chat-input')) {
+  initChatInput();
+} else {
+  window.addEventListener('DOMContentLoaded', () => {
+    customElements.whenDefined('ve-chat-input').then(initChatInput);
+  });
+}
 
 // 模型选择下拉
 const chatComposerState = {
@@ -11811,54 +11829,9 @@ $$('#chat-model-dropdown .composer-dropdown-item').forEach(item => {
 $('#chat-deep-thinking-btn')?.addEventListener('click', () => {
   chatComposerState.deepThinking = !chatComposerState.deepThinking;
   const btn = $('#chat-deep-thinking-btn');
-  btn.classList.toggle('is-active', chatComposerState.deepThinking);
+  btn.setAttribute('status', chatComposerState.deepThinking ? 'active' : 'default');
   btn.setAttribute('aria-pressed', chatComposerState.deepThinking);
-  btn.setAttribute('data-status', chatComposerState.deepThinking ? 'active' : 'default');
 });
-
-// 附件渲染
-function getFileIconSVG(type) {
-  if (type.startsWith('image/')) {
-    return '<svg viewBox="0 0 24 24" fill="none" width="12" height="12"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="9" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  }
-  if (type.startsWith('video/')) {
-    return '<svg viewBox="0 0 24 24" fill="none" width="12" height="12"><rect x="2" y="4" width="15" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M17 9l5-3v12l-5-3V9z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>';
-  }
-  if (type.includes('pdf')) {
-    return '<svg viewBox="0 0 24 24" fill="none" width="12" height="12"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M14 2v6h6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><text x="12" y="17" text-anchor="middle" font-size="6" fill="currentColor" font-weight="bold">PDF</text></svg>';
-  }
-  return '<svg viewBox="0 0 24 24" fill="none" width="12" height="12"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M14 2v6h6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>';
-}
-
-function renderAttachments() {
-  const container = $('#chat-attachments');
-  if (!container) return;
-  if (!chatComposerState.attachments.length) {
-    container.style.display = 'none';
-    container.innerHTML = '';
-    return;
-  }
-  container.style.display = 'flex';
-  container.innerHTML = chatComposerState.attachments.map((file, idx) => `
-    <div class="ve-chat-input-attachment" data-idx="${idx}">
-      <div class="ve-chat-input-attachment-icon">
-        ${getFileIconSVG(file.type)}
-      </div>
-      <span class="ve-chat-input-attachment-name" title="${file.name}">${file.name}</span>
-      <button class="ve-chat-input-attachment-remove" type="button" data-idx="${idx}" aria-label="移除附件">
-        <svg viewBox="0 0 24 24" fill="none" width="10" height="10"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      </button>
-    </div>
-  `).join('');
-  container.querySelectorAll('.ve-chat-input-attachment-remove').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const idx = parseInt(btn.dataset.idx);
-      chatComposerState.attachments.splice(idx, 1);
-      renderAttachments();
-    });
-  });
-}
 
 // 附件按钮
 $('#chat-attach-btn')?.addEventListener('click', () => {
@@ -11867,18 +11840,32 @@ $('#chat-attach-btn')?.addEventListener('click', () => {
 
 $('#chat-file-input')?.addEventListener('change', (e) => {
   const files = Array.from(e.target.files || []);
-  if (files.length) {
-    chatComposerState.attachments = [...chatComposerState.attachments, ...files];
-    renderAttachments();
-    showToast(`已添加 ${files.length} 个附件`);
-  }
+  if (!files.length) return;
+  const chatInput = $('#chat-input-box');
+  if (!chatInput) return;
+
+  const current = chatInput.value || '';
+  const existingAttachments = (typeof current === 'object' && current.attachments) ? current.attachments : [];
+  const newAttachments = files.map((file, idx) => ({
+    id: `att-${Date.now()}-${idx}`,
+    name: file.name,
+    type: file.type,
+    size: file.size,
+    kind: file.type.startsWith('image/') ? 'image' : file.type.startsWith('video/') ? 'video' : 'file',
+    status: 'done',
+    originFile: file
+  }));
+
+  chatInput.value = {
+    segments: (typeof current === 'object' && current.segments) ? current.segments : [{ type: 'text', text: typeof current === 'string' ? current : '' }],
+    attachments: [...existingAttachments, ...newAttachments]
+  };
+
+  showToast(`已添加 ${files.length} 个附件`);
   e.target.value = '';
 });
 
 // 语音输入按钮（占位）
-$('#chat-voice-btn')?.addEventListener('click', () => {
-  showToast('语音输入功能开发中');
-});
 
 $('#btn-new-chat').addEventListener('click', () => {
   if (chatState.messages.length && !confirm('清空当前对话历史并开启新会话？')) return;

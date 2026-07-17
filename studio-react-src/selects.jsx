@@ -17,6 +17,7 @@ import {
   IconOpenNewWindow,
 } from '@ve-design/react/icons';
 import '@ve-design/react/css/default.css';
+import '@ve-design/web/ve-chat-input';
 
 const THOUGHT_KIND_ICONS = {
   think: IconAtom,
