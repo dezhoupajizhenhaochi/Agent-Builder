@@ -69,10 +69,35 @@ html[data-embed="true"] .chat-column.studio-wide {
   --studio-conversation-content-width: 1040px;
 }
 
+html[data-embed="true"] .welcome-panel {
+  --studio-conversation-content-width: 800px;
+}
+
+html[data-embed="true"] .welcome-panel.studio-wide {
+  --studio-conversation-content-width: 980px;
+}
+
 html[data-embed="true"] .chat-column .bubble-list,
 html[data-embed="true"] .chat-column .assistant-stack,
-html[data-embed="true"] .chat-column .composer-zone .composer-shell {
-  width: min(var(--studio-conversation-content-width), 100%);
+html[data-embed="true"] .chat-column .composer-zone .composer-shell,
+html[data-embed="true"] .welcome-panel .welcome-core,
+html[data-embed="true"] .welcome-panel .composer-shell,
+html[data-embed="true"] .gallery-section {
+  width: min(var(--studio-conversation-content-width), 100%) !important;
+  max-width: min(var(--studio-conversation-content-width), 100%) !important;
+  box-sizing: border-box;
+}
+
+html[data-embed="true"] .gallery-grid {
+  width: 100%;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+html[data-embed="true"] .gallery-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.45;
+  object-fit: cover;
 }
 
 /* Rich Markdown keeps code blocks horizontally scrollable, but its intrinsic
