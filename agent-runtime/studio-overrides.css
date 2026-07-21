@@ -477,6 +477,38 @@ html[data-background-style="gradient"] .main-panel {
   background: var(--studio-runtime-panel-background, var(--color-bg-base));
 }
 
+/* Blend the fixed composer area into the gradient canvas instead of letting it
+   draw a separate flat strip over the lower part of the conversation. */
+html[data-embed="true"][data-background-style="gradient"] .chat-column,
+html[data-embed="true"][data-background-style="gradient"] .chat-scroll,
+html[data-embed="true"][data-background-style="gradient"] .composer-zone,
+html[data-background-style="gradient"] .chat-column,
+html[data-background-style="gradient"] .chat-scroll,
+html[data-background-style="gradient"] .composer-zone {
+  background: transparent !important;
+}
+
+html[data-embed="true"][data-background-style="gradient"] .composer-zone,
+html[data-background-style="gradient"] .composer-zone {
+  position: relative;
+  isolation: isolate;
+}
+
+html[data-embed="true"][data-background-style="gradient"] .composer-zone::before,
+html[data-background-style="gradient"] .composer-zone::before {
+  content: "";
+  position: absolute;
+  inset: -96px 0 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    color-mix(in srgb, var(--color-bg-base) 26%, transparent) 42%,
+    color-mix(in srgb, var(--color-bg-base) 54%, transparent) 100%
+  );
+}
+
 /* Dark mode keeps the same dynamic hue system, but moves every stop onto a
    dark semantic surface so transparent sidebars retain readable contrast. */
 html[data-embed="true"].dark[data-background-style="gradient"] .app-shell,
