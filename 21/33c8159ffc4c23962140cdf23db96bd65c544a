@@ -1,0 +1,21 @@
+agent-runtime/studio-overrides.css
+  s_9d0088626e5b90::t_85e6bde3f61ae2 480-511
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "2133c8159ffc4c23962140cdf23db96bd65c544a",
+  "prompts": {},
+  "sessions": {
+    "s_9d0088626e5b90": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6a587dd0190687d2d11db4da",
+        "model": "gpt-5.5__dev"
+      },
+      "human_author": "dezhoupajizhenhaochi <ahai981118536@126.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
