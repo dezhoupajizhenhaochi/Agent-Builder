@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 重新部署 index.html 到 Vercel vedesign-themes 项目
+# 重新部署 index.html 到 Vercel vedesignstudio 项目
 # 用法：
 #   1. 把你的 Vercel token 放进环境变量 VERCEL_TOKEN（推荐写进 ~/.zshrc）
 #   2. cd 到本目录，跑 ./deploy.sh
@@ -27,9 +27,27 @@ npm run sync:dist
 echo "📦 index.html 大小: $(du -h dist/index.html | cut -f1)"
 
 echo "🚀 提交部署到 Vercel..."
-python3 - <<PY > /tmp/.vercel_resp.json
+curl -sS -X POST "https://api.vercel.com/v13/deployments?forceNew=1" \
+  -H "Authorization: Bearer $VERCEL_TOKEN" \
+  -H "Content-Type: application/json" \
+  --data-binary @<(python3 -c "
+import base64, json, os
+files = []
+for root, dirs, names in os.walk('dist'):
+    dirs[:] = [name for name in dirs if name != '.vercel']
+    for name in names:
+        path = os.path.join(root, name)
+        files.append({'file':path.removeprefix('dist/'),'data':base64.b64encode(open(path,'rb').read()).decode(),'encoding':'base64'})
+print(json.dumps({'name':'vedesignstudio','files':files,'target':'production','projectSettings':{'framework':None}}))
+") > /tmp/.vercel_resp.json
+
+if [ ! -s /tmp/.vercel_resp.json ]; then
+  echo "❌ curl 上传失败，尝试 Python urllib..."
+  python3 - <<PY > /tmp/.vercel_resp.json
 import base64, json, os, urllib.request, ssl
 ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
 files = []
 for root, dirs, names in os.walk("dist"):
     dirs[:] = [name for name in dirs if name != ".vercel"]
@@ -42,7 +60,7 @@ for root, dirs, names in os.walk("dist"):
                 "encoding": "base64",
             })
 body = {
-    "name": "vedesign-themes",
+    "name": "vedesignstudio",
     "files": files,
     "target": "production",
     "projectSettings": {"framework": None}
@@ -56,22 +74,6 @@ req = urllib.request.Request(
 with urllib.request.urlopen(req, context=ctx, timeout=120) as r:
     print(r.read().decode())
 PY
-
-# 也可用 curl 兜底（Python 报错时）：
-if ! [ -s /tmp/.vercel_resp.json ]; then
-  curl -sS -X POST "https://api.vercel.com/v13/deployments?forceNew=1" \
-    -H "Authorization: Bearer $VERCEL_TOKEN" \
-    -H "Content-Type: application/json" \
-    --data-binary @<(python3 -c "
-import base64, json, os
-files = []
-for root, dirs, names in os.walk('dist'):
-    dirs[:] = [name for name in dirs if name != '.vercel']
-    for name in names:
-        path = os.path.join(root, name)
-        files.append({'file':path.removeprefix('dist/'),'data':base64.b64encode(open(path,'rb').read()).decode(),'encoding':'base64'})
-print(json.dumps({'name':'vedesign-themes','files':files,'target':'production','projectSettings':{'framework':None}}))
-") > /tmp/.vercel_resp.json
 fi
 
 DEPLOY_ID=$(python3 -c "import json; print(json.load(open('/tmp/.vercel_resp.json'))['id'])")
@@ -92,5 +94,5 @@ done
 
 echo ""
 echo "✅ 部署完成"
-echo "   👉 https://vedesign-themes.vercel.app"
+echo "   👉 https://vedesignstudio.vercel.app"
 rm -f /tmp/.vercel_resp.json
